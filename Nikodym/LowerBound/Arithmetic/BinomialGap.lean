@@ -47,16 +47,19 @@ private theorem prod_one_add_le {ι : Type*} (s : Finset ι) (x : ι → ℚ)
       rw [sum_insert ha] at hs
       exact (le_add_of_nonneg_left hxa).trans hs
     have ih' := ih hx' hs'
-    have hS : 2 * ∑ i ∈ s, x i ≤ 1 := by linarith [hs']
+    set xa := x a
+    set S := ∑ i ∈ s, x i
+    have hS : 2 * S ≤ 1 := by linarith [hs']
+    have hexp : (1 + xa) * (1 + 2 * S) = 1 + 2 * (S + xa) + (2 * S - 1) * xa := by ring
     rw [prod_insert ha, sum_insert ha]
-    calc
-      (1 + x a) * ∏ i ∈ s, (1 + x i)
-          ≤ (1 + x a) * (1 + 2 * ∑ i ∈ s, x i) :=
-            mul_le_mul_of_nonneg_left ih' (add_nonneg zero_le_one hxa)
-      _ = 1 + 2 * (∑ i ∈ s, x i + x a) + (2 * ∑ i ∈ s, x i - 1) * x a := by ring
-      _ ≤ 1 + 2 * (∑ i ∈ s, x i + x a) + 0 :=
-        add_le_add_left (mul_nonpos_of_nonpos_of_nonneg (sub_nonpos.2 hS) hxa) _
-      _ = 1 + 2 * (x a + ∑ i ∈ s, x i) := by ring
+    have hmul : (1 + xa) * ∏ i ∈ s, (1 + x i) ≤ (1 + xa) * (1 + 2 * S) :=
+      mul_le_mul_of_nonneg_left ih' (add_nonneg zero_le_one hxa)
+    have hdrop : 1 + 2 * (S + xa) + (2 * S - 1) * xa ≤ 1 + 2 * (S + xa) := by
+      have ht : (2 * S - 1) * xa ≤ 0 :=
+        mul_nonpos_of_nonpos_of_nonneg (sub_nonpos.2 hS) hxa
+      linarith
+    have hcomm : 1 + 2 * (S + xa) = 1 + 2 * (xa + S) := by rw [add_comm S]
+    exact (hmul.trans hexp.le).trans (hdrop.trans hcomm.le)
 
 /-- Blueprint C02: `T ≤ U`. -/
 theorem T_le_U {d q r : ℕ} (hd : 2 ≤ d) (hq : 2 ≤ q) (hr : 8 * d ^ 2 ≤ r) :
@@ -133,46 +136,51 @@ theorem r_mul_choose_le {d q r : ℕ} (hd : 2 ≤ d) (hq : 2 ≤ q) (hr : 8 * d 
   have hratio :
       ((U + d).choose d : ℚ) / (T + d).choose d =
         ∏ i ∈ range d, ((U + 1 + i : ℕ) : ℚ) / (T + 1 + i : ℕ) := by
-    rw [div_eq_iff hchT_ne, ← prod_div_distrib, div_mul_eq_mul_div, eq_div_iff hprodT_ne]
-    linarith [hQ]
+    rw [div_eq_iff hchT_ne, prod_div_distrib, div_mul_eq_mul_div, eq_div_iff hprodT_ne]
+    convert hQ using 1
+    ring
   let x : ℕ → ℚ := fun i ↦ ((U - T : ℕ) : ℚ) / (T + 1 + i : ℕ)
   have hx_eq : ∀ i ∈ range d, ((U + 1 + i : ℕ) : ℚ) / (T + 1 + i : ℕ) = 1 + x i := by
     intro i _
     have hne : ((T + 1 + i : ℕ) : ℚ) ≠ 0 :=
       Nat.cast_ne_zero.2 (Nat.add_pos_left (Nat.succ_pos T) i).ne'
+    change _ = 1 + _ / _
     rw [one_add_div hne]
     congr 1
     exact_mod_cast (by omega : U + 1 + i = T + 1 + i + (U - T))
   have hx0 : ∀ i ∈ range d, 0 ≤ x i := fun i _ ↦
     div_nonneg (Nat.cast_nonneg _) (Nat.cast_nonneg _)
   have hq1pos : 0 < q - 1 := Nat.lt_of_succ_le (one_le_q_sub_one hq)
-  have hT1_pos : (0 : ℚ) < (T + 1 : ℕ) := by
-    rw [hT1]
-    exact Nat.cast_pos.2 (Nat.mul_pos hr1 hq1pos)
+  have hT1_pos : (0 : ℚ) < (T + 1 : ℕ) := Nat.cast_pos.2 (Nat.succ_pos T)
   have hr_pos : (0 : ℚ) < r := Nat.cast_pos.2 hr1
   have hx_le : ∀ i ∈ range d, x i ≤ (2 * d : ℚ) / r := by
     intro i _
-    have hx1 : x i ≤ ((U - T : ℕ) : ℚ) / (T + 1) :=
+    have hx1 : x i ≤ ((U - T : ℕ) : ℚ) / (T + 1 : ℕ) :=
       div_le_div_of_nonneg_left (Nat.cast_nonneg _) hT1_pos
-        (Nat.cast_le.2 (Nat.le_add_right _ _))
-    have hx2 : ((U - T : ℕ) : ℚ) / (T + 1) ≤ (d * q : ℚ) / (T + 1) := by
+        (Nat.cast_le.2 (Nat.le_add_right (T + 1) i))
+    have hx2 : ((U - T : ℕ) : ℚ) / (T + 1 : ℕ) ≤ (d * q : ℚ) / (T + 1 : ℕ) := by
       gcongr
       exact_mod_cast hUT_le
     refine hx1.trans (hx2.trans ?_)
-    rw [hT1]
-    have hden : (0 : ℚ) < (r : ℚ) * (q - 1 : ℕ) :=
+    rw [hT1, Nat.cast_mul]
+    have hden : (0 : ℚ) < (r : ℚ) * ((q - 1 : ℕ) : ℚ) :=
       mul_pos hr_pos (Nat.cast_pos.2 hq1pos)
     rw [div_le_div_iff₀ hden hr_pos]
+    set q1 := ((q - 1 : ℕ) : ℚ)
+    set dq := (d : ℚ) * (q : ℚ)
+    set dr := (d : ℚ) * (r : ℚ)
+    have hq2n : q ≤ 2 * (q - 1) := by
+      have hqeq : q = q - 1 + 1 :=
+        (Nat.sub_add_cancel ((by decide : 1 ≤ 2).trans hq)).symm
+      rw [hqeq, two_mul]
+      exact Nat.add_le_add_left (one_le_q_sub_one hq) (q - 1)
+    have hq2 : (q : ℚ) ≤ 2 * q1 := by
+      simpa [q1] using (Nat.cast_le (α := ℚ)).mpr hq2n
+    have hdr : (0 : ℚ) ≤ dr := mul_nonneg (Nat.cast_nonneg _) (Nat.cast_nonneg _)
     calc
-      (d * q : ℚ) * r = (d * r : ℚ) * q := by ring
-      _ ≤ (d * r : ℚ) * (2 * (q - 1 : ℕ)) := by
-        gcongr
-        exact_mod_cast (show q ≤ 2 * (q - 1) by
-          have hqeq : q = q - 1 + 1 :=
-            (Nat.sub_add_cancel ((by decide : 1 ≤ 2).trans hq)).symm
-          rw [hqeq, two_mul]
-          exact Nat.add_le_add_left (one_le_q_sub_one hq) _)
-      _ = (2 * d : ℚ) * (r * (q - 1 : ℕ)) := by ring
+      dq * (r : ℚ) = dr * (q : ℚ) := by unfold dq dr; ring
+      _ ≤ dr * (2 * q1) := mul_le_mul_of_nonneg_left hq2 hdr
+      _ = (2 * (d : ℚ)) * ((r : ℚ) * q1) := by unfold dr q1; ring
   have hsum : ∑ i ∈ range d, x i ≤ (2 * d ^ 2 : ℚ) / r := by
     calc
       ∑ i ∈ range d, x i ≤ ∑ i ∈ range d, (2 * d : ℚ) / r := sum_le_sum hx_le
@@ -180,33 +188,38 @@ theorem r_mul_choose_le {d q r : ℕ} (hd : 2 ≤ d) (hq : 2 ≤ q) (hr : 8 * d 
       _ = (2 * d ^ 2 : ℚ) / r := by ring
   have hsum14 : ∑ i ∈ range d, x i ≤ (1 / 4 : ℚ) := by
     refine hsum.trans ?_
-    rw [div_le_div_iff₀ hr_pos (by positivity : (0 : ℚ) < 4)]
-    have : 2 * d ^ 2 * 4 = 8 * d ^ 2 := by ring
-    exact_mod_cast (this ▸ (hr.trans (Nat.le_mul_of_pos_right r (by decide : 0 < 1))))
+    rw [div_le_div_iff₀ hr_pos (by norm_num : (0 : ℚ) < 4)]
+    calc
+      (2 * (d : ℚ) ^ 2) * 4 = (8 * d ^ 2 : ℕ) := by push_cast; ring
+      _ ≤ (r : ℚ) := Nat.cast_le.2 hr
+      _ = (1 : ℚ) * r := by simp
   have hprod : ∏ i ∈ range d, (1 + x i) ≤ 1 + (4 * d ^ 2 : ℚ) / r := by
-    have h12 : ∑ i ∈ range d, x i ≤ (1 / 2 : ℚ) :=
-      hsum14.trans (by norm_num)
+    have h12 : ∑ i ∈ range d, x i ≤ (1 / 2 : ℚ) := hsum14.trans (by norm_num)
     have hprod' := prod_one_add_le (range d) x hx0 h12
-    refine hprod'.trans ?_
-    have : 1 + 2 * ∑ i ∈ range d, x i ≤ 1 + 2 * ((2 * d ^ 2 : ℚ) / r) :=
-      add_le_add_left (mul_le_mul_of_nonneg_left hsum (by positivity)) _
-    refine this.trans (le_of_eq ?_)
-    ring
+    have h2 : (0 : ℚ) ≤ 2 := by norm_num
+    have hstep : 1 + 2 * ∑ i ∈ range d, x i ≤ 1 + 2 * ((2 * d ^ 2 : ℚ) / r) :=
+      add_le_add (le_rfl : (1 : ℚ) ≤ 1) (mul_le_mul_of_nonneg_left hsum h2)
+    have hring : 1 + 2 * ((2 * d ^ 2 : ℚ) / r) = 1 + (4 * d ^ 2 : ℚ) / r := by
+      set a := (d ^ 2 : ℚ)
+      set rr := (r : ℚ)
+      ring
+    exact hprod'.trans (hstep.trans hring.le)
   have hmain : (r : ℚ) * (U + d).choose d ≤
       (r + 4 * d ^ 2 : ℚ) * (T + d).choose d := by
+    have hUP : ((U + d).choose d : ℚ) =
+        (∏ i ∈ range d, (1 + x i)) * (T + d).choose d := by
+      rw [← div_eq_iff hchT_ne, hratio, prod_congr rfl hx_eq]
+    have hexp : (r : ℚ) * (1 + (4 * d ^ 2 : ℚ) / r) = r + 4 * d ^ 2 := by
+      field_simp [hr_pos.ne']
     calc
       (r : ℚ) * (U + d).choose d
-          = (r : ℚ) * (((U + d).choose d : ℚ) / (T + d).choose d) * (T + d).choose d := by
-            field_simp [hchT_ne]
-      _ = (r : ℚ) * ∏ i ∈ range d, (1 + x i) * (T + d).choose d := by
-            rw [hratio, prod_congr rfl hx_eq]
-            ring
-      _ ≤ (r : ℚ) * (1 + (4 * d ^ 2 : ℚ) / r) * (T + d).choose d :=
+          = (r : ℚ) * ((∏ i ∈ range d, (1 + x i)) * (T + d).choose d) := by rw [hUP]
+        _ = ((r : ℚ) * ∏ i ∈ range d, (1 + x i)) * (T + d).choose d := by
+            rw [mul_assoc]
+        _ ≤ ((r : ℚ) * (1 + (4 * d ^ 2 : ℚ) / r)) * (T + d).choose d :=
             mul_le_mul_of_nonneg_right
               (mul_le_mul_of_nonneg_left hprod hr_pos.le) (Nat.cast_nonneg _)
-      _ = (r + 4 * d ^ 2 : ℚ) * (T + d).choose d := by
-            field_simp [hr_pos.ne']
-            ring
+        _ = (r + 4 * d ^ 2 : ℚ) * (T + d).choose d := by rw [hexp]
   exact_mod_cast hmain
 
 /-- Blueprint C02: `Nat.choose (T + k) k ≤ q ^ k * Nat.choose (r + k - 1) k`. -/

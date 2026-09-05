@@ -68,10 +68,11 @@ section CRT
 
 variable {ι : Type*} [Finite ι] {x : ι → Fin d → K}
 
+omit [Finite ι] in
 /-- Blueprint G02: for pairwise distinct points `x i`, the ideals `𝔪_{x i} ^ r` are pairwise
 coprime. -/
 theorem pointIdeal_pow_pairwise_isCoprime (hx : Function.Injective x) (r : ℕ) :
-    Pairwise (IsCoprime on fun i ↦ pointIdeal (x i) ^ r) := fun _ _ hij ↦
+    Pairwise fun i j ↦ IsCoprime (pointIdeal (x i) ^ r) (pointIdeal (x j) ^ r) := fun _ _ hij ↦
   pointIdeal_pow_isCoprime (hx.ne hij) r r
 
 /-- Blueprint G02 (existential form): for pairwise distinct points `x i` and any classes
@@ -85,7 +86,7 @@ theorem exists_pointIdeal_pow_eq (hx : Function.Injective x) (r : ℕ)
 /-- Blueprint G02: the map `P_d → ∏ i, P_d ⧸ 𝔪_{x i} ^ r` is surjective for pairwise distinct
 points `x i`. -/
 theorem pointIdeal_pow_surjective (hx : Function.Injective x) (r : ℕ) :
-    Function.Surjective (Pi.ringHom fun i ↦ Ideal.Quotient.mk (pointIdeal (x i) ^ r)) := by
+    Function.Surjective (RingHom.pi fun i ↦ Ideal.Quotient.mk (pointIdeal (x i) ^ r)) := by
   intro w
   obtain ⟨f, hf⟩ := exists_pointIdeal_pow_eq hx r w
   exact ⟨f, funext hf⟩
@@ -107,17 +108,29 @@ theorem exists_jets_eq (hx : Function.Injective x) (r : ℕ)
 /-- Blueprint G02: the map `P_d → ∏ i, Q_{I, x i}(r)` is surjective for pairwise distinct
 points `x i`. -/
 theorem jets_surjective (hx : Function.Injective x) (r : ℕ) :
-    Function.Surjective (Pi.ringHom fun i ↦ Ideal.Quotient.mk (jetIdeal I (x i) r)) := by
+    Function.Surjective (RingHom.pi fun i ↦ Ideal.Quotient.mk (jetIdeal I (x i) r)) := by
   intro w
   obtain ⟨f, hf⟩ := exists_jets_eq I hx r w
   exact ⟨f, funext hf⟩
 
-variable (x) (r : ℕ)
+end CRT
+
+/-! ### The jet-collecting linear map -/
+
+section LinearMap
+
+variable {ι : Type*} (I : Ideal (MvPolynomial (Fin d) K)) (x : ι → Fin d → K) (r : ℕ)
 
 /-- Blueprint G02: the `K`-linear map `P_d → ∏ i, Q_{I, x i}(r)` collecting all jets. -/
 noncomputable def jetsLinearMap :
-    MvPolynomial (Fin d) K →ₗ[K] ∀ i, MvPolynomial (Fin d) K ⧸ jetIdeal I (x i) r :=
-  LinearMap.pi fun i ↦ (Ideal.Quotient.mkₐ K (jetIdeal I (x i) r)).toLinearMap
+    MvPolynomial (Fin d) K →ₗ[K] ∀ i, MvPolynomial (Fin d) K ⧸ jetIdeal I (x i) r where
+  toFun f i := Ideal.Quotient.mk (jetIdeal I (x i) r) f
+  map_add' f g := by
+    ext i
+    simp
+  map_smul' c f := by
+    ext i
+    exact Submodule.Quotient.mk_smul _ _ _
 
 @[simp]
 theorem jetsLinearMap_apply (f : MvPolynomial (Fin d) K) (i : ι) :
@@ -127,18 +140,18 @@ theorem jetsLinearMap_apply (f : MvPolynomial (Fin d) K) (i : ι) :
 variable {x}
 
 /-- Blueprint G02: the jet-collecting linear map is surjective for pairwise distinct points. -/
-theorem jetsLinearMap_surjective (hx : Function.Injective x) :
+theorem jetsLinearMap_surjective [Finite ι] (hx : Function.Injective x) :
     Function.Surjective (jetsLinearMap I x r) := by
   intro w
   obtain ⟨f, hf⟩ := exists_jets_eq I hx r w
   exact ⟨f, funext hf⟩
 
 /-- Blueprint G02: the jet-collecting linear map has full range for pairwise distinct points. -/
-theorem range_jetsLinearMap (hx : Function.Injective x) :
+theorem range_jetsLinearMap [Finite ι] (hx : Function.Injective x) :
     LinearMap.range (jetsLinearMap I x r) = ⊤ :=
   LinearMap.range_eq_top.mpr (jetsLinearMap_surjective I r hx)
 
-end CRT
+end LinearMap
 
 /-! ### The finite grid -/
 
@@ -158,16 +171,18 @@ theorem gridIdeal_pow_le_pointIdeal_pow (x : Fin d → F) (r : ℕ) :
     gridIdeal (fun _ ↦ gridPoly F K) ^ r ≤ pointIdeal (fun i ↦ algebraMap F K (x i)) ^ r :=
   Ideal.pow_right_mono (gridIdeal_le_pointIdeal x) r
 
+omit [Fintype F] in
 variable (K) in
 /-- Blueprint G02: the embedding `x ↦ ι ∘ x` of the grid `F ^ d` into `K ^ d` is injective. -/
 theorem liftGrid_injective :
-    Function.Injective (fun x : Fin d → F ↦ fun i ↦ algebraMap F K (x i)) := fun x y h ↦
+    Function.Injective (fun x : Fin d → F ↦ fun i ↦ algebraMap F K (x i)) := fun _ _ h ↦
   funext fun i ↦ (algebraMap F K).injective (congr_fun h i)
 
+omit [Fintype F] in
 /-- Blueprint G02 (grid form): for any ideal `I`, any `r` and any jets
 `w x ∈ Q_{I, ι x}(r)` indexed by the grid points `x : Fin d → F`, there is a single polynomial `f`
 representing all of them. -/
-theorem exists_grid_jets_eq (I : Ideal (MvPolynomial (Fin d) K)) (r : ℕ)
+theorem exists_grid_jets_eq [Finite F] (I : Ideal (MvPolynomial (Fin d) K)) (r : ℕ)
     (w : ∀ x : Fin d → F, MvPolynomial (Fin d) K ⧸ jetIdeal I (fun i ↦ algebraMap F K (x i)) r) :
     ∃ f : MvPolynomial (Fin d) K, ∀ x : Fin d → F,
       Ideal.Quotient.mk (jetIdeal I (fun i ↦ algebraMap F K (x i)) r) f = w x :=

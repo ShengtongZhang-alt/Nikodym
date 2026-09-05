@@ -132,7 +132,8 @@ theorem exists_bounded_rep_one (hg : ∀ i, (g i).Monic) (hdeg : ∀ i, (g i).na
       by_cases hle : α.degree ≤ n
       · exact ih _ (monomial_mem_restrictTotalDegree hle _)
       by_cases hlt : ∀ i, α i < q
-      · exact Submodule.mem_sup_left (monomial_mem_restrictTotalDegree (degree_le_of_forall_lt hlt) _)
+      · exact Submodule.mem_sup_left
+          (monomial_mem_restrictTotalDegree (degree_le_of_forall_lt hlt) _)
       push Not at hlt
       obtain ⟨i, hi⟩ := hlt
       set β : Fin d →₀ ℕ := α - Finsupp.single i q with hβ
