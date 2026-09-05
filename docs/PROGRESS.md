@@ -39,9 +39,9 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | F01 degree-bounded polynomial spaces | `LowerBound/PolynomialSpaces.lean` | done | |
 | F02 restriction spaces, Hilbert function | `LowerBound/Hilbert/Defs.lean` | done | needs F01 |
 | F03 point ideals, jets | `LowerBound/Jets/Defs.lean` | done | needs F01 |
-| F04 lines and line ideals | `LowerBound/Lines/Basic.lean` | open | needs F01, F02 |
-| F05 private families | `LowerBound/PrivateFamily.lean` | open | needs F04 |
-| H01 standard monomials | `LowerBound/Hilbert/StandardMonomials.lean` | open | needs F01, F02 |
+| F04 lines and line ideals | `LowerBound/Lines/Basic.lean` | wip | needs F01, F02 |
+| F05 private families | `LowerBound/PrivateFamily.lean` | wip | needs F04 |
+| H01 standard monomials | `LowerBound/Hilbert/StandardMonomials.lean` | wip | needs F01, F02 |
 | H02 weighted shadow inequality | `LowerBound/Hilbert/Shadow.lean` | done | |
 | H03 normalized Hilbert inequality | `LowerBound/Hilbert/Normalized.lean` | open | needs H01, H02 |
 | A01 dimension and closed-point height | `LowerBound/Algebra/Dimension.lean` | open | substantial |
@@ -58,8 +58,8 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | B01 hypersurface section degree | `LowerBound/Algebra/HypersurfaceDegree.lean` | open | substantial |
 | B02 degree sum over components | `LowerBound/Algebra/ComponentDegree.lean` | open | substantial |
 | B03 affine proper-cut interface | `LowerBound/Algebra/ProperCut.lean` | open | interface theorem |
-| G01 bounded reduction mod grid power | `LowerBound/Grid/Reduction.lean` | open | needs F01 |
-| G02 CRT for grid point powers | `LowerBound/Grid/CRT.lean` | open | needs F03 |
+| G01 bounded reduction mod grid power | `LowerBound/Grid/Reduction.lean` | wip | needs F01 |
+| G02 CRT for grid point powers | `LowerBound/Grid/CRT.lean` | wip | needs F03 |
 | G03 joint grid jet interpolation | `LowerBound/Grid/Jets.lean` | open | needs F02, F03, G01, G02 |
 | G04 omitted conditions | `LowerBound/Grid/OmittedConditions.lean` | open | needs G03 |
 | L01 jet vanishing on a line | `LowerBound/Lines/Jets.lean` | open | needs F03, F04 |
