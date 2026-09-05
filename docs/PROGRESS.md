@@ -63,8 +63,8 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | A09 graded chart | — | dropped | replaced by A06′/A07′ (design doc) |
 | J01 tangent cone, local parameters | `LowerBound/Algebra/LocalParameters.lean` | done | substantial |
 | J02 local jet minimum | `LowerBound/Jets/LowerBound.lean` | wip | interface theorem |
-| B01 hypersurface section degree | `LowerBound/Algebra/HypersurfaceDegree.lean` | open | substantial |
-| B02 degree sum over components | `LowerBound/Algebra/ComponentDegree.lean` | open | substantial |
+| B01 hypersurface section degree | `LowerBound/Algebra/HypersurfaceDegree.lean` | wip | substantial |
+| B02 degree sum over components | `LowerBound/Algebra/ComponentDegree.lean` | wip | substantial |
 | B03 affine proper-cut interface | `LowerBound/Algebra/ProperCut.lean` | open | interface theorem |
 | G01 bounded reduction mod grid power | `LowerBound/Grid/Reduction.lean` | done | needs F01 |
 | G02 CRT for grid point powers | `LowerBound/Grid/CRT.lean` | done | needs F03 |
