@@ -67,12 +67,12 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | L02 q−1 roots force line identity | `LowerBound/Lines/Vanishing.lean` | wip | needs F04, L01 |
 | C01 affine point count | `LowerBound/Counting/Points.lean` | open | needs F03, F05, G03, J02, A08 |
 | C02 binomial gap estimate | `LowerBound/Arithmetic/BinomialGap.lean` | wip | |
-| C03 Hilbert gap | `LowerBound/Hilbert/Gap.lean` | wip | needs H03, A08, C02 |
+| C03 Hilbert gap | `LowerBound/Hilbert/Gap.lean` | done | needs H03, A08, C02 |
 | C04 interpolation cut | `LowerBound/InterpolationCut.lean` | open | needs F05, G04, J02, C03, L02 |
 | C05 multiplicity choice | `LowerBound/Arithmetic/Multiplicity.lean` | done | |
 | C06 assigning lines to components | `LowerBound/Counting/Components.lean` | open | needs F05, B03, C04 |
 | C07 weighted selection | `LowerBound/Arithmetic/WeightedSelection.lean` | done | |
-| C08 curve base case | `LowerBound/Counting/Curves.lean` | wip | needs F04, F05, A01, A04, A05 |
+| C08 curve base case | `LowerBound/Counting/Curves.lean` | done | needs F04, F05, A01, A04, A05 |
 | C09 carrier theorem | `LowerBound/CarrierBound.lean` | open | needs C01, C04–C08 |
 | C10 Nikodym, natural-number form | `LowerBound/Main.lean` | open | needs F05, C09 |
 | C11 real corollary | `LowerBound/Main.lean` | open | needs C10 |
