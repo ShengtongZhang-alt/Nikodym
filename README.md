@@ -42,3 +42,6 @@ Together these give $\text{Nik}(d,q) = q^d - q^{d-2^{1-d}+o(1)}$ over all prime 
 
 The tight exponent when $q$ is a prime power. Our method could cover the case when the power of $q$ is not too large, but the regime in which the characteristics of $q$ is fixed remains open.
 
+## Lean
+
+For a description of the lean side of the project, see README_lean.md.
