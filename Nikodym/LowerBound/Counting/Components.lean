@@ -85,8 +85,8 @@ theorem exists_component (H : AlgebraInterface K d)
     rw [← card_univ, card_eq_sum_card_fiberwise (t := S) fun e _ ↦ hcS e]
   obtain ⟨J, hJS, hJpos, hJle⟩ := exists_weighted_index S (fun J ↦ #{e | c e = J})
     (fun J ↦ degree J) (T * degree I) (by rw [hsum]; exact Fintype.card_pos) hSdeg hSsum
-  refine ⟨J, {e | c e = J}, hSprime J hJS, hSdim J hJS, hSdeg J hJS, card_pos.mp hJpos,
-    fun e he ↦ ?_, ?_⟩
+  refine ⟨J, univ.filter fun e ↦ c e = J, hSprime J hJS, hSdim J hJS, hSdeg J hJS,
+    card_pos.mp hJpos, fun e he ↦ ?_, ?_⟩
   · rw [← (mem_filter.mp he).2]
     exact hcle e
   · rw [hsum] at hJle

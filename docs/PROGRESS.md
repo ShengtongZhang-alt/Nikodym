@@ -70,7 +70,7 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | C03 Hilbert gap | `LowerBound/Hilbert/Gap.lean` | done | needs H03, A08, C02 |
 | C04 interpolation cut | `LowerBound/InterpolationCut.lean` | wip | needs F05, G04, J02, C03, L02 |
 | C05 multiplicity choice | `LowerBound/Arithmetic/Multiplicity.lean` | done | |
-| C06 assigning lines to components | `LowerBound/Counting/Components.lean` | wip | needs F05, B03, C04 |
+| C06 assigning lines to components | `LowerBound/Counting/Components.lean` | done | needs F05, B03, C04 |
 | C07 weighted selection | `LowerBound/Arithmetic/WeightedSelection.lean` | done | |
 | C08 curve base case | `LowerBound/Counting/Curves.lean` | done | needs F04, F05, A01, A04, A05 |
 | C09 carrier theorem | `LowerBound/CarrierBound.lean` | open | needs C01, C04–C08 |
