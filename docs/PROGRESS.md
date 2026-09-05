@@ -65,7 +65,7 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | L01 jet vanishing on a line | `LowerBound/Lines/Jets.lean` | open | needs F03, F04 |
 | L02 q−1 roots force line identity | `LowerBound/Lines/Vanishing.lean` | open | needs F04, L01 |
 | C01 affine point count | `LowerBound/Counting/Points.lean` | open | needs F03, F05, G03, J02, A08 |
-| C02 binomial gap estimate | `LowerBound/Arithmetic/BinomialGap.lean` | open | |
+| C02 binomial gap estimate | `LowerBound/Arithmetic/BinomialGap.lean` | wip | |
 | C03 Hilbert gap | `LowerBound/Hilbert/Gap.lean` | open | needs H03, A08, C02 |
 | C04 interpolation cut | `LowerBound/InterpolationCut.lean` | open | needs F05, G04, J02, C03, L02 |
 | C05 multiplicity choice | `LowerBound/Arithmetic/Multiplicity.lean` | done | |
