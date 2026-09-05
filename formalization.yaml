@@ -24,11 +24,11 @@ project:
     All three headline theorems are proved with no sorry and depend only on
     propext, Classical.choice and Quot.sound.
   authors:
+    - "Ting-Wei Chao"
     - "Zach Hunter"
     - "Cosmin Pohoata"
-    - "Shengtong Zhang"
-    - "Ting-Wei Chao"
     - "Hung-Hsun Yu"
+    - "Shengtong Zhang"
   license: "Apache-2.0"
   responsible_maintainers:
     - "Shengtong Zhang"
@@ -43,11 +43,11 @@ classification:
 sources:
   - title: "Nikodym sets: a power saving from finite-grid interpolation"
     authors:
+      - "Ting-Wei Chao"
       - "Zach Hunter"
       - "Cosmin Pohoata"
-      - "Shengtong Zhang"
-      - "Ting-Wei Chao"
       - "Hung-Hsun Yu"
+      - "Shengtong Zhang"
     id: "docs/Nikodym_sharp_power_saving.tex (this repository, at the submitted commit)"
     type: paper
     location: "https://github.com/ShengtongZhang-alt/Nikodym/blob/main/docs/Nikodym_sharp_power_saving.tex"
@@ -55,7 +55,8 @@ sources:
     note: >-
       Unpublished research note dated 5 September 2026, included in the
       repository as docs/Nikodym_sharp_power_saving.tex (with a compiled PDF).
-      The formalization proves Theorem 1 (carrier theorem) and Corollary 2
+      The writeup is preliminary and partially AI-generated; a detailed
+      human-readable exposition is in preparation. The formalization proves Theorem 1 (carrier theorem) and Corollary 2
       (the lower bound |F_q^d \ N| <= (8 d^2 + 1) q^(d - 2^(1-d)) for every
       prime power q). The commutative-algebra inputs the note takes as
       standard (Hilbert-function bounds, linear Noether normalization, degree
@@ -66,18 +67,20 @@ sources:
     author_endorsement: participated
   - title: "A prime-uniform construction of small finite-field Nikodym sets"
     authors:
+      - "Ting-Wei Chao"
       - "Zach Hunter"
       - "Cosmin Pohoata"
-      - "Shengtong Zhang"
-      - "Ting-Wei Chao"
       - "Hung-Hsun Yu"
+      - "Shengtong Zhang"
     id: "docs/nikodym_construction.tex (this repository, at the submitted commit)"
     type: paper
     location: "https://github.com/ShengtongZhang-alt/Nikodym/blob/main/docs/nikodym_construction.tex"
     relationship: formalizes
     note: >-
       Unpublished research note included in the repository as
-      docs/nikodym_construction.tex (with a compiled PDF). The formalization
+      docs/nikodym_construction.tex (with a compiled PDF). The writeup is
+      preliminary and partially AI-generated; a detailed human-readable
+      exposition is in preparation. The formalization
       proves Corollary 1.2 (the prime-uniform bound |S| <= q^h - q^(h - 2^(1-h)
       - epsilon) for all sufficiently large primes q). The fixed-field Theorem
       1.1 is formalized through an abstract "scaffold" interface (a rank-d free
@@ -134,11 +137,11 @@ status:
 automation:
   methods:
     - method: agent
-      models: ["Claude (Anthropic)", "Grok 4.6 (xAI)"]
+      models: ["Claude Fable 5.1 (Anthropic)", "Grok 4.6 (xAI)"]
       framework: "Cursor"
       tool_setup: >-
-        AI-assisted. A Claude agent running in the Cursor IDE wrote the
-        statement-level blueprints (docs/*_lean_blueprint.md,
+        AI-assisted. A Claude Fable 5.1 agent running in the Cursor IDE wrote
+        the statement-level blueprints (docs/*_lean_blueprint.md,
         docs/algebra_backend_design.md) under human direction and orchestrated
         parallel subagents that proved the blueprint nodes as separate Lean
         modules. Of 44 subagent tasks, 37 were run by Claude (including the
@@ -170,7 +173,9 @@ automation:
     Nikodym/Main.lean, wrote or approved the blueprints, and reviewed the final
     statements; AI agents produced essentially all of the ~15,000 lines of proof
     code. Correctness of proofs rests on the Lean kernel; the statements in
-    Challenge.lean are the human-audited surface.
+    Challenge.lean are the human-audited surface. Separately from the
+    formalization, GPT 5.6 and GPT 6 Astra were used in the ideation of the
+    mathematics recorded in the source notes (see README.md).
 
 fidelity:
   divergences: >-
