@@ -44,7 +44,7 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | H01 standard monomials | `LowerBound/Hilbert/StandardMonomials.lean` | done | needs F01, F02 |
 | H02 weighted shadow inequality | `LowerBound/Hilbert/Shadow.lean` | done | |
 | H03 normalized Hilbert inequality | `LowerBound/Hilbert/Normalized.lean` | done | needs H01, H02 |
-| I00 algebra interface (`quotDim`, `degree`, `AlgebraInterface`) | `LowerBound/Algebra/Interface.lean` | wip | new node; assembly is conditional on it |
+| I00 algebra interface (`quotDim`, `degree`, `AlgebraInterface`) | `LowerBound/Algebra/Interface.lean` | done | new node; assembly is conditional on it |
 | A01 dimension and closed-point height | `LowerBound/Algebra/Dimension.lean` | wip | substantial |
 | A02 linear Noether normalization | `LowerBound/Algebra/LinearNormalization.lean` | open | substantial |
 | A03 Hilbert polynomials, additivity | `LowerBound/Algebra/HilbertPolynomial.lean` | open | substantial |
@@ -67,7 +67,7 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | L02 q−1 roots force line identity | `LowerBound/Lines/Vanishing.lean` | wip | needs F04, L01 |
 | C01 affine point count | `LowerBound/Counting/Points.lean` | open | needs F03, F05, G03, J02, A08 |
 | C02 binomial gap estimate | `LowerBound/Arithmetic/BinomialGap.lean` | wip | |
-| C03 Hilbert gap | `LowerBound/Hilbert/Gap.lean` | open | needs H03, A08, C02 |
+| C03 Hilbert gap | `LowerBound/Hilbert/Gap.lean` | wip | needs H03, A08, C02 |
 | C04 interpolation cut | `LowerBound/InterpolationCut.lean` | open | needs F05, G04, J02, C03, L02 |
 | C05 multiplicity choice | `LowerBound/Arithmetic/Multiplicity.lean` | done | |
 | C06 assigning lines to components | `LowerBound/Counting/Components.lean` | open | needs F05, B03, C04 |
