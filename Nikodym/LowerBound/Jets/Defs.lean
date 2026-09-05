@@ -96,6 +96,14 @@ theorem pointIdeal_zero : pointIdeal (0 : Fin d → K) = idealOfVars (Fin d) K :
   · intro h
     exact h 0 (by simp)
 
+/-- The ideal of the origin `𝔪 = idealOfVars (Fin d) K` is maximal. -/
+theorem idealOfVars_isMaximal : (idealOfVars (Fin d) K).IsMaximal :=
+  pointIdeal_zero (K := K) (d := d) ▸ pointIdeal_isMaximal 0
+
+/-- The ideal of the origin is proper. -/
+theorem idealOfVars_ne_top : idealOfVars (Fin d) K ≠ ⊤ :=
+  idealOfVars_isMaximal.ne_top
+
 end PointIdeal
 
 /-! ### Translation to the origin -/

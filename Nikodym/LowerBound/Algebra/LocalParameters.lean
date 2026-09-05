@@ -46,15 +46,6 @@ variable {K : Type*} [Field K] {d : ℕ}
 
 section IdealOfVars
 
-/-- Blueprint J01 (auxiliary): the ideal `𝔪` of the origin is maximal. -/
-theorem idealOfVars_isMaximal : (idealOfVars (Fin d) K).IsMaximal := by
-  rw [← pointIdeal_zero]
-  exact pointIdeal_isMaximal 0
-
-/-- Blueprint J01 (auxiliary): the ideal `𝔪` of the origin is proper. -/
-theorem idealOfVars_ne_top : idealOfVars (Fin d) K ≠ ⊤ :=
-  idealOfVars_isMaximal.ne_top
-
 /-- Blueprint J01 (auxiliary): a form of degree `n` lies in `𝔪 ^ n`. -/
 theorem mem_pow_idealOfVars_of_isHomogeneous {n : ℕ} {F : MvPolynomial (Fin d) K}
     (hF : F.IsHomogeneous n) : F ∈ idealOfVars (Fin d) K ^ n := by

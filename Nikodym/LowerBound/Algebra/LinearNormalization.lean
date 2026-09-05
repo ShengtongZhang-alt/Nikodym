@@ -97,8 +97,10 @@ theorem IsHomogeneous.mem_pow_idealOfVars {F : MvPolynomial σ R} {t : ℕ} (hF 
   exact (hF hx).ge
 
 /-- Blueprint A02.h, auxiliary: the degree-`(m + e)` component of `c * y`, for a form `y` of
-degree `e`, is `(c)_m * y`. -/
-theorem homogeneousComponent_mul_of_isHomogeneous {y : MvPolynomial σ R} {e : ℕ}
+degree `e`, is `(c)_m * y`. (Named with the suffix `_right` to avoid a clash with the
+field-specific `homogeneousComponent_mul_of_isHomogeneous` of `GradedLemmas.lean`, whose primed
+variant has the same content; this version holds over any commutative semiring.) -/
+theorem homogeneousComponent_mul_of_isHomogeneous_right {y : MvPolynomial σ R} {e : ℕ}
     (hy : y.IsHomogeneous e) (c : MvPolynomial σ R) (m : ℕ) :
     homogeneousComponent (m + e) (c * y) = homogeneousComponent m c * y := by
   classical
@@ -136,10 +138,6 @@ section LinearNormalization
 variable {K : Type*} [Field K] {n : ℕ}
 
 /-! #### A02.b: proper homogeneous ideals lie in `𝔪ₙ` -/
-
-/-- Blueprint A02.b: `𝔪ₙ` is a maximal ideal (it is the point ideal of the origin). -/
-theorem idealOfVars_isMaximal : (idealOfVars (Fin n) K).IsMaximal :=
-  pointIdeal_zero (K := K) (d := n) ▸ pointIdeal_isMaximal 0
 
 /-- Blueprint A02.b: `𝔪ₙ` is a prime ideal. -/
 theorem idealOfVars_isPrime : (idealOfVars (Fin n) K).IsPrime :=
@@ -349,7 +347,7 @@ theorem exists_eq_add_sum_mul_of_pow_idealOfVars_le {J : Ideal (MvPolynomial (Fi
       homogeneousComponent_mem_of_mem hJh hG₀ _, fun i ↦ homogeneousComponent_isHomogeneous _ _, ?_⟩
     have hsum : ∀ i, homogeneousComponent (t + 1) (c i • y i) =
         y i * homogeneousComponent t (c i) := fun i ↦ by
-      rw [smul_eq_mul, homogeneousComponent_mul_of_isHomogeneous (hy i), mul_comm]
+      rw [smul_eq_mul, homogeneousComponent_mul_of_isHomogeneous_right (hy i), mul_comm]
     calc F = homogeneousComponent (t + 1) F := (homogeneousComponent_eq_self hF).symm
       _ = homogeneousComponent (t + 1) G₀ + ∑ i, homogeneousComponent (t + 1) (c i • y i) := by
         rw [← hFZ, map_add, map_sum]
