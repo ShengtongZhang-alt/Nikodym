@@ -51,7 +51,7 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | PA polynomial asymptotics, `evPoly` refactor | `LowerBound/Algebra/PolyAsymptotics.lean` | done | design doc |
 | TR0–TR2, TR6 base change (Hilbert, jets) | `LowerBound/Algebra/BaseChange.lean` | done | design doc |
 | TR3–TR4 base change (dimension, primes) | `LowerBound/Algebra/BaseChangePrime.lean` | done | design doc |
-| TR5, TR7 assemble `algebraInterface` | `LowerBound/Algebra/BaseChange.lean` | open | needs everything |
+| TR5, TR7 assemble `algebraInterface` | `LowerBound/Algebra/Transfer.lean` | wip | needs everything |
 | A02 linear Noether normalization | `LowerBound/Algebra/LinearNormalization.lean` | done | substantial |
 | A03 Hilbert polynomials, additivity | `LowerBound/Algebra/HilbertPolynomial.lean` | done | substantial |
 | A04 dimension, degree, normalization rank | `LowerBound/Algebra/Degree.lean` | open | substantial |
@@ -65,7 +65,7 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | J02 local jet minimum | `LowerBound/Jets/LowerBound.lean` | done | interface theorem |
 | B01 hypersurface section degree | `LowerBound/Algebra/HypersurfaceDegree.lean` | done | substantial |
 | B02 degree sum over components | `LowerBound/Algebra/ComponentDegree.lean` | done | substantial |
-| B03 affine proper-cut interface | `LowerBound/Algebra/ProperCut.lean` | open | interface theorem |
+| B03 affine proper-cut interface | `LowerBound/Algebra/ProperCut.lean` | wip | interface theorem |
 | G01 bounded reduction mod grid power | `LowerBound/Grid/Reduction.lean` | done | needs F01 |
 | G02 CRT for grid point powers | `LowerBound/Grid/CRT.lean` | done | needs F03 |
 | G03 joint grid jet interpolation | `LowerBound/Grid/Jets.lean` | done | needs F02, F03, G01, G02 |
