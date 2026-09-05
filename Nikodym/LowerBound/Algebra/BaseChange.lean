@@ -223,14 +223,6 @@ end Comap
 
 section Hilbert
 
-/-- Blueprint TR2 (auxiliary): the kernel of the quotient map `P → P ⧸ I`, as a `K`-linear map,
-is `I`. -/
-theorem ker_mkₐ_toLinearMap (I : Ideal (MvPolynomial (Fin d) K)) :
-    LinearMap.ker (Ideal.Quotient.mkₐ K I).toLinearMap = I.restrictScalars K := by
-  ext f
-  rw [LinearMap.mem_ker, AlgHom.toLinearMap_apply, Ideal.Quotient.mkₐ_eq_mk,
-    Ideal.Quotient.eq_zero_iff_mem, Submodule.restrictScalars_mem]
-
 /-- Blueprint TR2: rank–nullity for the restriction of `P → P ⧸ I` to `P_{≤t}`:
 `hilbert I t + dim_K (I ⊓ P_{≤t}) = (t + d).choose d`. -/
 theorem hilbert_add_finrank_inf (I : Ideal (MvPolynomial (Fin d) K)) (t : ℕ) :

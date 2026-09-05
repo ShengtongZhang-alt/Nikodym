@@ -44,28 +44,29 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | H01 standard monomials | `LowerBound/Hilbert/StandardMonomials.lean` | done | needs F01, F02 |
 | H02 weighted shadow inequality | `LowerBound/Hilbert/Shadow.lean` | done | |
 | H03 normalized Hilbert inequality | `LowerBound/Hilbert/Normalized.lean` | done | needs H01, H02 |
-| I00 algebra interface (`quotDim`, `degree`, `AlgebraInterface`) | `LowerBound/Algebra/Interface.lean` | done | new node; assembly is conditional on it |
+| I00 algebra interface (`quotDim`, `degree`, `AlgebraInterface`) | `LowerBound/Algebra/Interface.lean` | done | discharged by `Algebra/Assembly.lean` (`algebraInterface`) |
 | A01 dimension and closed-point height | `LowerBound/Algebra/Dimension.lean` | done | substantial |
 | D01 quotient dimension via primes | `LowerBound/Algebra/DimensionExtra.lean` | done | design doc |
 | GL graded lemmas + `homHilbert` | `LowerBound/Algebra/GradedLemmas.lean` | done | design doc |
 | PA polynomial asymptotics, `evPoly` refactor | `LowerBound/Algebra/PolyAsymptotics.lean` | done | design doc |
 | TR0–TR2, TR6 base change (Hilbert, jets) | `LowerBound/Algebra/BaseChange.lean` | done | design doc |
 | TR3–TR4 base change (dimension, primes) | `LowerBound/Algebra/BaseChangePrime.lean` | done | design doc |
-| TR5, TR7 assemble `algebraInterface` | `LowerBound/Algebra/Transfer.lean` | done (conditional assembly) | needs everything |
+| TR5, TR7 assemble `algebraInterface` | `LowerBound/Algebra/Transfer.lean` | done | `algebraInterface_of_infinite`; instantiated in `Algebra/Assembly.lean` |
+| AS assembly: `degreeFacts`, `algebraInterface` | `LowerBound/Algebra/Assembly.lean` | done | closes `Main.lean` |
 | A02 linear Noether normalization | `LowerBound/Algebra/LinearNormalization.lean` | done | substantial |
 | A03 Hilbert polynomials, additivity | `LowerBound/Algebra/HilbertPolynomial.lean` | done | substantial |
-| A04 dimension, degree, normalization rank | `LowerBound/Algebra/Degree.lean` | done (conditional on A08 `exists_hilbert_bounds`) | substantial |
+| A04 dimension, degree, normalization rank | `LowerBound/Algebra/Degree.lean` | done | `_of_bounds` forms; `_of_infinite` forms in `Algebra/Assembly.lean` |
 | A05 affine/homogeneous bridge | `LowerBound/Algebra/Homogenization.lean` | done | substantial |
 | NS shared setting of A06′/A07′/A08/A04′, `IsHomogeneousElem` | `LowerBound/Algebra/NormalizationSetting.lean` | done | design doc |
 | A06′ homogeneous fraction basis, conductor | `LowerBound/Algebra/FreeFiber.lean` | done | |
 | A07 graded norm degree control | `LowerBound/Algebra/GradedNorm.lean` | done | substantial |
-| A08 uniform Hilbert upper bound | `LowerBound/Hilbert/DegreeUpper.lean` | wip | interface theorem |
+| A08 uniform Hilbert upper bound | `LowerBound/Hilbert/DegreeUpper.lean` | done | `exists_hilbert_bounds`; final form in `Algebra/Assembly.lean` |
 | A09 graded chart | — | dropped | replaced by A06′/A07′ (design doc) |
 | J01 tangent cone, local parameters | `LowerBound/Algebra/LocalParameters.lean` | done | substantial |
 | J02 local jet minimum | `LowerBound/Jets/LowerBound.lean` | done | interface theorem |
 | B01 hypersurface section degree | `LowerBound/Algebra/HypersurfaceDegree.lean` | done | substantial |
 | B02 degree sum over components | `LowerBound/Algebra/ComponentDegree.lean` | done | substantial |
-| B03 affine proper-cut interface | `LowerBound/Algebra/ProperCut.lean` | done (conditional on A04′ `DegreeFacts`) | interface theorem |
+| B03 affine proper-cut interface | `LowerBound/Algebra/ProperCut.lean` | done | modulo `DegreeFacts`, supplied in `Algebra/Assembly.lean` |
 | G01 bounded reduction mod grid power | `LowerBound/Grid/Reduction.lean` | done | needs F01 |
 | G02 CRT for grid point powers | `LowerBound/Grid/CRT.lean` | done | needs F03 |
 | G03 joint grid jet interpolation | `LowerBound/Grid/Jets.lean` | done | needs F02, F03, G01, G02 |
@@ -80,10 +81,12 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | C06 assigning lines to components | `LowerBound/Counting/Components.lean` | done | needs F05, B03, C04 |
 | C07 weighted selection | `LowerBound/Arithmetic/WeightedSelection.lean` | done | |
 | C08 curve base case | `LowerBound/Counting/Curves.lean` | done | needs F04, F05, A01, A04, A05 |
-| C09 carrier theorem | `LowerBound/CarrierBound.lean` | done (conditional on I00) | needs C01, C04–C08 |
-| C10 Nikodym, natural-number form | `LowerBound/Main.lean` | done (conditional on I00) | needs F05, C09 |
-| C11 real corollary | `LowerBound/Main.lean` | done (conditional on I00) | needs C10 |
+| C09 carrier theorem | `LowerBound/CarrierBound.lean` | done | needs C01, C04–C08 |
+| C10 Nikodym, natural-number form | `LowerBound/Main.lean` | done | needs F05, C09 |
+| C11 real corollary | `LowerBound/Main.lean` | done | needs C10 |
 
 ## Log
 
 - 2026-09-05: tracker created; wave 1 launched.
+- 2026-09-05: algebra backend complete (A02–A08, J01–J02, B01–B03, TR0–TR7); `AlgebraInterface K d`
+  proved for every field in `LowerBound/Algebra/Assembly.lean`; `Nikodym/Main.lean` is `sorry`-free.

@@ -6,10 +6,14 @@ This repository is a Lean 4 and Mathlib formalization project for the sharp
 power saving in the finite-field Nikodym problem: the lower bound proved by
 finite-grid interpolation, and the matching construction.
 
-**Status: project initialized.** The definitions compile and the final
-theorems are stated in [`Nikodym/Main.lean`](Nikodym/Main.lean), but every
-final theorem is currently closed by `sorry`. The formalization plan is in
-[`docs/nikodym_bound_lean_blueprint.md`](docs/nikodym_bound_lean_blueprint.md).
+**Status: complete.** Both the lower bound and the construction are proved in
+full: the three final theorems in [`Nikodym/Main.lean`](Nikodym/Main.lean)
+build without `sorry`, and `#print axioms` reports only `propext`,
+`Classical.choice` and `Quot.sound` for each of them. The formalization plans
+are in [`docs/nikodym_bound_lean_blueprint.md`](docs/nikodym_bound_lean_blueprint.md),
+[`docs/nikodym_construction_lean_blueprint.md`](docs/nikodym_construction_lean_blueprint.md)
+and [`docs/algebra_backend_design.md`](docs/algebra_backend_design.md); node-by-node
+status is tracked in [`docs/PROGRESS.md`](docs/PROGRESS.md).
 
 ## The theorem
 
@@ -100,7 +104,7 @@ real exponents only in the final corollary.
 | File                                                     | Contents                                                        |
 | -------------------------------------------------------- | --------------------------------------------------------------- |
 | [`Nikodym/Definition.lean`](Nikodym/Definition.lean)     | The `IsNikodym` predicate and elementary examples.              |
-| [`Nikodym/Main.lean`](Nikodym/Main.lean)                 | The target theorems (currently `sorry`).                        |
+| [`Nikodym/Main.lean`](Nikodym/Main.lean)                 | The three final theorems (fully proved).                        |
 | [`FORMALIZATION.md`](FORMALIZATION.md)                   | Correspondence between the mathematics and the Lean statements. |
 | [`docs/nikodym_bound_lean_blueprint.md`](docs/nikodym_bound_lean_blueprint.md) | Statement-level blueprint and dependency DAG for the lower bound. |
 | [`docs/Nikodym_sharp_power_saving.tex`](docs/Nikodym_sharp_power_saving.tex)   | Source note for the lower bound.                              |

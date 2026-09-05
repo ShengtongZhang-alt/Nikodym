@@ -6,17 +6,17 @@ Authors: Shengtong Zhang
 
 import Nikodym.Definition
 import Nikodym.LowerBound.Main
+import Nikodym.LowerBound.Algebra.Assembly
 import Nikodym.Construction.Main
 
 /-!
 # The sharp Nikodym exponent: target statements
 
-This file records the final theorems that the project aims to certify.  The upper bound
-`exists_isNikodym_card_le` is fully proved (`Nikodym.Construction.Main`).  The two lower-bound
-statements are still closed by `sorry`; their proofs are complete conditionally on the
-commutative-algebra interface `Nikodym.LowerBound.AlgebraInterface`
-(see `Nikodym.LowerBound.Main`), which is being discharged following
-`docs/algebra_backend_design.md`.
+This file records the final theorems of the project; all of them are proved without `sorry`.
+The upper bound `exists_isNikodym_card_le` is `Nikodym.Construction.Main`.  The two lower-bound
+statements are the conditional theorems of `Nikodym.LowerBound.Main` instantiated with the
+commutative-algebra interface `Nikodym.LowerBound.algebraInterface`, which is established for
+every field in `Nikodym.LowerBound.Algebra.Assembly` following `docs/algebra_backend_design.md`.
 
 Let `F` be a finite field with `q` elements, `d ≥ 2`, and `N ⊆ F^d` a Nikodym set.
 
@@ -41,22 +41,18 @@ variable {F : Type*} [Field F] [Fintype F] {d : ℕ}
 /-- **Lower bound, integer form** (blueprint node C10).  Every Nikodym set `N ⊆ F^d`, `d ≥ 2`,
 satisfies `|F^d \ N| ^ (2 ^ (d - 1)) · q ≤ (8 d ^ 2 + 1) ^ (2 ^ (d - 1)) · q ^ (d · 2 ^ (d - 1))`,
 where `q = |F|`. -/
--- Conditional version: `Nikodym.LowerBound.card_compl_pow_mul_card_le_of_interface`
--- (needs `AlgebraInterface`).
 theorem card_compl_pow_mul_card_le (hd : 2 ≤ d) (N : Finset (Fin d → F)) (hN : IsNikodym N) :
     (Fintype.card F ^ d - N.card) ^ 2 ^ (d - 1) * Fintype.card F ≤
-      (8 * d ^ 2 + 1) ^ 2 ^ (d - 1) * Fintype.card F ^ (d * 2 ^ (d - 1)) := by
-  sorry
+      (8 * d ^ 2 + 1) ^ 2 ^ (d - 1) * Fintype.card F ^ (d * 2 ^ (d - 1)) :=
+  LowerBound.card_compl_pow_mul_card_le_of_interface (LowerBound.algebraInterface F d) hd N hN
 
 /-- **Lower bound, real form** (blueprint node C11).  Every Nikodym set `N ⊆ F^d`, `d ≥ 2`,
 satisfies `|N| ≥ q ^ d - (8 d ^ 2 + 1) · q ^ (d - 2 ^ (1 - d))`, where `q = |F|`. -/
--- Conditional version: `Nikodym.LowerBound.card_ge_pow_sub_of_interface`
--- (needs `AlgebraInterface`).
 theorem card_ge_pow_sub (hd : 2 ≤ d) (N : Finset (Fin d → F)) (hN : IsNikodym N) :
     (Fintype.card F : ℝ) ^ d -
         (8 * d ^ 2 + 1) * (Fintype.card F : ℝ) ^ ((d : ℝ) - 2 ^ (1 - (d : ℝ))) ≤
-      N.card := by
-  sorry
+      N.card :=
+  LowerBound.card_ge_pow_sub_of_interface (LowerBound.algebraInterface F d) hd N hN
 
 /-- **Upper bound** (construction).  For `d ≥ 2` and `ε > 0`, every finite field `F` of
 sufficiently large prime cardinality `q` contains a Nikodym set `N ⊆ F^d` with

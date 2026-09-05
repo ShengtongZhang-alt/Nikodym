@@ -242,29 +242,11 @@ theorem hilbert_le_degree_mul_choose_of_bounds (hΔ : 0 < Δ)
 end Bounds
 
 /-!
-### Glue with A08-core (to be added once `Hilbert/DegreeUpper.lean` lands)
+### Glue with A08-core
 
-Node A08-core delivers, for `[Infinite K]` and a prime ideal `I`,
-```
-theorem exists_hilbert_bounds [Infinite K] (I : Ideal (MvPolynomial (Fin d) K)) [I.IsPrime] :
-    ∃ (Δ : ℕ) (e : Fin Δ → ℕ), 0 < Δ ∧
-      (∀ t, ∑ i, (t - e i + quotDim I).choose (quotDim I) ≤ hilbert I t) ∧
-      (∀ t, hilbert I t ≤ Δ * (t + quotDim I).choose (quotDim I))
-```
-(possibly with the lower-bound sum restricted to `e i ≤ t`; for `t ≥ ∑ i, e i` all variants
-agree, so the `_of_eventually_bounds` versions above apply after `Filter.eventually_ge_atTop`).
-The `_of_infinite` statements of A04′ and the final A08 bound then read
-```
-theorem natDegree_affineHilbertPoly_of_infinite [Infinite K] (I) [I.IsPrime] :
-    (affineHilbertPoly I).natDegree = quotDim I := by
-  obtain ⟨Δ, e, hΔ, hlow, hup⟩ := exists_hilbert_bounds I
-  exact natDegree_affineHilbertPoly_of_bounds hΔ hlow hup
-theorem leadingCoeff_affineHilbertPoly_of_infinite … := leadingCoeff_affineHilbertPoly_of_bounds …
-theorem degree_pos_of_infinite … := degree_pos_of_bounds …
-theorem hilbert_le_degree_mul_choose_of_infinite [Infinite K] (I) [I.IsPrime] (t) :
-    hilbert I t ≤ degree I * (t + quotDim I).choose (quotDim I) :=
-  hilbert_le_degree_mul_choose_of_bounds hΔ hlow hup t
-```
+Node A08-core (`Hilbert/DegreeUpper.lean`, `exists_hilbert_bounds`) supplies the two-sided bounds
+for every prime over an infinite field; the resulting unconditional `_of_infinite` statements live
+in `Algebra/Assembly.lean`.
 -/
 
 end Nikodym.LowerBound

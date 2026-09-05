@@ -2,9 +2,9 @@
 
 ## Target statements
 
-The final theorems are declared in `Nikodym/Main.lean`. They are currently
-`sorry`; nothing in this repository should be described as certified until the
-axiom report of each theorem contains no `sorryAx`.
+The final theorems are declared in `Nikodym/Main.lean` and are fully proved:
+the axiom report of each of them (`#print axioms`) contains only `propext`,
+`Classical.choice` and `Quot.sound`.
 
 - `Nikodym.card_compl_pow_mul_card_le` — the lower bound in natural-number
   form, blueprint node C10.
