@@ -14,10 +14,10 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | S03 finite boxes and lattice count | `Construction/Scaffold.lean` | done | |
 | D01 digit injectivity | `Construction/Digits.lean` | done | needs S02 |
 | D02 decoding inequality | `Construction/Digits.lean` | done | needs S02 |
-| Q01 integer parameters | `Construction/Parameters.lean` | wip | |
-| Q02 thresholds and root bounds | `Construction/Parameters.lean` | wip | |
+| Q01 integer parameters | `Construction/Parameters.lean` | done | |
+| Q02 thresholds and root bounds | `Construction/Parameters.lean` | done | |
 | C01 trace fiber | `Construction/Fibers.lean` | done | needs S03 |
-| C02 energy fiber | `Construction/Fibers.lean` | open | needs S03, D01, Q01 |
+| C02 energy fiber | `Construction/Fibers.lean` | wip | needs S03, D01, Q01 |
 | T01 tangent lines | `Construction/Tangent.lean` | open | needs S, D, Q, C |
 | E01 size of P | `Construction/Count.lean` | open | needs C, Q02, S03 |
 | E02 fixed-scaffold theorem | `Construction/Count.lean` | open | needs P01, T01, E01 |

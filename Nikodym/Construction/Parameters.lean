@@ -56,7 +56,8 @@ theorem Q_exp_inv (n i : ℕ) :
 theorem floor_root_pow_le {k : ℕ} (hk : k ≠ 0) :
     ⌊(q : ℝ) ^ (k : ℝ)⁻¹⌋₊ ^ k ≤ q := by
   have hy : 0 ≤ (q : ℝ) ^ (k : ℝ)⁻¹ := rpow_nonneg (Nat.cast_nonneg _) _
-  have hfl : (⌊(q : ℝ) ^ (k : ℝ)⁻¹⌋₊ : ℝ) ≤ (q : ℝ) ^ (k : ℝ)⁻¹ := Nat.floor_le hy
+  have hfl : (⌊(q : ℝ) ^ (k : ℝ)⁻¹⌋₊ : ℝ) ≤ (q : ℝ) ^ (k : ℝ)⁻¹ :=
+    Nat.floor_le hy
   have hkpos : 0 < (k : ℝ) := Nat.cast_pos.2 (Nat.pos_of_ne_zero hk)
   have hpow : (⌊(q : ℝ) ^ (k : ℝ)⁻¹⌋₊ : ℝ) ^ (k : ℝ) ≤
       ((q : ℝ) ^ (k : ℝ)⁻¹) ^ (k : ℝ) :=
@@ -93,10 +94,10 @@ theorem sum_two_pow_gap {i : ℕ} (hi : 1 ≤ i) :
       have := (mem_Ico.1 hj).2
       omega
     rw [this, pow_succ, mul_comm]
-  simp_rw [hterm]
+  rw [sum_congr rfl hterm]
   rw [← mul_sum, sum_two_pow_pred hi, Nat.mul_sub, mul_one]
   congr 1
-  rw [← pow_succ, Nat.sub_add_cancel hi]
+  rw [mul_comm, ← pow_succ, Nat.sub_add_cancel hi]
 
 /-- If `y ≥ 2` then `y / 2 ≤ ⌊y⌋₊`. -/
 theorem half_le_floor {y : ℝ} (hy : 2 ≤ y) : y / 2 ≤ ⌊y⌋₊ := by
@@ -110,11 +111,13 @@ theorem half_le_floor {y : ℝ} (hy : 2 ≤ y) : y / 2 ≤ ⌊y⌋₊ := by
 /-! ### Q01: exact natural-number inequalities -/
 
 /-- Blueprint Q01: `M ^ n ≤ q`. -/
-theorem M_pow_le (hn : 1 ≤ n) (_hq : 1 ≤ q) : M n q ^ n ≤ q := by
+theorem M_pow_le (hn : 1 ≤ n) (hq : 1 ≤ q) : M n q ^ n ≤ q := by
+  have := hq
   simpa [M, one_div] using floor_root_pow_le (q := q) (ne_zero_of_one_le hn)
 
 /-- Blueprint Q01: `Q i ^ (n * 2 ^ i) ≤ q`. -/
-theorem Q_pow_le (hn : 1 ≤ n) (_hq : 1 ≤ q) (i : ℕ) : Q n q i ^ (n * 2 ^ i) ≤ q := by
+theorem Q_pow_le (hn : 1 ≤ n) (hq : 1 ≤ q) (i : ℕ) : Q n q i ^ (n * 2 ^ i) ≤ q := by
+  have := hq
   have hk : n * 2 ^ i ≠ 0 :=
     Nat.mul_ne_zero (ne_zero_of_one_le hn) (pow_ne_zero _ two_ne_zero)
   simpa [Q, Q_exp_inv] using floor_root_pow_le (q := q) hk
@@ -190,7 +193,7 @@ theorem D_mul_Q_sq_pow_le (hn : 1 ≤ n) (hq : 1 ≤ q) {i : ℕ} (hi : 1 ≤ i)
     (D n q i * Q n q i ^ 2) ^ n ≤ q := by
   have hpow := D_mul_Q_sq_pow_two_pow hn hq hi
   have : ((D n q i * Q n q i ^ 2) ^ n) ^ (2 ^ i) ≤ q ^ (2 ^ i) := by
-    rwa [pow_mul]
+    rwa [← pow_mul]
   exact (Nat.pow_le_pow_iff_left (pow_ne_zero _ two_ne_zero)).1 this
 
 /-- Blueprint Q01: `(D i) ^ (n * 2^{i-1}) ≤ q^{2^{i-1} - 1}`. -/
@@ -201,7 +204,6 @@ theorem D_pow_le (hn : 1 ≤ n) (hq : 1 ≤ q) {i : ℕ} (hi : 1 ≤ i) :
     rw [D, ← prod_pow]
     refine prod_congr rfl fun j hj ↦ ?_
     have hji : j ≤ i - 1 := Nat.le_sub_one_of_lt (mem_Ico.1 hj).2
-    have hji' : j ≤ i := hji.trans (Nat.sub_le _ _)
     have : n * 2 ^ (i - 1) = n * 2 ^ j * 2 ^ (i - 1 - j) := by
       calc
         n * 2 ^ (i - 1) = n * 2 ^ (j + (i - 1 - j)) := by rw [Nat.add_sub_of_le hji]
@@ -223,7 +225,7 @@ theorem D_pow_le' (hn : 1 ≤ n) (hq : 1 ≤ q) {i : ℕ} (hi : 1 ≤ i) : D n q
   have hle : q ^ (2 ^ (i - 1) - 1) ≤ q ^ (2 ^ (i - 1)) :=
     Nat.pow_le_pow_right (Nat.succ_le_iff.mp hq) (Nat.sub_le _ _)
   have : (D n q i ^ n) ^ (2 ^ (i - 1)) ≤ q ^ (2 ^ (i - 1)) := by
-    rw [pow_mul]
+    rw [← pow_mul]
     exact h.trans hle
   exact (Nat.pow_le_pow_iff_left (pow_ne_zero _ two_ne_zero)).1 this
 
@@ -236,38 +238,52 @@ theorem D_mul_Q_sq_le_M (hn : 1 ≤ n) (hq : 1 ≤ q) {i : ℕ} (hi : 1 ≤ i) :
 theorem D_le_M (hn : 1 ≤ n) (hq : 1 ≤ q) {i : ℕ} (hi : 1 ≤ i) : D n q i ≤ M n q :=
   le_M_of_pow_le hn (D_pow_le' hn hq hi)
 
+/-- Exponent identity for the real form of `D_pow_le`. -/
+theorem D_sq_exp {i : ℕ} (hn : 1 ≤ n) :
+    ((2 ^ i - 1 : ℕ) : ℝ) * 2 / ((n : ℝ) * 2 ^ i) =
+      2 * (1 - (2 : ℝ)⁻¹ ^ i) / n := by
+  have hn0 : (n : ℝ) ≠ 0 := Nat.cast_ne_zero.2 (ne_zero_of_one_le hn)
+  have h2 : (2 : ℝ) ^ i ≠ 0 := pow_ne_zero _ two_ne_zero
+  have hsub : ((2 ^ i - 1 : ℕ) : ℝ) = (2 : ℝ) ^ i - 1 := by
+    rw [Nat.cast_sub Nat.one_le_two_pow, Nat.cast_pow, Nat.cast_one]
+    norm_cast
+  rw [hsub]
+  have hcast : ((n : ℝ) * 2 ^ i) = (n : ℝ) * (2 : ℝ) ^ i := by norm_cast
+  rw [hcast]
+  calc
+    ((2 : ℝ) ^ i - 1) * 2 / ((n : ℝ) * (2 : ℝ) ^ i)
+      = 2 * ((2 : ℝ) ^ i - 1) / ((n : ℝ) * (2 : ℝ) ^ i) := by ring
+    _ = 2 * (1 - ((2 : ℝ) ^ i)⁻¹) / n := by
+        field [hn0, h2]
+    _ = 2 * (1 - (2 : ℝ)⁻¹ ^ i) / n := by rw [inv_pow]
+
 /-- Blueprint Q01: `(D (i+1) : ℝ) ^ 2 ≤ q^{2(1 - 2^{-i})/n}`. -/
 theorem D_sq_le_rpow (hn : 1 ≤ n) (hq : 1 ≤ q) {i : ℕ} (hi : 1 ≤ i) :
     ((D n q (i + 1) : ℝ)) ^ 2 ≤ (q : ℝ) ^ (2 * (1 - (2 : ℝ)⁻¹ ^ i) / n) := by
-  have hi1 : 1 ≤ i + 1 := Nat.le_add_left _ _
+  have hi1 : 1 ≤ i + 1 := hi.trans (Nat.le_succ i)
   have hnat : D n q (i + 1) ^ (n * 2 ^ i) ≤ q ^ (2 ^ i - 1) := by
     simpa [Nat.add_sub_cancel] using D_pow_le hn hq hi1
   have hx : 0 ≤ (D n q (i + 1) : ℝ) := Nat.cast_nonneg _
-  have hy : 0 ≤ (q : ℝ) ^ (2 * (1 - (2 : ℝ)⁻¹ ^ i) / n) := rpow_nonneg (Nat.cast_nonneg _) _
+  have hq0 : 0 ≤ (q : ℝ) := Nat.cast_nonneg _
   have hn0 : (n : ℝ) ≠ 0 := Nat.cast_ne_zero.2 (ne_zero_of_one_le hn)
-  have hz : 0 < (n : ℝ) * 2 ^ i / 2 := by positivity
-  have hL : ((D n q (i + 1) : ℝ) ^ 2) ^ ((n : ℝ) * 2 ^ i / 2) =
-      (D n q (i + 1) : ℝ) ^ (n * 2 ^ i : ℕ) := by
-    rw [← rpow_natCast, rpow_mul hx]
+  have hexp : 0 ≤ (2 : ℝ) / ((n : ℝ) * 2 ^ i) := by positivity
+  have hL :
+      ((D n q (i + 1) : ℝ) ^ (n * 2 ^ i)) ^ ((2 : ℝ) / ((n : ℝ) * 2 ^ i)) =
+        (D n q (i + 1) : ℝ) ^ (2 : ℝ) := by
+    rw [← rpow_natCast, ← rpow_mul hx]
     congr 1
-    calc
-      (2 : ℝ) * ((n : ℝ) * 2 ^ i / 2) = (n : ℝ) * 2 ^ i := by ring
-      _ = (n * 2 ^ i : ℕ) := by norm_cast
-  have hR : ((q : ℝ) ^ (2 * (1 - (2 : ℝ)⁻¹ ^ i) / n)) ^ ((n : ℝ) * 2 ^ i / 2) =
-      (q : ℝ) ^ (2 ^ i - 1 : ℕ) := by
-    rw [← rpow_mul (Nat.cast_nonneg q)]
-    congr 1
-    have hsub : ((2 ^ i - 1 : ℕ) : ℝ) = (2 : ℝ) ^ i - 1 := by
-      rw [Nat.cast_sub Nat.one_le_two_pow, Nat.cast_pow, Nat.cast_one]
-    have hinv : ((2 : ℝ)⁻¹) ^ i = ((2 : ℝ) ^ i)⁻¹ := inv_pow _ _
-    calc
-      2 * (1 - (2 : ℝ)⁻¹ ^ i) / n * ((n : ℝ) * 2 ^ i / 2)
-        = (1 - (2 : ℝ)⁻¹ ^ i) * (2 : ℝ) ^ i := by ring
-      _ = (2 : ℝ) ^ i - 1 := by
-        rw [hinv, sub_mul, inv_mul_cancel₀ (pow_ne_zero _ two_ne_zero), one_mul]
-      _ = (2 ^ i - 1 : ℕ) := hsub.symm
-  rw [← rpow_le_rpow_iff (sq_nonneg _) hy hz, hL, hR]
-  exact_mod_cast hnat
+    rw [Nat.cast_mul, Nat.cast_pow]
+    field [hn0]
+  have hR :
+      ((q : ℝ) ^ (2 ^ i - 1 : ℕ)) ^ ((2 : ℝ) / ((n : ℝ) * 2 ^ i)) =
+        (q : ℝ) ^ (2 * (1 - (2 : ℝ)⁻¹ ^ i) / n) := by
+    rw [← rpow_natCast, ← rpow_mul hq0, ← mul_div_assoc, D_sq_exp hn]
+  have hpow : 0 ≤ (D n q (i + 1) : ℝ) ^ (n * 2 ^ i) := pow_nonneg hx _
+  have hcast : (D n q (i + 1) : ℝ) ^ (n * 2 ^ i) ≤ (q : ℝ) ^ (2 ^ i - 1) := by
+    simpa [Nat.cast_pow] using (Nat.cast_le (α := ℝ)).2 hnat
+  have hineq := rpow_le_rpow hpow hcast hexp
+  rw [hL, hR, rpow_two] at hineq
+  exact hineq
 
 /-- Blueprint Q01: the crude bound `(D (i+1) : ℝ) ^ 2 ≤ q^{2/n}`. -/
 theorem D_sq_le_rpow' (hn : 1 ≤ n) (hq : 1 ≤ q) {i : ℕ} (hi : 1 ≤ i) :
@@ -292,10 +308,10 @@ theorem sum_inv_two_pow {h : ℕ} (hh : 1 ≤ h) :
   have : ((2 : ℝ)⁻¹ - (2 : ℝ)⁻¹ ^ h) / (2 : ℝ)⁻¹ =
       1 - 2 * ((2 : ℝ)⁻¹) ^ h := by
     field
-    ring
   rw [this]
   have : 2 * ((2 : ℝ)⁻¹) ^ h = ((2 : ℝ)⁻¹) ^ (h - 1) := by
-    rw [← Nat.sub_add_cancel hh, pow_succ]
+    nth_rw 1 [show h = h - 1 + 1 from (Nat.sub_add_cancel hh).symm]
+    rw [pow_succ]
     ring
   rw [this]
 
@@ -316,46 +332,46 @@ theorem threshold_exp {h i : ℕ} (hn : 1 ≤ n) (hih : i ≤ h - 1) :
 theorem two_le_rpow_Q {h i : ℕ} (hn : 1 ≤ n) (hh : 2 ≤ h)
     (hq : 2 ^ (n * 2 ^ (h - 1)) ≤ q) (hi : 1 ≤ i) (hih : i ≤ h - 1) :
     (2 : ℝ) ≤ (q : ℝ) ^ (1 / ((n : ℝ) * 2 ^ i)) := by
+  have := hh
+  have := hi
   have hbase : (2 : ℝ) ^ (n * 2 ^ (h - 1)) ≤ (q : ℝ) := by exact_mod_cast hq
   have hnonneg : 0 ≤ (2 : ℝ) ^ (n * 2 ^ (h - 1)) := by positivity
   have hexp : 0 ≤ 1 / ((n : ℝ) * 2 ^ i) := by positivity
   have h1 : 1 ≤ 2 ^ (h - 1 - i) := Nat.one_le_two_pow
   calc
     (2 : ℝ) = (2 : ℝ) ^ 1 := (pow_one _).symm
-    _ ≤ (2 : ℝ) ^ (2 ^ (h - 1 - i)) := pow_le_pow_right' one_le_two h1
+    _ ≤ (2 : ℝ) ^ (2 ^ (h - 1 - i)) := pow_le_pow_right₀ one_le_two h1
     _ = (2 : ℝ) ^ (((n * 2 ^ (h - 1) : ℕ) : ℝ) / ((n * 2 ^ i : ℕ) : ℝ)) := by
         rw [threshold_exp hn hih, rpow_natCast]
     _ = ((2 : ℝ) ^ ((n * 2 ^ (h - 1) : ℕ) : ℝ)) ^
           (((n * 2 ^ i : ℕ) : ℝ)⁻¹) := by
-        rw [← rpow_mul (by positivity : 0 ≤ (2 : ℝ)), ← one_div]
-        field_simp
+        rw [div_eq_mul_inv, rpow_mul (by positivity : 0 ≤ (2 : ℝ))]
     _ = ((2 : ℝ) ^ (n * 2 ^ (h - 1))) ^ (1 / ((n : ℝ) * 2 ^ i)) := by
         rw [rpow_natCast, Q_exp_inv]
     _ ≤ (q : ℝ) ^ (1 / ((n : ℝ) * 2 ^ i)) := rpow_le_rpow hnonneg hbase hexp
-  exact hh.elim (fun _ ↦ hi) fun _ ↦ trivial
 
 /-- Blueprint Q02: `2 ≤ q^{1/n}`. -/
 theorem two_le_rpow_M {h : ℕ} (hn : 1 ≤ n) (hh : 2 ≤ h)
     (hq : 2 ^ (n * 2 ^ (h - 1)) ≤ q) :
     (2 : ℝ) ≤ (q : ℝ) ^ (1 / (n : ℝ)) := by
+  have hhi : 1 ≤ h - 1 := by omega
+  have h1 : 1 ≤ 2 ^ (h - 1) :=
+    le_trans (by decide : 1 ≤ 2) (Nat.pow_le_pow_right Nat.zero_lt_two hhi)
   have hbase : (2 : ℝ) ^ (n * 2 ^ (h - 1)) ≤ (q : ℝ) := by exact_mod_cast hq
   have hnonneg : 0 ≤ (2 : ℝ) ^ (n * 2 ^ (h - 1)) := by positivity
   have hexp : 0 ≤ 1 / (n : ℝ) := by positivity
-  have h1 : 1 ≤ 2 ^ (h - 1) := Nat.one_le_two_pow
-  have hn0 : (n : ℝ) ≠ 0 := Nat.cast_ne_zero.2 hn.ne'
+  have hn0 : (n : ℝ) ≠ 0 := Nat.cast_ne_zero.2 (ne_zero_of_one_le hn)
   calc
     (2 : ℝ) = (2 : ℝ) ^ 1 := (pow_one _).symm
-    _ ≤ (2 : ℝ) ^ (2 ^ (h - 1)) := pow_le_pow_right' one_le_two h1
+    _ ≤ (2 : ℝ) ^ (2 ^ (h - 1)) := pow_le_pow_right₀ one_le_two h1
     _ = (2 : ℝ) ^ (((n * 2 ^ (h - 1) : ℕ) : ℝ) / (n : ℝ)) := by
         rw [Nat.cast_mul, mul_div_cancel_left₀ _ hn0]
         norm_cast
     _ = ((2 : ℝ) ^ ((n * 2 ^ (h - 1) : ℕ) : ℝ)) ^ (n : ℝ)⁻¹ := by
-        rw [← rpow_mul (by positivity : 0 ≤ (2 : ℝ)), ← one_div]
-        field_simp [hn0]
+        rw [div_eq_mul_inv, rpow_mul (by positivity : 0 ≤ (2 : ℝ))]
     _ = ((2 : ℝ) ^ (n * 2 ^ (h - 1))) ^ (1 / (n : ℝ)) := by
         rw [rpow_natCast, one_div]
     _ ≤ (q : ℝ) ^ (1 / (n : ℝ)) := rpow_le_rpow hnonneg hbase hexp
-  exact hh.elim (fun _ ↦ trivial) fun _ ↦ trivial
 
 /-- Blueprint Q02: `2 ≤ Q i` for `1 ≤ i ≤ h-1`. -/
 theorem two_le_Q {h i : ℕ} (hn : 1 ≤ n) (hh : 2 ≤ h)
@@ -391,7 +407,7 @@ theorem prod_Q_pow_ge {h : ℕ} (hn : 1 ≤ n) (hh : 2 ≤ h)
       2 ^ (-(n : ℝ) * (h - 1)) * (q : ℝ) ^ (1 - (2 : ℝ)⁻¹ ^ (h - 1)) := by
   have hh1 : 1 ≤ h := one_le_two.trans hh
   have hq1 : 1 ≤ q := one_le_q_of_threshold hq
-  have hn0 : (n : ℝ) ≠ 0 := Nat.cast_ne_zero.2 hn.ne'
+  have hn0 : (n : ℝ) ≠ 0 := Nat.cast_ne_zero.2 (ne_zero_of_one_le hn)
   have hhalf : ∀ i ∈ Ico 1 h,
       (q : ℝ) ^ (1 / ((n : ℝ) * 2 ^ i)) / 2 ≤ (Q n q i : ℝ) := by
     intro i hi
@@ -401,23 +417,23 @@ theorem prod_Q_pow_ge {h : ℕ} (hn : 1 ≤ n) (hh : 2 ≤ h)
       ((q : ℝ) ^ (1 / ((n : ℝ) * 2 ^ i)) / 2) ^ n ≤ (Q n q i : ℝ) ^ n := by
     intro i hi
     exact pow_le_pow_left₀ (by positivity) (hhalf i hi) _
-  have hprod := prod_le_prod (fun i hi ↦ by positivity) hterm
+  have hprod := prod_le_prod (fun i _hi ↦ by positivity) hterm
   have hdiv :
       ∏ i ∈ Ico 1 h, ((q : ℝ) ^ (1 / ((n : ℝ) * 2 ^ i)) / 2) ^ n =
         (∏ i ∈ Ico 1 h, ((q : ℝ) ^ (1 / ((n : ℝ) * 2 ^ i))) ^ n) /
           ∏ i ∈ Ico 1 h, (2 : ℝ) ^ n := by
     simp_rw [div_pow]
-    exact prod_div_distrib
+    rw [prod_div_distrib]
   have hpows : ∀ i ∈ Ico 1 h,
       ((q : ℝ) ^ (1 / ((n : ℝ) * 2 ^ i))) ^ n = (q : ℝ) ^ ((2 : ℝ)⁻¹ ^ i) := by
     intro i _hi
-    rw [← rpow_natCast, rpow_mul (Nat.cast_nonneg q)]
+    rw [← rpow_natCast, ← rpow_mul (Nat.cast_nonneg q)]
     congr 1
     calc
       1 / ((n : ℝ) * 2 ^ i) * n = (n : ℝ) / ((n : ℝ) * 2 ^ i) := by ring
-      _ = 1 / (2 : ℝ) ^ i := by field_simp [hn0]
+      _ = 1 / (2 : ℝ) ^ i := by field
       _ = ((2 : ℝ)⁻¹) ^ i := by rw [one_div, inv_pow]
-  have hsum := rpow_sum_of_pos (Nat.cast_pos.2 (one_le_q_of_threshold hq))
+  have hsum := rpow_sum_of_pos (Nat.cast_pos.2 (Nat.succ_le_iff.mp hq1))
     (fun i : ℕ ↦ ((2 : ℝ)⁻¹) ^ i) (Ico 1 h)
   have hcard : #(Ico 1 h) = h - 1 := Nat.card_Ico _ _
   have hden : ∏ i ∈ Ico 1 h, (2 : ℝ) ^ n = (2 : ℝ) ^ (n * (h - 1)) := by
@@ -435,14 +451,16 @@ theorem prod_Q_pow_ge {h : ℕ} (hn : 1 ≤ n) (hh : 2 ≤ h)
         have h2 : 0 ≤ (2 : ℝ) := zero_le_two
         rw [div_eq_inv_mul, ← rpow_natCast (2 : ℝ), ← rpow_neg h2]
         congr 2
-        · rw [Nat.cast_mul]
-        · rfl
+        rw [Nat.cast_mul, Nat.cast_sub hh1, Nat.cast_one]
+        ring
 
 /-- Blueprint Q02: product upper bound on the `D_{i+1}`. -/
 theorem prod_D_sq_le {h : ℕ} (hn : 1 ≤ n) (hh : 2 ≤ h)
     (hq : 2 ^ (n * 2 ^ (h - 1)) ≤ q) :
     ∏ i ∈ Ico 1 h, ((D n q (i + 1) : ℝ)) ^ 2 ≤ (q : ℝ) ^ (2 * (h - 1) / (n : ℝ)) := by
   have hq1 : 1 ≤ q := one_le_q_of_threshold hq
+  have hh1 : 1 ≤ h := one_le_two.trans hh
+  have hn0 : (n : ℝ) ≠ 0 := Nat.cast_ne_zero.2 (ne_zero_of_one_le hn)
   have hterm : ∀ i ∈ Ico 1 h, ((D n q (i + 1) : ℝ)) ^ 2 ≤ (q : ℝ) ^ (2 / (n : ℝ)) := by
     intro i hi
     have ⟨hi1, _⟩ := mem_Ico.1 hi
@@ -458,8 +476,8 @@ theorem prod_D_sq_le {h : ℕ} (hn : 1 ≤ n) (hh : 2 ≤ h)
         rw [← rpow_natCast, rpow_mul hq0]
     _ = (q : ℝ) ^ (2 * (h - 1) / (n : ℝ)) := by
         congr 1
-        field_simp
-        ring
+        rw [Nat.cast_sub hh1, Nat.cast_one]
+        field [hn0]
 
 end Params
 end Nikodym
