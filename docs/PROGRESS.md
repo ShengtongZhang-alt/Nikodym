@@ -39,8 +39,8 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | F01 degree-bounded polynomial spaces | `LowerBound/PolynomialSpaces.lean` | done | |
 | F02 restriction spaces, Hilbert function | `LowerBound/Hilbert/Defs.lean` | done | needs F01 |
 | F03 point ideals, jets | `LowerBound/Jets/Defs.lean` | done | needs F01 |
-| F04 lines and line ideals | `LowerBound/Lines/Basic.lean` | wip | needs F01, F02 |
-| F05 private families | `LowerBound/PrivateFamily.lean` | wip | needs F04 |
+| F04 lines and line ideals | `LowerBound/Lines/Basic.lean` | done | needs F01, F02 |
+| F05 private families | `LowerBound/PrivateFamily.lean` | done | needs F04 |
 | H01 standard monomials | `LowerBound/Hilbert/StandardMonomials.lean` | done | needs F01, F02 |
 | H02 weighted shadow inequality | `LowerBound/Hilbert/Shadow.lean` | done | |
 | H03 normalized Hilbert inequality | `LowerBound/Hilbert/Normalized.lean` | wip | needs H01, H02 |
@@ -62,8 +62,8 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | G02 CRT for grid point powers | `LowerBound/Grid/CRT.lean` | wip | needs F03 |
 | G03 joint grid jet interpolation | `LowerBound/Grid/Jets.lean` | open | needs F02, F03, G01, G02 |
 | G04 omitted conditions | `LowerBound/Grid/OmittedConditions.lean` | open | needs G03 |
-| L01 jet vanishing on a line | `LowerBound/Lines/Jets.lean` | open | needs F03, F04 |
-| L02 q−1 roots force line identity | `LowerBound/Lines/Vanishing.lean` | open | needs F04, L01 |
+| L01 jet vanishing on a line | `LowerBound/Lines/Jets.lean` | wip | needs F03, F04 |
+| L02 q−1 roots force line identity | `LowerBound/Lines/Vanishing.lean` | wip | needs F04, L01 |
 | C01 affine point count | `LowerBound/Counting/Points.lean` | open | needs F03, F05, G03, J02, A08 |
 | C02 binomial gap estimate | `LowerBound/Arithmetic/BinomialGap.lean` | wip | |
 | C03 Hilbert gap | `LowerBound/Hilbert/Gap.lean` | open | needs H03, A08, C02 |
