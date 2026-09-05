@@ -2,7 +2,7 @@
 
 **Authors:** 
 
-Ting-Wei Chao, Zach Hunter, Cosmin Pohoata, Hung-Hsun Yu, Shengtong Zhang.
+Ting-Wei Chao, Zach Hunter, Cosmin Pohoata, Hung-Hsun Hans Yu, Shengtong Zhang.
 
 GPT 5.6 and GPT 6 Astra were used in ideation.
 

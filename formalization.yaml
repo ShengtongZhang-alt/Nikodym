@@ -27,7 +27,7 @@ project:
     - "Ting-Wei Chao"
     - "Zach Hunter"
     - "Cosmin Pohoata"
-    - "Hung-Hsun Yu"
+    - "Hung-Hsun Hans Yu"
     - "Shengtong Zhang"
   license: "Apache-2.0"
   responsible_maintainers:
@@ -46,7 +46,7 @@ sources:
       - "Ting-Wei Chao"
       - "Zach Hunter"
       - "Cosmin Pohoata"
-      - "Hung-Hsun Yu"
+      - "Hung-Hsun Hans Yu"
       - "Shengtong Zhang"
     id: "docs/Nikodym_sharp_power_saving.tex (this repository, at the submitted commit)"
     type: paper
@@ -70,7 +70,7 @@ sources:
       - "Ting-Wei Chao"
       - "Zach Hunter"
       - "Cosmin Pohoata"
-      - "Hung-Hsun Yu"
+      - "Hung-Hsun Hans Yu"
       - "Shengtong Zhang"
     id: "docs/nikodym_construction.tex (this repository, at the submitted commit)"
     type: paper
