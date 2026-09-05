@@ -32,8 +32,6 @@ Throughout, `n` and `q` are the integer parameters of Q01, related to the types 
 `Fintype.card ι = n` and `Fintype.card F = q`; `ρ = 1 / (100 (k + 1) √n)` and `γ = 1 / 10`.
 -/
 
-open Classical
-
 namespace Nikodym
 
 namespace Scaffold
@@ -51,16 +49,6 @@ noncomputable def pt (φ : R →+* F) (n q k : ℕ) (a w : Fin k → R) : Fin (k
 /-- Blueprint T01: the direction `v(w) = (φ (w 0), …, φ (w (k-1)), 1) ∈ F ^ (k + 1)`. -/
 noncomputable def dir (φ : R →+* F) {k : ℕ} (w : Fin k → R) : Fin (k + 1) → F :=
   Fin.snoc (fun i ↦ φ (w i)) 1
-
-/-- Blueprint T01: the family of factors `(φ(A), …, φ(A), φ(b(B)))` of the product set. -/
-noncomputable def ptFamily (φ : R →+* F) (n q k : ℕ) (A : Finset R) (B : Finset (Fin k → R)) :
-    Fin (k + 1) → Finset F :=
-  Fin.snoc (fun _ ↦ A.image φ) (B.image (φ ∘ base n q k))
-
-/-- Blueprint T01: the product set `P = φ(A) ^ k × φ(b(B)) ⊆ F ^ (k + 1)`. -/
-noncomputable def ptSet (φ : R →+* F) (n q k : ℕ) (A : Finset R) (B : Finset (Fin k → R)) :
-    Finset (Fin (k + 1) → F) :=
-  Fintype.piFinset (ptFamily φ n q k A B)
 
 variable (φ : R →+* F) {n q k : ℕ}
 
@@ -86,6 +74,18 @@ variable (φ : R →+* F) {n q k : ℕ}
 theorem dir_ne_zero (w : Fin k → R) : dir φ w ≠ 0 := fun h ↦ by
   have := congrFun h (Fin.last k)
   simp at this
+
+variable [DecidableEq F]
+
+/-- Blueprint T01: the family of factors `(φ(A), …, φ(A), φ(b(B)))` of the product set. -/
+noncomputable def ptFamily (n q k : ℕ) (A : Finset R) (B : Finset (Fin k → R)) :
+    Fin (k + 1) → Finset F :=
+  Fin.snoc (fun _ ↦ A.image φ) (B.image (φ ∘ base n q k))
+
+/-- Blueprint T01: the product set `P = φ(A) ^ k × φ(b(B)) ⊆ F ^ (k + 1)`. -/
+noncomputable def ptSet (n q k : ℕ) (A : Finset R) (B : Finset (Fin k → R)) :
+    Finset (Fin (k + 1) → F) :=
+  Fintype.piFinset (ptFamily φ n q k A B)
 
 /-- Blueprint T01: the first `k` factors of `ptFamily`. -/
 @[simp] theorem ptFamily_castSucc (A : Finset R) (B : Finset (Fin k → R)) (i : Fin k) :
@@ -381,6 +381,218 @@ theorem base_sub_base_eq (w w' : Fin k → R) (i : Fin k) (h : ∀ j, i < j → 
   rw [h j hj, sub_self]
 
 end PrefixBelow
+
+/-! ### Blueprint T01c: the collision argument -/
+
+section Collision
+
+variable {R ι κ F : Type*} [CommRing R] [Fintype ι] [Fintype κ] [Field F] [Fintype F]
+variable {b : Module.Basis κ ℤ R} {σ : ι → R →+* ℝ} {φ : R →+* F} {K₀ K₁ : ℝ}
+variable {n q k : ℕ} {ρ γ : ℝ}
+
+/-- Blueprint T01c: `t = yᵢ(w') - yᵢ(w)` lies in `box (2 ρ (i + 1) D_{i+2})`. -/
+theorem abs_sub_prefixSum_le (S : Scaffold b σ φ K₀ K₁) (hq : 1 ≤ q) (hρ : 0 ≤ ρ)
+    {w w' : Fin k → R} (hw : w ∈ digitSpace S n q k ρ) (hw' : w' ∈ digitSpace S n q k ρ)
+    (i : Fin k) (ε : ι) :
+    |σ ε (prefixSum n q k w' i - prefixSum n q k w i)| ≤
+      2 * ρ * (i.val + 1) * Params.D n q (i.val + 2) := by
+  have := box_sub (fun ε ↦ abs_prefixSum_le S hq hρ hw' i ε)
+    (fun ε ↦ abs_prefixSum_le S hq hρ hw i ε) ε
+  linarith
+
+/-- Blueprint T01c: `wᵢ t` lies in `box (2 ρ² (k + 1) M)`, using `D_{i+1} Q_{i+1} ^ 2 ≤ M`. -/
+theorem abs_mul_sub_prefixSum_le (S : Scaffold b σ φ K₀ K₁) (hn1 : 1 ≤ n) (hq1 : 1 ≤ q)
+    (hρ : ρ = 1 / (100 * (k + 1) * Real.sqrt n)) {w w' : Fin k → R}
+    (hw : w ∈ digitSpace S n q k ρ) (hw' : w' ∈ digitSpace S n q k ρ) (i : Fin k) (ε : ι) :
+    |σ ε (w i * (prefixSum n q k w' i - prefixSum n q k w i))| ≤
+      2 * ρ ^ 2 * (k + 1) * Params.M n q := by
+  have hρ0 : 0 ≤ ρ := (rho_pos hn1 hρ).le
+  have h1 : ∀ ε, |σ ε (w i)| ≤ ρ * Params.Q n q (i.val + 1) := fun ε ↦
+    (mem_digitSpace S).mp hw i ε
+  have h2 : ∀ ε, |σ ε (prefixSum n q k w' i - prefixSum n q k w i)| ≤
+      2 * ρ * (i.val + 1) * Params.D n q (i.val + 2) := fun ε ↦
+    abs_sub_prefixSum_le S hq1 hρ0 hw hw' i ε
+  refine (box_mul_le h1 h2 ε).trans ?_
+  have hDQ : (Params.D n q (i.val + 2) : ℝ) * Params.Q n q (i.val + 1) ≤ Params.M n q := by
+    have h : Params.D n q (i.val + 2) * Params.Q n q (i.val + 1) ≤ Params.M n q := by
+      have := Params.D_mul_Q_sq_le_M hn1 hq1 (i := i.val + 1) (by omega)
+      rw [← D_radix_mul_radix (n := n) (q := q) (k := k) i, D_radix, radix_apply]
+      calc Params.D n q (i.val + 1) * Params.Q n q (i.val + 1) * Params.Q n q (i.val + 1)
+          = Params.D n q (i.val + 1) * Params.Q n q (i.val + 1) ^ 2 := by ring
+        _ ≤ Params.M n q := this
+    exact_mod_cast h
+  have hi : (i.val : ℝ) + 1 ≤ k + 1 := by
+    have := i.isLt
+    exact_mod_cast (by omega : i.val + 1 ≤ k + 1)
+  calc ρ * Params.Q n q (i.val + 1) * (2 * ρ * (i.val + 1) * Params.D n q (i.val + 2))
+      = 2 * ρ ^ 2 * (i.val + 1) * (Params.D n q (i.val + 2) * Params.Q n q (i.val + 1)) := by
+        ring
+    _ ≤ 2 * ρ ^ 2 * (k + 1) * Params.M n q :=
+        mul_le_mul (mul_le_mul_of_nonneg_left hi (by positivity)) hDQ (by positivity)
+          (by positivity)
+
+/-- Blueprint T01c (decoding step): if `w, w' ∈ digitSpace` have the same color and
+`trace (wᵢ (yᵢ(w') - yᵢ(w))) = 0`, then `wᵢ = w'ᵢ`. This is D02 with `Q = Dᵢ`, `u = y_{i-1}(w)`,
+`u' = y_{i-1}(w')`. -/
+theorem digit_eq_of_trace_eq_zero (S : Scaffold b σ φ K₀ K₁) (hn : Fintype.card ι = n)
+    (hn1 : 1 ≤ n) (hq1 : 1 ≤ q) (hρ : ρ = 1 / (100 * (k + 1) * Real.sqrt n))
+    {w w' : Fin k → R} (hw : w ∈ digitSpace S n q k ρ) (hw' : w' ∈ digitSpace S n q k ρ)
+    (hc : color σ n q k w = color σ n q k w') (i : Fin k)
+    (ht : trace σ (w i * (prefixSum n q k w' i - prefixSum n q k w i)) = 0) : w i = w' i := by
+  have hρ0 : 0 ≤ ρ := (rho_pos hn1 hρ).le
+  set Di : ℕ := D (radix n q k) i with hDi
+  have hDpos : 0 < Di := D_pos _ (radix_pos hq1) i
+  have hDi' : (Di : ℝ) = Params.D n q (i.val + 1) := by rw [hDi, D_radix]
+  have hx := trace_prefixSum_eq_of_color_eq n q k S hc i
+  rw [prefixSum_eq_prefixSumBelow_add w, prefixSum_eq_prefixSumBelow_add w'] at hx ht
+  refine S.decoding_eq (Q := (Di : ℤ)) (by exact_mod_cast hDpos) (u := prefixSumBelow n q k w i)
+    (u' := prefixSumBelow n q k w' i) ?_ ?_ ?_
+  · push_cast
+    exact hx
+  · push_cast
+    exact ht
+  · push_cast
+    have hu := norm_emb_le fun ε ↦ abs_prefixSumBelow_le S hq1 hρ0 hw i ε
+    have hu' := norm_emb_le fun ε ↦ abs_prefixSumBelow_le S hq1 hρ0 hw' i ε
+    rw [hn] at hu hu'
+    rw [hDi']
+    have hD1 : (1 : ℝ) ≤ Params.D n q (i.val + 1) := by exact_mod_cast Params.D_pos hq1 _
+    have hi : (i.val : ℝ) ≤ k + 1 := by
+      have := i.isLt
+      exact_mod_cast (by omega : i.val ≤ k + 1)
+    have hrs := rho_mul_eq hn1 hρ
+    have hs : 0 ≤ Real.sqrt n := Real.sqrt_nonneg _
+    have hb : Real.sqrt n * (ρ * i.val * Params.D n q (i.val + 1)) ≤
+        (Params.D n q (i.val + 1) : ℝ) / 100 := by
+      calc Real.sqrt n * (ρ * i.val * Params.D n q (i.val + 1))
+          = ρ * i.val * Real.sqrt n * Params.D n q (i.val + 1) := by ring
+        _ ≤ ρ * (k + 1) * Real.sqrt n * Params.D n q (i.val + 1) :=
+            mul_le_mul_of_nonneg_right
+              (mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left hi hρ0) hs)
+              (Nat.cast_nonneg _)
+        _ = (Params.D n q (i.val + 1) : ℝ) / 100 := by rw [hrs]; ring
+    linarith
+
+/-- Blueprint T01c (collision): if `p(a', w') = p(a, w) + μ v(w)` with `a, a' ∈ A ^ k` and
+`w, w' ∈ B`, then `(a', w') = (a, w)`. -/
+theorem no_collision (S : Scaffold b σ φ K₀ K₁) (hn : Fintype.card ι = n) (hn1 : 1 ≤ n)
+    (hqF : Fintype.card F = q) (hq1 : 1 ≤ q) (hρ : ρ = 1 / (100 * (k + 1) * Real.sqrt n))
+    (hγ : γ = 1 / 10) {s : ℤ} {A : Finset R} (hA : A ⊆ S.boxFinset (γ * Params.M n q))
+    (hAs : ∀ a ∈ A, trace σ a = s) {B : Finset (Fin k → R)} (hB : B ⊆ digitSpace S n q k ρ)
+    (hBc : ∀ w ∈ B, ∀ w' ∈ B, color σ n q k w = color σ n q k w')
+    {a a' w w' : Fin k → R} (ha : a ∈ Fintype.piFinset fun _ ↦ A) (hw : w ∈ B)
+    (ha' : a' ∈ Fintype.piFinset fun _ ↦ A) (hw' : w' ∈ B) (μ : F)
+    (hcol : pt φ n q k a' w' = pt φ n q k a w + μ • dir φ w) : a' = a ∧ w' = w := by
+  rw [Fintype.mem_piFinset] at ha ha'
+  -- the last coordinate determines `μ`
+  have hlast := congrFun hcol (Fin.last k)
+  simp only [Pi.add_apply, Pi.smul_apply, pt_last, dir_last, smul_eq_mul, mul_one] at hlast
+  have hμ : μ = φ (base n q k w') - φ (base n q k w) := by rw [hlast]; ring
+  -- the first `k` coordinates
+  have hcoord : ∀ i : Fin k, φ (a' i) = φ (a i) + μ * φ (w i) := fun i ↦ by
+    have := congrFun hcol (Fin.castSucc i)
+    simpa only [Pi.add_apply, Pi.smul_apply, pt_castSucc, dir_castSucc, smul_eq_mul] using this
+  by_cases hww : w' = w
+  · subst hww
+    have hμ0 : μ = 0 := by rw [hμ, sub_self]
+    refine ⟨funext fun i ↦ ?_, rfl⟩
+    have := hcoord i
+    rw [hμ0, zero_mul, add_zero] at this
+    exact S.injOn_A hn hn1 hqF hq1 hγ hA (ha' i) (ha i) this
+  · exfalso
+    classical
+    -- the largest index where `w'` and `w` differ
+    obtain ⟨i₀, hi₀⟩ := Function.ne_iff.mp hww
+    set Dset : Finset (Fin k) := Finset.univ.filter fun i ↦ w' i ≠ w i with hDset
+    have hne : Dset.Nonempty := ⟨i₀, by simp [hDset, hi₀]⟩
+    set i : Fin k := Dset.max' hne with hi
+    have hi_mem : w' i ≠ w i := by
+      have := Finset.max'_mem Dset hne
+      simpa [hDset] using this
+    have hgt : ∀ j, i < j → w' j = w j := fun j hj ↦ by
+      by_contra hj'
+      have hjD : j ∈ Dset := by simp [hDset, hj']
+      exact absurd (Finset.le_max' Dset j hjD) (not_le.mpr hj)
+    -- `t = b(w') - b(w) = yᵢ(w') - yᵢ(w)` and `μ = φ t`
+    set t : R := prefixSum n q k w' i - prefixSum n q k w i with ht
+    have hbt : base n q k w' - base n q k w = t := base_sub_base_eq w w' i hgt
+    have hμt : μ = φ t := by rw [hμ, ← map_sub, hbt]
+    -- `δ = a'ᵢ - aᵢ - wᵢ t` lies in the kernel of `φ` and in a small box
+    have hδ0 : φ (a' i - a i - w i * t) = 0 := by
+      rw [map_sub, map_sub, map_mul, hcoord i, hμt]
+      ring
+    have hδ : ∀ ε, |σ ε (a' i - a i - w i * t)| ≤
+        2 * γ * Params.M n q + 2 * ρ ^ 2 * (k + 1) * Params.M n q := fun ε ↦ by
+      have h1 : ∀ ε, |σ ε (a' i - a i)| ≤ γ * Params.M n q + γ * Params.M n q :=
+        box_sub (S.mem_boxFinset.mp (hA (ha' i))) (S.mem_boxFinset.mp (hA (ha i)))
+      have h2 : ∀ ε, |σ ε (w i * t)| ≤ 2 * ρ ^ 2 * (k + 1) * Params.M n q := fun ε ↦
+        abs_mul_sub_prefixSum_le S hn1 hq1 hρ (hB hw) (hB hw') i ε
+      have := box_sub h1 h2 ε
+      linarith
+    have heq : a' i - a i = w i * t :=
+      sub_eq_zero.mp (S.eq_zero_of_map_eq_zero_of_small hn hn1 hqF hq1 hρ hγ hδ hδ0)
+    -- the traces of `a'ᵢ` and `aᵢ` agree, so `trace (wᵢ t) = 0`
+    have htr : trace σ (w i * t) = 0 := by
+      rw [← heq, trace_sub, hAs _ (ha' i), hAs _ (ha i), sub_self]
+    -- decoding gives `wᵢ = w'ᵢ`, a contradiction
+    exact hi_mem
+      (S.digit_eq_of_trace_eq_zero hn hn1 hq1 hρ (hB hw) (hB hw') (hBc w hw w' hw') i htr).symm
+
+end Collision
+
+/-! ### Blueprint T01: main statements -/
+
+section Main
+
+variable {R ι κ F : Type*} [CommRing R] [Fintype ι] [Fintype κ] [Field F] [Fintype F]
+variable {b : Module.Basis κ ℤ R} {σ : ι → R →+* ℝ} {φ : R →+* F} {K₀ K₁ : ℝ}
+variable {n q k : ℕ} {ρ γ : ℝ} [DecidableEq F]
+
+/-- Blueprint T01 (main statement): the product set `P = ptSet φ n q k A B` satisfies the
+hypothesis of P01: through every `u ∈ P` there is a direction `v ≠ 0` whose punctured line
+`u + t v` (`t ≠ 0`) misses `P`. Here `A ⊆ box (γ M)` is a trace fiber and `B ⊆ digitSpace` is a
+color class, with `ρ = 1 / (100 (k + 1) √n)` and `γ = 1 / 10`. -/
+theorem tangent_hypothesis (S : Scaffold b σ φ K₀ K₁) (hn : Fintype.card ι = n) (hn1 : 1 ≤ n)
+    (hqF : Fintype.card F = q) (hq1 : 1 ≤ q) (hρ : ρ = 1 / (100 * (k + 1) * Real.sqrt n))
+    (hγ : γ = 1 / 10) {s : ℤ} {A : Finset R} (hA : A ⊆ S.boxFinset (γ * Params.M n q))
+    (hAs : ∀ a ∈ A, trace σ a = s) {B : Finset (Fin k → R)} (hB : B ⊆ digitSpace S n q k ρ)
+    (hBc : ∀ w ∈ B, ∀ w' ∈ B, color σ n q k w = color σ n q k w') :
+    ∀ u ∈ ptSet φ n q k A B, ∃ v : Fin (k + 1) → F, v ≠ 0 ∧
+      ∀ t : F, t ≠ 0 → u + t • v ∉ ptSet φ n q k A B := by
+  intro u hu
+  obtain ⟨a, w, ha, hw, rfl⟩ := exists_pt_eq φ hu
+  refine ⟨dir φ w, dir_ne_zero φ w, fun t ht hmem ↦ ?_⟩
+  obtain ⟨a', w', ha', hw', heq⟩ := exists_pt_eq φ hmem
+  obtain ⟨rfl, rfl⟩ := S.no_collision hn hn1 hqF hq1 hρ hγ hA hAs hB hBc ha hw ha' hw' t heq
+  have := congrFun heq (Fin.last k)
+  simp only [Pi.add_apply, Pi.smul_apply, pt_last, dir_last, smul_eq_mul, mul_one] at this
+  exact ht (by linear_combination -this)
+
+/-- Blueprint T01: `#P = #A ^ k * #B`. -/
+theorem card_ptSet (S : Scaffold b σ φ K₀ K₁) (hn : Fintype.card ι = n) (hn1 : 1 ≤ n)
+    (hqF : Fintype.card F = q) (hq1 : 1 ≤ q) (hρ : ρ = 1 / (100 * (k + 1) * Real.sqrt n))
+    (hγ : γ = 1 / 10) {A : Finset R} (hA : A ⊆ S.boxFinset (γ * Params.M n q))
+    {B : Finset (Fin k → R)} (hB : B ⊆ digitSpace S n q k ρ) :
+    (ptSet φ n q k A B).card = A.card ^ k * B.card := by
+  rw [ptSet, Fintype.card_piFinset, Fin.prod_univ_castSucc]
+  simp only [ptFamily_castSucc, ptFamily_last, Finset.prod_const, Finset.card_univ,
+    Fintype.card_fin]
+  rw [Finset.card_image_of_injOn (S.injOn_A hn hn1 hqF hq1 hγ hA),
+    Finset.card_image_of_injOn (S.injOn_base_B hn hn1 hqF hq1 hρ hB)]
+
+/-- Blueprint T01 + P01: the complement `univ \ P` of the product set is a Nikodym set in
+`F ^ (k + 1)` (for `k ≥ 1`, i.e. `h = k + 1 ≥ 2`). -/
+theorem isNikodym_univ_sdiff_ptSet (S : Scaffold b σ φ K₀ K₁) (hk : 1 ≤ k)
+    (hn : Fintype.card ι = n) (hn1 : 1 ≤ n) (hqF : Fintype.card F = q) (hq1 : 1 ≤ q)
+    (hρ : ρ = 1 / (100 * (k + 1) * Real.sqrt n)) (hγ : γ = 1 / 10) {s : ℤ} {A : Finset R}
+    (hA : A ⊆ S.boxFinset (γ * Params.M n q)) (hAs : ∀ a ∈ A, trace σ a = s)
+    {B : Finset (Fin k → R)} (hB : B ⊆ digitSpace S n q k ρ)
+    (hBc : ∀ w ∈ B, ∀ w' ∈ B, color σ n q k w = color σ n q k w') :
+    IsNikodym (Finset.univ \ ptSet φ n q k A B) :=
+  isNikodym_univ_sdiff_piFinset (by omega) (ptFamily φ n q k A B)
+    (S.tangent_hypothesis hn hn1 hqF hq1 hρ hγ hA hAs hB hBc)
+
+end Main
 
 end Scaffold
 

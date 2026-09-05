@@ -19,7 +19,7 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | C01 trace fiber | `Construction/Fibers.lean` | done | needs S03 |
 | C02 energy fiber | `Construction/Fibers.lean` | wip | needs S03, D01, Q01 |
 | T01 tangent lines | `Construction/Tangent.lean` | wip | needs S, D, Q, C |
-| E01 size of P | `Construction/Count.lean` | wip | needs C, Q02, S03 |
+| E01 size of P | `Construction/Count.lean` | done | needs C, Q02, S03 |
 | E02 fixed-scaffold theorem | `Construction/Count.lean` | open | needs P01, T01, E01 |
 | K01 Kummer independence | `MultiQuadratic/Kummer.lean` | done | |
 | K02 order, embeddings, conjugations | `MultiQuadratic/Order.lean` | done | |
@@ -61,14 +61,14 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | B03 affine proper-cut interface | `LowerBound/Algebra/ProperCut.lean` | open | interface theorem |
 | G01 bounded reduction mod grid power | `LowerBound/Grid/Reduction.lean` | wip | needs F01 |
 | G02 CRT for grid point powers | `LowerBound/Grid/CRT.lean` | wip | needs F03 |
-| G03 joint grid jet interpolation | `LowerBound/Grid/Jets.lean` | wip | needs F02, F03, G01, G02 |
-| G04 omitted conditions | `LowerBound/Grid/OmittedConditions.lean` | wip | needs G03 |
+| G03 joint grid jet interpolation | `LowerBound/Grid/Jets.lean` | done | needs F02, F03, G01, G02 |
+| G04 omitted conditions | `LowerBound/Grid/OmittedConditions.lean` | done | needs G03 |
 | L01 jet vanishing on a line | `LowerBound/Lines/Jets.lean` | wip | needs F03, F04 |
 | L02 q−1 roots force line identity | `LowerBound/Lines/Vanishing.lean` | wip | needs F04, L01 |
-| C01 affine point count | `LowerBound/Counting/Points.lean` | open | needs F03, F05, G03, J02, A08 |
+| C01 affine point count | `LowerBound/Counting/Points.lean` | wip | needs F03, F05, G03, J02, A08 |
 | C02 binomial gap estimate | `LowerBound/Arithmetic/BinomialGap.lean` | wip | |
 | C03 Hilbert gap | `LowerBound/Hilbert/Gap.lean` | done | needs H03, A08, C02 |
-| C04 interpolation cut | `LowerBound/InterpolationCut.lean` | open | needs F05, G04, J02, C03, L02 |
+| C04 interpolation cut | `LowerBound/InterpolationCut.lean` | wip | needs F05, G04, J02, C03, L02 |
 | C05 multiplicity choice | `LowerBound/Arithmetic/Multiplicity.lean` | done | |
 | C06 assigning lines to components | `LowerBound/Counting/Components.lean` | wip | needs F05, B03, C04 |
 | C07 weighted selection | `LowerBound/Arithmetic/WeightedSelection.lean` | done | |

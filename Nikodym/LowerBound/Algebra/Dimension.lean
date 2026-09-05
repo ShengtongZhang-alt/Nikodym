@@ -145,6 +145,120 @@ theorem finiteRingKrullDim (K) [Field K] [Algebra K A] [Algebra.FiniteType K A] 
   rw [finiteRingKrullDim_iff_ne_bot_and_top, hn, ← WithBot.coe_natCast, ← WithBot.coe_top]
   exact ⟨WithBot.coe_ne_bot, fun h ↦ ENat.coe_ne_top n (WithBot.coe_inj.mp h)⟩
 
+section Normalized
+
+/-! In this section `A` carries a fixed Noether normalization: an integral, injective algebra
+structure over the polynomial ring `MvPolynomial (Fin s) K`. -/
+
+variable {s : ℕ} [Algebra (MvPolynomial (Fin s) K) A]
+  [Algebra.IsIntegral (MvPolynomial (Fin s) K) A] [FaithfulSMul (MvPolynomial (Fin s) K) A]
+  [IsNoetherianRing A]
+
+/-- Blueprint A01 (4), auxiliary: the extension of a maximal ideal of the polynomial ring to `A`
+lies over it. -/
+private theorem map_liesOver_of_isMaximal (𝔪 : Ideal A) [𝔪.IsMaximal] :
+    ((𝔪.under (MvPolynomial (Fin s) K)).map (algebraMap (MvPolynomial (Fin s) K) A)).LiesOver
+      (𝔪.under (MvPolynomial (Fin s) K)) :=
+  ⟨le_antisymm Ideal.le_comap_map (Ideal.comap_mono (Ideal.map_le_iff_le_comap.mpr le_rfl))⟩
+
+/-- Blueprint A01 (4), auxiliary: over a fixed Noether normalization in `s` variables, every
+maximal ideal of `A` has height `s`. -/
+private theorem height_eq_of_isMaximal_aux (𝔪 : Ideal A) [𝔪.IsMaximal] : 𝔪.height = s := by
+  set S := MvPolynomial (Fin s) K
+  set 𝔫 := 𝔪.under S with h𝔫
+  haveI : 𝔫.IsMaximal := Ideal.IsMaximal.under S 𝔪
+  haveI := Ideal.over_under (A := S) 𝔪
+  haveI : (𝔫.map (algebraMap S A)).LiesOver 𝔫 := map_liesOver_of_isMaximal 𝔪
+  have hfib : (𝔪.map (Ideal.Quotient.mk (𝔫.map (algebraMap S A)))).height = 0 := by
+    have hdim : ringKrullDim (A ⧸ 𝔫.map (algebraMap S A)) ≤ 0 := by
+      calc ringKrullDim (A ⧸ 𝔫.map (algebraMap S A))
+          ≤ ringKrullDim (S ⧸ 𝔫) := ringKrullDim_le_of_isIntegral
+        _ = 0 := ringKrullDim_eq_zero_of_isField
+            ((Ideal.Quotient.maximal_ideal_iff_isField_quotient 𝔫).mp inferInstance)
+    have h := (Ideal.height_le_ringKrullDim_of_isPrime
+      (I := 𝔪.map (Ideal.Quotient.mk (𝔫.map (algebraMap S A))))).trans hdim
+    rw [← WithBot.coe_zero, WithBot.coe_le_coe] at h
+    exact nonpos_iff_eq_zero.mp h
+  rw [Ideal.height_eq_height_add_of_liesOver_of_hasGoingDown 𝔫 𝔪, hfib, add_zero,
+    height_eq_of_isMaximal_mvPolynomial_fin K s 𝔫 inferInstance]
+
+/-- Blueprint A01 (5), auxiliary: over a fixed Noether normalization in `s` variables, a prime of
+height one in `A` has quotient of dimension `s - 1`. -/
+private theorem ringKrullDim_quotient_add_one_aux (P : Ideal A) [P.IsPrime] (hP : P.height = 1) :
+    ringKrullDim (A ⧸ P) + 1 = s := by
+  set S := MvPolynomial (Fin s) K
+  set Q := P.under S with hQ
+  haveI := Ideal.over_under (A := S) P
+  have hQbot : Q ≠ ⊥ := Ideal.under_ne_bot S (Ideal.ne_bot_of_height_eq_one hP)
+  have hQ1 : Q.height = 1 := by
+    apply le_antisymm
+    · have h := Ideal.height_eq_height_add_of_liesOver_of_hasGoingDown Q P
+      rw [hP] at h
+      exact h ▸ le_self_add
+    · exact Order.one_le_iff_pos.mpr (pos_iff_ne_zero.mpr
+        (by rwa [Ne, Ideal.height_eq_zero_iff_eq_bot]))
+  obtain ⟨p, hpQ, hp⟩ := Ideal.IsPrime.exists_mem_prime_of_ne_bot (inferInstance : Q.IsPrime) hQbot
+  have hQp : Q = Ideal.span {p} := Ideal.eq_span_singleton_of_height_eq_one hQ1 hpQ hp
+  have h1 : ringKrullDim (A ⧸ P) = ringKrullDim (S ⧸ Q) := ringKrullDim_eq_of_isIntegral
+  have h2 : ringKrullDim (S ⧸ Q) + 1 ≤ s := by
+    rw [hQp, ← ringKrullDim_mvPolynomial_fin K s]
+    exact ringKrullDim_quotient_succ_le_of_nonZeroDivisor
+      (mem_nonZeroDivisors_of_ne_zero hp.ne_zero)
+  have h3 : (s : WithBot ℕ∞) ≤ ringKrullDim (S ⧸ Q) + 1 := by
+    obtain ⟨𝔫, h𝔫, hQ𝔫⟩ := Q.exists_le_maximal Ideal.IsPrime.ne_top'
+    haveI := h𝔫
+    have h := Ideal.height_le_ringKrullDim_quotient_add_one (p := 𝔫) (r := p) (hQ𝔫 hpQ)
+    rwa [height_eq_of_isMaximal_mvPolynomial_fin K s 𝔫 h𝔫, WithBot.coe_natCast, ← hQp] at h
+  rw [h1]
+  exact le_antisymm h2 h3
+
+end Normalized
+
+/-- Blueprint A01 (4): **maximal ideals of an affine domain have height equal to the
+dimension.** -/
+theorem height_eq_ringKrullDim_of_isMaximal (𝔪 : Ideal A) (h𝔪 : 𝔪.IsMaximal) :
+    (𝔪.height : WithBot ℕ∞) = ringKrullDim A := by
+  obtain ⟨s, g, hinj, hint, hs⟩ :=
+    exists_mvPolynomial_algHom_injective_isIntegral (K := K) (A := A)
+  letI : Algebra (MvPolynomial (Fin s) K) A := g.toRingHom.toAlgebra
+  haveI : Algebra.IsIntegral (MvPolynomial (Fin s) K) A := ⟨hint⟩
+  haveI : FaithfulSMul (MvPolynomial (Fin s) K) A :=
+    (faithfulSMul_iff_algebraMap_injective _ _).mpr hinj
+  haveI : IsNoetherianRing A := Algebra.FiniteType.isNoetherianRing K A
+  haveI := h𝔪
+  rw [height_eq_of_isMaximal_aux (K := K) 𝔪, hs]
+  exact WithBot.coe_natCast s
+
+/-- Blueprint A01 (4): `ℕ∞`-valued form of `height_eq_ringKrullDim_of_isMaximal`. -/
+theorem height_eq_of_isMaximal_of_ringKrullDim_eq {n : ℕ} (hn : ringKrullDim A = n)
+    (𝔪 : Ideal A) (h𝔪 : 𝔪.IsMaximal) : 𝔪.height = n := by
+  have h := height_eq_ringKrullDim_of_isMaximal (K := K) 𝔪 h𝔪
+  rw [hn, ← WithBot.coe_natCast] at h
+  exact WithBot.coe_inj.mp h
+
+/-- Blueprint A01 (5): **a minimal prime over a nonzero element drops the dimension by exactly
+one.** -/
+theorem ringKrullDim_quotient_add_one_of_mem_minimalPrimes {f : A} (hf : f ≠ 0) {P : Ideal A}
+    (hP : P ∈ (Ideal.span {f}).minimalPrimes) :
+    ringKrullDim (A ⧸ P) + 1 = ringKrullDim A := by
+  obtain ⟨s, g, hinj, hint, hs⟩ :=
+    exists_mvPolynomial_algHom_injective_isIntegral (K := K) (A := A)
+  letI : Algebra (MvPolynomial (Fin s) K) A := g.toRingHom.toAlgebra
+  haveI : Algebra.IsIntegral (MvPolynomial (Fin s) K) A := ⟨hint⟩
+  haveI : FaithfulSMul (MvPolynomial (Fin s) K) A :=
+    (faithfulSMul_iff_algebraMap_injective _ _).mpr hinj
+  haveI : IsNoetherianRing A := Algebra.FiniteType.isNoetherianRing K A
+  haveI : P.IsPrime := hP.1.1
+  have hfP : f ∈ P := hP.1.2 (Ideal.mem_span_singleton_self f)
+  have hPbot : P ≠ ⊥ := fun h ↦ hf ((Submodule.mem_bot A).mp (h ▸ hfP))
+  have hP1 : P.height = 1 := by
+    haveI : (Ideal.span {f}).IsPrincipal := ⟨⟨f, rfl⟩⟩
+    apply le_antisymm (Ideal.height_le_one_of_isPrincipal_of_mem_minimalPrimes _ P hP)
+    exact Order.one_le_iff_pos.mpr (pos_iff_ne_zero.mpr
+      (by rwa [Ne, Ideal.height_eq_zero_iff_eq_bot]))
+  rw [hs]
+  exact ringKrullDim_quotient_add_one_aux (K := K) P hP1
+
 end AffineDomain
 
 end Nikodym.LowerBound
