@@ -5,12 +5,12 @@ Authors: Shengtong Zhang
 -/
 
 import Nikodym.Construction.Fibers
+import Nikodym.Construction.Tangent
 
 /-!
 # Counting: the size of the product set
 
-This file implements blueprint node E01 of `docs/nikodym_construction_lean_blueprint.md`
-(node E02 will be added to this file later).
+This file implements blueprint nodes E01 and E02 of `docs/nikodym_construction_lean_blueprint.md`.
 
 Everything is parametrised as in `Nikodym.Construction.Fibers`: `k = h - 1` is the number of
 digits, `n` and `q` are the integer parameters of Q01, the number of real embeddings is
@@ -25,6 +25,9 @@ digit radius is `ρ = 1 / (100 (k+1) √n)` and the trace-fiber radius is `T = �
 * `Scaffold.card_prod_ge`: `|A|^k |B| ≥ E01const n k K₀ · q^((k+1) - 2⁻¹^k - 3(k+1)/n)`, with the
   explicit constant `E01const n k K₀ > 0` (`E01const_pos`), independent of `q` and of the scaffold
   beyond `K₀`.
+* `Scaffold.exists_isNikodym_of_scaffold` (E02): for every scaffold of rank `n` into `F` with
+  `|F| = q ≥ 2^(n 2^k)` and `10 ≤ M`, there is a Nikodym set `N ⊆ F^(k+1)` with
+  `q^(k+1) - |N| ≥ E01const n k K₀ · q^((k+1) - 2⁻¹^k - 3(k+1)/n)`.
 -/
 
 open Finset Real
@@ -57,8 +60,9 @@ noncomputable def traceConst (n : ℕ) (K₀ : ℝ) : ℝ :=
 `|A|^k |B| ≥ c q^((k+1) - 2⁻¹^k - 3(k+1)/n)`. It depends only on `n`, `k = h - 1` and `K₀`. -/
 noncomputable def E01const (n k : ℕ) (K₀ : ℝ) : ℝ := traceConst n K₀ ^ k * energyConst n k K₀
 
-/-- Blueprint E01: `ρ > 0` for `n ≥ 1`. -/
-theorem rho_pos {n : ℕ} (hn : 1 ≤ n) (k : ℕ) : 0 < rho n k := by
+/-- Blueprint E01: `ρ > 0` for `n ≥ 1`. (Named `rho_pos'` because `Scaffold.rho_pos` of T01 is the
+same statement for an arbitrary `ρ` given by the defining equation.) -/
+theorem rho_pos' {n : ℕ} (hn : 1 ≤ n) (k : ℕ) : 0 < rho n k := by
   have hn' : (0 : ℝ) < n := Nat.cast_pos.2 (Nat.succ_le_iff.mp hn)
   unfold rho
   positivity
@@ -70,7 +74,7 @@ theorem gamma_pos : 0 < gamma := by norm_num [gamma]
 theorem digitConst_pos {n k : ℕ} {K₀ : ℝ} (hK₀ : 0 < K₀) (hn : 1 ≤ n) :
     0 < digitConst n k K₀ := by
   have hn' : (0 : ℝ) < n := Nat.cast_pos.2 (Nat.succ_le_iff.mp hn)
-  have := rho_pos hn k
+  have := rho_pos' hn k
   unfold digitConst
   positivity
 
@@ -256,7 +260,7 @@ theorem card_prod_ge (S : Scaffold b σ φ K₀ K₁) (hK₀ : 0 < K₀) (hcard 
   have hq0 : (0 : ℝ) < q := Nat.cast_pos.2 (Nat.succ_le_iff.mp hq1)
   have hq1' : (1 : ℝ) ≤ q := Nat.one_le_cast.2 hq1
   have hA' := card_traceFiber_ge hK₀ hcard hn hk hq gamma_pos hA
-  have hB' := card_energyFiber_ge S hK₀ hcard hn hk hq (rho_pos hn k).le hB
+  have hB' := card_energyFiber_ge S hK₀ hcard hn hk hq (rho_pos' hn k).le hB
   have hcA : 0 < traceConst n K₀ := traceConst_pos hK₀ hn
   have hcB : 0 < energyConst n k K₀ := energyConst_pos (k := k) hK₀ hn
   -- rewrite the two bounds with the named constants
@@ -287,7 +291,59 @@ theorem card_prod_ge (S : Scaffold b σ φ K₀ K₁) (hK₀ : 0 < K₀) (hcard 
 
 end Count
 
--- E02 goes here
+/-! ### Blueprint E02: the fixed-scaffold theorem -/
+
+section FixedScaffold
+
+variable {R ι κ F : Type*} [CommRing R] [Fintype ι] [Fintype κ] [Field F] [Fintype F]
+variable {b : Module.Basis κ ℤ R} {σ : ι → R →+* ℝ} {φ : R →+* F} {K₀ K₁ : ℝ}
+variable {n q k : ℕ}
+
+/-- Blueprint E02: the C02 hypothesis `n ρ² (k+1)² ≤ 1` for `ρ = rho n k`. -/
+theorem card_mul_rho_sq_le (hcard : Fintype.card ι = n) (hn : 1 ≤ n) :
+    Fintype.card ι * rho n k ^ 2 * (k + 1) ^ 2 ≤ 1 := by
+  rw [hcard]
+  have h := rho_mul_eq hn (rfl : rho n k = 1 / (100 * (k + 1) * Real.sqrt n))
+  have hsq : Real.sqrt n ^ 2 = n := Real.sq_sqrt (Nat.cast_nonneg n)
+  calc (n : ℝ) * rho n k ^ 2 * (k + 1) ^ 2 = (rho n k * (k + 1) * Real.sqrt n) ^ 2 := by
+        rw [mul_pow, mul_pow, hsq]
+        ring
+    _ = (1 / 100) ^ 2 := by rw [h]
+    _ ≤ 1 := by norm_num
+
+/-- Blueprint E02 (fixed-scaffold theorem): under `Scaffold`, `K₀ > 0`, `Fintype.card ι = n ≥ 1`,
+`k = h - 1 ≥ 1`, `Fintype.card F = q ≥ 2^(n 2^k)` and `10 ≤ M`, there is a Nikodym set
+`N ⊆ F^(k+1)` with
+
+`q^(k+1) - |N| ≥ E01const n k K₀ · q^((k+1) - 2⁻¹^k - 3(k+1)/n)`.
+
+The set is `univ \ ptSet` for a trace fiber `A` (C01, `T = γ M`) and an energy fiber `B` (C02,
+`ρ = rho n k`); `IsNikodym` is T01 + P01 and the count is T01 + E01. -/
+theorem exists_isNikodym_of_scaffold (S : Scaffold b σ φ K₀ K₁) (hK₀ : 0 < K₀)
+    (hcard : Fintype.card ι = n) (hn : 1 ≤ n) (hk : 1 ≤ k) (hqF : Fintype.card F = q)
+    (hq : 2 ^ (n * 2 ^ k) ≤ q) (hM : 10 ≤ Params.M n q) :
+    ∃ N : Finset (Fin (k + 1) → F), IsNikodym N ∧
+      E01const n k K₀ * (q : ℝ) ^ ((k + 1 : ℝ) - (2 : ℝ)⁻¹ ^ k - 3 * (k + 1) / n) ≤
+        (Fintype.card F : ℝ) ^ (k + 1) - N.card := by
+  classical
+  have hq1 : 1 ≤ q := Params.one_le_q_of_threshold (h := k + 1) hq
+  -- C01 with `T = γ M`
+  have hT : 1 ≤ gamma * Params.M n q := by
+    have : (10 : ℝ) ≤ Params.M n q := by exact_mod_cast hM
+    rw [gamma]
+    linarith
+  obtain ⟨s, A, hA, hAs, hAcard⟩ := S.exists_trace_fiber hK₀ hT
+  -- C02 with `ρ = rho n k`
+  obtain ⟨B, hB, hBc, hBcard⟩ :=
+    S.exists_energy_fiber hq1 (rho_pos' hn k).le (card_mul_rho_sq_le hcard hn)
+  refine ⟨Finset.univ \ ptSet φ n q k A B,
+    S.isNikodym_univ_sdiff_ptSet hk hcard hn hqF hq1 rfl rfl hA hAs hB hBc, ?_⟩
+  rw [card_univ_sdiff_real, S.card_ptSet hcard hn hqF hq1 rfl rfl hA hB]
+  push_cast
+  rw [sub_sub_cancel]
+  exact card_prod_ge S hK₀ hcard hn hk hq hAcard hBcard
+
+end FixedScaffold
 
 end Scaffold
 

@@ -14,10 +14,9 @@ point of `P`, then the complement `univ \ P` is a Nikodym set. The file also rec
 cardinality identity `|univ \ P| = q^h - |P|` in `ℕ` and in `ℝ`.
 -/
 
-open Classical
-
 namespace Nikodym
 
+open scoped Classical in
 /-- Blueprint P01: if every point of the product `Fintype.piFinset P` has a direction whose
 punctured line misses the product, then the complement is a Nikodym set. Points already outside
 the product are handled by a coordinate-preserving direction `Pi.single k 1`. -/
@@ -43,11 +42,13 @@ theorem isNikodym_univ_sdiff_piFinset {F : Type*} [Field F] [Fintype F] {h : ℕ
     convert hj
     simp [Pi.single_eq_of_ne' hk]
 
+open scoped Classical in
 /-- Blueprint P01: `|univ \ P| = q^h - |P|`. -/
 theorem card_univ_sdiff {F : Type*} [Fintype F] {h : ℕ} (P : Finset (Fin h → F)) :
     (Finset.univ \ P).card = Fintype.card F ^ h - P.card := by
   rw [Finset.card_univ_sdiff, Fintype.card_fun, Fintype.card_fin]
 
+open scoped Classical in
 /-- Blueprint P01: the same identity after coercion to `ℝ`. -/
 theorem card_univ_sdiff_real {F : Type*} [Fintype F] {h : ℕ} (P : Finset (Fin h → F)) :
     ((Finset.univ \ P).card : ℝ) = (Fintype.card F : ℝ) ^ h - P.card := by

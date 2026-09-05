@@ -20,7 +20,7 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | C02 energy fiber | `Construction/Fibers.lean` | wip | needs S03, D01, Q01 |
 | T01 tangent lines | `Construction/Tangent.lean` | done | needs S, D, Q, C |
 | E01 size of P | `Construction/Count.lean` | done | needs C, Q02, S03 |
-| E02 fixed-scaffold theorem | `Construction/Count.lean` | wip | needs P01, T01, E01 |
+| E02 fixed-scaffold theorem | `Construction/Count.lean` | done | needs P01, T01, E01 |
 | K01 Kummer independence | `MultiQuadratic/Kummer.lean` | done | |
 | K02 order, embeddings, conjugations | `MultiQuadratic/Order.lean` | done | |
 | K03 basis and coordinate bound | `MultiQuadratic/Basis.lean` | done | needs K01, K02 |
@@ -30,7 +30,7 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | L02 reduction map | `MultiQuadratic/Legendre.lean` | done | needs K02 |
 | K06 scaffold instance | `MultiQuadratic/Scaffold.lean` | done | needs K03–K05, L02, S01 |
 | M01 exponent arithmetic | `Construction/Arith.lean` | done | |
-| M02 final theorem | `Construction/Main.lean` | wip | needs E02, K06, L01, M01 |
+| M02 final theorem | `Construction/Main.lean` | done | needs E02, K06, L01, M01 |
 
 ## Lower bound — `docs/nikodym_bound_lean_blueprint.md`
 
