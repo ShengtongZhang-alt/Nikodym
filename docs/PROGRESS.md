@@ -72,7 +72,7 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | C05 multiplicity choice | `LowerBound/Arithmetic/Multiplicity.lean` | done | |
 | C06 assigning lines to components | `LowerBound/Counting/Components.lean` | open | needs F05, B03, C04 |
 | C07 weighted selection | `LowerBound/Arithmetic/WeightedSelection.lean` | done | |
-| C08 curve base case | `LowerBound/Counting/Curves.lean` | open | needs F04, F05, A01, A04, A05 |
+| C08 curve base case | `LowerBound/Counting/Curves.lean` | wip | needs F04, F05, A01, A04, A05 |
 | C09 carrier theorem | `LowerBound/CarrierBound.lean` | open | needs C01, C04–C08 |
 | C10 Nikodym, natural-number form | `LowerBound/Main.lean` | open | needs F05, C09 |
 | C11 real corollary | `LowerBound/Main.lean` | open | needs C10 |
