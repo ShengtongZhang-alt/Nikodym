@@ -44,7 +44,8 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | H01 standard monomials | `LowerBound/Hilbert/StandardMonomials.lean` | done | needs F01, F02 |
 | H02 weighted shadow inequality | `LowerBound/Hilbert/Shadow.lean` | done | |
 | H03 normalized Hilbert inequality | `LowerBound/Hilbert/Normalized.lean` | done | needs H01, H02 |
-| A01 dimension and closed-point height | `LowerBound/Algebra/Dimension.lean` | open | substantial |
+| I00 algebra interface (`quotDim`, `degree`, `AlgebraInterface`) | `LowerBound/Algebra/Interface.lean` | wip | new node; assembly is conditional on it |
+| A01 dimension and closed-point height | `LowerBound/Algebra/Dimension.lean` | wip | substantial |
 | A02 linear Noether normalization | `LowerBound/Algebra/LinearNormalization.lean` | open | substantial |
 | A03 Hilbert polynomials, additivity | `LowerBound/Algebra/HilbertPolynomial.lean` | open | substantial |
 | A04 dimension, degree, normalization rank | `LowerBound/Algebra/Degree.lean` | open | substantial |
