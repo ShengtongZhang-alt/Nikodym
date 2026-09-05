@@ -41,9 +41,9 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | F03 point ideals, jets | `LowerBound/Jets/Defs.lean` | done | needs F01 |
 | F04 lines and line ideals | `LowerBound/Lines/Basic.lean` | wip | needs F01, F02 |
 | F05 private families | `LowerBound/PrivateFamily.lean` | wip | needs F04 |
-| H01 standard monomials | `LowerBound/Hilbert/StandardMonomials.lean` | wip | needs F01, F02 |
+| H01 standard monomials | `LowerBound/Hilbert/StandardMonomials.lean` | done | needs F01, F02 |
 | H02 weighted shadow inequality | `LowerBound/Hilbert/Shadow.lean` | done | |
-| H03 normalized Hilbert inequality | `LowerBound/Hilbert/Normalized.lean` | open | needs H01, H02 |
+| H03 normalized Hilbert inequality | `LowerBound/Hilbert/Normalized.lean` | wip | needs H01, H02 |
 | A01 dimension and closed-point height | `LowerBound/Algebra/Dimension.lean` | open | substantial |
 | A02 linear Noether normalization | `LowerBound/Algebra/LinearNormalization.lean` | open | substantial |
 | A03 Hilbert polynomials, additivity | `LowerBound/Algebra/HilbertPolynomial.lean` | open | substantial |
