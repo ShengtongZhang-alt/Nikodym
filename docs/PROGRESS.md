@@ -58,7 +58,7 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | A05 affine/homogeneous bridge | `LowerBound/Algebra/Homogenization.lean` | done | substantial |
 | NS shared setting of A06′/A07′/A08/A04′, `IsHomogeneousElem` | `LowerBound/Algebra/NormalizationSetting.lean` | done | design doc |
 | A06′ homogeneous fraction basis, conductor | `LowerBound/Algebra/FreeFiber.lean` | wip | |
-| A07 graded norm degree control | `LowerBound/Algebra/GradedNorm.lean` | wip | substantial |
+| A07 graded norm degree control | `LowerBound/Algebra/GradedNorm.lean` | done | substantial |
 | A08 uniform Hilbert upper bound | `LowerBound/Hilbert/DegreeUpper.lean` | open | interface theorem |
 | A09 graded chart | — | dropped | replaced by A06′/A07′ (design doc) |
 | J01 tangent cone, local parameters | `LowerBound/Algebra/LocalParameters.lean` | done | substantial |
