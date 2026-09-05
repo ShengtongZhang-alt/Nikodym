@@ -54,12 +54,12 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | TR5, TR7 assemble `algebraInterface` | `LowerBound/Algebra/Transfer.lean` | wip | needs everything |
 | A02 linear Noether normalization | `LowerBound/Algebra/LinearNormalization.lean` | done | substantial |
 | A03 Hilbert polynomials, additivity | `LowerBound/Algebra/HilbertPolynomial.lean` | done | substantial |
-| A04 dimension, degree, normalization rank | `LowerBound/Algebra/Degree.lean` | open | substantial |
+| A04 dimension, degree, normalization rank | `LowerBound/Algebra/Degree.lean` | wip | substantial |
 | A05 affine/homogeneous bridge | `LowerBound/Algebra/Homogenization.lean` | done | substantial |
 | NS shared setting of A06′/A07′/A08/A04′, `IsHomogeneousElem` | `LowerBound/Algebra/NormalizationSetting.lean` | done | design doc |
 | A06′ homogeneous fraction basis, conductor | `LowerBound/Algebra/FreeFiber.lean` | done | |
 | A07 graded norm degree control | `LowerBound/Algebra/GradedNorm.lean` | done | substantial |
-| A08 uniform Hilbert upper bound | `LowerBound/Hilbert/DegreeUpper.lean` | open | interface theorem |
+| A08 uniform Hilbert upper bound | `LowerBound/Hilbert/DegreeUpper.lean` | wip | interface theorem |
 | A09 graded chart | — | dropped | replaced by A06′/A07′ (design doc) |
 | J01 tangent cone, local parameters | `LowerBound/Algebra/LocalParameters.lean` | done | substantial |
 | J02 local jet minimum | `LowerBound/Jets/LowerBound.lean` | done | interface theorem |
