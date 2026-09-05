@@ -48,7 +48,7 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | A01 dimension and closed-point height | `LowerBound/Algebra/Dimension.lean` | done | substantial |
 | D01 quotient dimension via primes | `LowerBound/Algebra/DimensionExtra.lean` | wip | design doc |
 | GL graded lemmas + `homHilbert` | `LowerBound/Algebra/GradedLemmas.lean` | wip | design doc |
-| PA polynomial asymptotics, `evPoly` refactor | `LowerBound/Algebra/PolyAsymptotics.lean` | wip | design doc |
+| PA polynomial asymptotics, `evPoly` refactor | `LowerBound/Algebra/PolyAsymptotics.lean` | done | design doc |
 | TR0–TR2, TR6 base change (Hilbert, jets) | `LowerBound/Algebra/BaseChange.lean` | wip | design doc |
 | TR3–TR4 base change (dimension, primes) | `LowerBound/Algebra/BaseChangePrime.lean` | wip | design doc |
 | TR5, TR7 assemble `algebraInterface` | `LowerBound/Algebra/BaseChange.lean` | open | needs everything |

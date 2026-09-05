@@ -21,10 +21,13 @@ nodes **A08**, **J02**, **B03** and the algebraic half of **C08**) as the `Prop`
   `coe_quotDim`). We prove `quotDim_bot : quotDim ⊥ = d`, `quotDim_top`,
   `quotDim_le : quotDim I ≤ d`, `quotDim_lineIdeal : quotDim λ_{b,v} = 1`, antitonicity
   `quotDim_anti`, and strict antitonicity along strict inclusions of primes `quotDim_lt_of_lt`.
+* `Nikodym.LowerBound.evPoly h : Polynomial ℚ`, the eventual polynomial of a function
+  `h : ℕ → ℕ` (junk `0` if none exists), with `evPoly_spec`, uniqueness `evPoly_eq` and
+  `evPoly_congr`.
 * `Nikodym.LowerBound.affineHilbertPoly I : Polynomial ℚ`, the eventual polynomial of the affine
-  Hilbert function `t ↦ hilbert I t` (junk `0` if none exists), with its specification
-  `affineHilbertPoly_spec`, uniqueness `affineHilbertPoly_eq`, and the values at `⊥`, `⊤` and at
-  line ideals.
+  Hilbert function `t ↦ hilbert I t`, definitionally `evPoly (hilbert I)`
+  (`affineHilbertPoly_eq_evPoly`), with its specification `affineHilbertPoly_spec`, uniqueness
+  `affineHilbertPoly_eq`, and the values at `⊥`, `⊤` and at line ideals.
 * `Nikodym.LowerBound.degree I : ℕ`, the degree `(leading coefficient) * (natDegree)!` of the affine
   Hilbert polynomial, with `degree_bot = 1`, `degree_top = 0`, `degree_lineIdeal = 1`.
 * `Nikodym.LowerBound.AlgebraInterface K d`: the input theorems A08, J02, B03, C08 as fields. The
@@ -170,11 +173,41 @@ theorem eventuallyEq_nat_unique {p q : Polynomial ℚ}
     exact hN (n + N) (Nat.le_add_left N n)
 
 open scoped Classical in
-/-- Blueprint A03: the eventual polynomial of the affine Hilbert function `t ↦ hilbert I t`
-(junk `0` if none exists). -/
-noncomputable def affineHilbertPoly (I : Ideal (MvPolynomial (Fin d) K)) : Polynomial ℚ :=
-  if h : ∃ p : Polynomial ℚ, ∀ᶠ t : ℕ in atTop, (hilbert I t : ℚ) = p.eval (t : ℚ) then h.choose
+/-- Blueprint A03: the eventual polynomial of a function `h : ℕ → ℕ`, i.e. the unique
+`p : ℚ[X]` with `h t = p.eval t` for all large `t` (junk `0` if none exists). -/
+noncomputable def evPoly (h : ℕ → ℕ) : Polynomial ℚ :=
+  if hp : ∃ p : Polynomial ℚ, ∀ᶠ t : ℕ in atTop, (h t : ℚ) = p.eval (t : ℚ) then hp.choose
   else 0
+
+/-- Blueprint A03: if `h` is eventually polynomial, `evPoly h` is that polynomial. -/
+theorem evPoly_spec (h : ℕ → ℕ)
+    (hp : ∃ p : Polynomial ℚ, ∀ᶠ t : ℕ in atTop, (h t : ℚ) = p.eval (t : ℚ)) :
+    ∀ᶠ t : ℕ in atTop, (h t : ℚ) = (evPoly h).eval (t : ℚ) := by
+  classical
+  rw [evPoly, dif_pos hp]
+  exact hp.choose_spec
+
+/-- Blueprint A03: the eventual polynomial is determined by the function. -/
+theorem evPoly_eq (h : ℕ → ℕ) {p : Polynomial ℚ}
+    (hp : ∀ᶠ t : ℕ in atTop, (h t : ℚ) = p.eval (t : ℚ)) : evPoly h = p :=
+  eventuallyEq_nat_unique <|
+    ((evPoly_spec h ⟨p, hp⟩).and hp).mono fun _ ht ↦ ht.1.symm.trans ht.2
+
+/-- Blueprint A03: equal functions have equal eventual polynomials (used across base change,
+where the two Hilbert functions live over different fields). -/
+theorem evPoly_congr (h₁ h₂ : ℕ → ℕ) (e : h₁ = h₂) : evPoly h₁ = evPoly h₂ := by
+  subst e
+  rfl
+
+/-- Blueprint A03: the eventual polynomial of the affine Hilbert function `t ↦ hilbert I t`
+(junk `0` if none exists); definitionally `evPoly (hilbert I)`. -/
+noncomputable def affineHilbertPoly (I : Ideal (MvPolynomial (Fin d) K)) : Polynomial ℚ :=
+  evPoly (hilbert I)
+
+/-- Blueprint A03: `affineHilbertPoly I = evPoly (hilbert I)`, by definition. -/
+theorem affineHilbertPoly_eq_evPoly (I : Ideal (MvPolynomial (Fin d) K)) :
+    affineHilbertPoly I = evPoly (hilbert I) :=
+  rfl
 
 /-- Blueprint A03/A04: the degree `deg I = (leading coefficient of the affine Hilbert polynomial)
 times `(natDegree)!`, as a natural number. -/
@@ -185,16 +218,13 @@ noncomputable def degree (I : Ideal (MvPolynomial (Fin d) K)) : ℕ :=
 that polynomial. -/
 theorem affineHilbertPoly_spec (I : Ideal (MvPolynomial (Fin d) K))
     (h : ∃ p : Polynomial ℚ, ∀ᶠ t : ℕ in atTop, (hilbert I t : ℚ) = p.eval (t : ℚ)) :
-    ∀ᶠ t : ℕ in atTop, (hilbert I t : ℚ) = (affineHilbertPoly I).eval (t : ℚ) := by
-  classical
-  rw [affineHilbertPoly, dif_pos h]
-  exact h.choose_spec
+    ∀ᶠ t : ℕ in atTop, (hilbert I t : ℚ) = (affineHilbertPoly I).eval (t : ℚ) :=
+  evPoly_spec (hilbert I) h
 
 /-- Blueprint A03: the affine Hilbert polynomial is determined by the Hilbert function. -/
 theorem affineHilbertPoly_eq (I : Ideal (MvPolynomial (Fin d) K)) {p : Polynomial ℚ}
     (hp : ∀ᶠ t : ℕ in atTop, (hilbert I t : ℚ) = p.eval (t : ℚ)) : affineHilbertPoly I = p :=
-  eventuallyEq_nat_unique <|
-    ((affineHilbertPoly_spec I ⟨p, hp⟩).and hp).mono fun _ ht ↦ ht.1.symm.trans ht.2
+  evPoly_eq (hilbert I) hp
 
 /-- Blueprint A03: the polynomial `t ↦ (t + d).choose d` over `ℚ`, namely
 `(1 / d!) * (ascPochhammer ℚ d).comp (X + 1)`. -/
