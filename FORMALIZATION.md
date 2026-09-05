@@ -9,10 +9,16 @@ the axiom report of each of them (`#print axioms`) contains only `propext`,
 - `Nikodym.card_compl_pow_mul_card_le` — the lower bound in natural-number
   form, blueprint node C10.
 - `Nikodym.card_ge_pow_sub` — the lower bound as displayed in
-  `docs/Nikodym_sharp_power_saving.tex`, Corollary 4, equation (2), blueprint
-  node C11.
+  `docs/Nikodym_sharp_power_saving.tex`, Corollary 2 (label `cor:nikodym`),
+  blueprint node C11.
 - `Nikodym.exists_isNikodym_card_le` — the construction,
-  `docs/nikodym_construction.tex`, Corollary 1.2, equation (3).
+  `docs/nikodym_construction.tex`, Corollary 1.2 (label `cor:uniform`).
+
+The same three statements, together with the definition `Nikodym.IsNikodym`,
+are restated verbatim in the Mathlib-only module `Challenge.lean` for the
+Palomar registry; `comparator.json` lists them, and Comparator checks that
+`Solution.lean` (which imports `Nikodym.Main`) proves exactly those statements
+from the standard axioms.
 
 ## Correspondence with the papers
 

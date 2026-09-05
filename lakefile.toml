@@ -1,7 +1,7 @@
 name = "Nikodym"
 version = "0.1.0"
 keywords = ["math"]
-defaultTargets = ["Nikodym"]
+defaultTargets = ["Nikodym", "Challenge", "Solution"]
 
 [leanOptions]
 pp.unicode.fun = true # pretty-prints `fun a ↦ b`
@@ -17,3 +17,13 @@ rev = "v4.33.0-rc1"
 [[lean_lib]]
 name = "Nikodym"
 globs = ["Nikodym.+"]
+
+# Palomar / Comparator surface: `Challenge` is the Mathlib-only statement module a reader
+# audits; `Solution` imports the full development and supplies the proofs.
+[[lean_lib]]
+name = "Challenge"
+roots = ["Challenge"]
+
+[[lean_lib]]
+name = "Solution"
+roots = ["Solution"]

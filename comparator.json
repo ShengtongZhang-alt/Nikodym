@@ -1,0 +1,12 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "Nikodym.card_compl_pow_mul_card_le",
+    "Nikodym.card_ge_pow_sub",
+    "Nikodym.exists_isNikodym_card_le"
+  ],
+  "definition_names": [],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+  "enable_nanoda": true
+}
