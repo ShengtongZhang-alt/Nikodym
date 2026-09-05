@@ -30,11 +30,11 @@ $$
 |N| \le q^d - q^{d - 2^{1-d} - \varepsilon}.
 $$
 
-Together these give $\text{Nik}(d,q) = q^d - q^{d-2^{1-d}+o(1)}$ over all prime fields, resolving the finite field Nikodym problem over prime fields.
+Together these give $\text{Nik}(d,q) = q^d - q^{d-2^{1-d}+o(1)}$ over all prime fields, resolving the finite field Nikodym problem over prime fields up to a subpolynomial factor.
 
 ## What we are missing
 
-The tight exponent when $q$ is a prime power. Our method could cover the case when the power of $q$ is not too large, but the regime in which the characteristics of $q$ is fixed remains open.
+The tight exponent when $q$ is a prime power. Our method might be able cover the case when the power of $q$ is not too large, but the regime in which the characteristics of $q$ is fixed remains open.
 
 ## Writeups
 
