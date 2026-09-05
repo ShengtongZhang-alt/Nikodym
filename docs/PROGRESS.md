@@ -53,7 +53,7 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | TR3–TR4 base change (dimension, primes) | `LowerBound/Algebra/BaseChangePrime.lean` | wip | design doc |
 | TR5, TR7 assemble `algebraInterface` | `LowerBound/Algebra/BaseChange.lean` | open | needs everything |
 | A02 linear Noether normalization | `LowerBound/Algebra/LinearNormalization.lean` | wip | substantial |
-| A03 Hilbert polynomials, additivity | `LowerBound/Algebra/HilbertPolynomial.lean` | wip | substantial |
+| A03 Hilbert polynomials, additivity | `LowerBound/Algebra/HilbertPolynomial.lean` | done | substantial |
 | A04 dimension, degree, normalization rank | `LowerBound/Algebra/Degree.lean` | open | substantial |
 | A05 affine/homogeneous bridge | `LowerBound/Algebra/Homogenization.lean` | wip | substantial |
 | A06′ homogeneous fraction basis, conductor | `LowerBound/Algebra/FreeFiber.lean` | open | |
