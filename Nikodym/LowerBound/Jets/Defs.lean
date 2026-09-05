@@ -27,7 +27,7 @@ The main results are
 * `instModuleFiniteJetSpace`: every jet space is finite-dimensional;
 * `finrank_quotient_pointIdeal_pow` / `jetDim_bot`:
   `dim_K (P_d ⧸ 𝔪ₓ ^ r) = (r - 1 + d).choose d` for `r ≥ 1`, and the equivalent
-  `jetDim_bot' : jetDim ⊥ x r = (r + d - 1).choose d`;
+  `jetDim_pointIdeal_pow : jetDim ⊥ x r = (r + d - 1).choose d`;
 * `jetSpace_subsingleton_of_not_le` / `jetDim_eq_zero_of_not_le`: if `I ⊄ 𝔪ₓ` then
   `Q_{I,x}(r) = 0`.
 
@@ -45,7 +45,7 @@ variable {K : Type*} [Field K] {d : ℕ}
 section PointIdeal
 
 /-- Blueprint F03: the point ideal `𝔪ₓ = ker (ev_x)` of a point `x : Fin d → K`. -/
-def pointIdeal (x : Fin d → K) : Ideal (MvPolynomial (Fin d) K) :=
+noncomputable def pointIdeal (x : Fin d → K) : Ideal (MvPolynomial (Fin d) K) :=
   RingHom.ker (eval x)
 
 variable {x : Fin d → K}
@@ -111,7 +111,7 @@ noncomputable def translate (x : Fin d → K) :
 
 variable (x : Fin d → K)
 
-/-- Blueprint F03: `τₓ f = f(X + x)`, i.e. `τₓ = aeval (X i - x i)`. -/
+/-- Blueprint F03: `τₓ f = f(X - x)`, i.e. `τₓ = aeval (X i - x i)`. -/
 theorem translate_apply (f : MvPolynomial (Fin d) K) :
     translate x f = aeval (fun i ↦ X i - C (x i)) f :=
   rfl
@@ -161,7 +161,9 @@ theorem pointIdeal_eq_map :
     pointIdeal x = (idealOfVars (Fin d) K).map
       (translate x : MvPolynomial (Fin d) K →+* MvPolynomial (Fin d) K) := by
   ext f
-  rw [Ideal.mem_map_iff_of_surjective _ (translate x).surjective, ← pointIdeal_zero]
+  rw [Ideal.mem_map_iff_of_surjective
+    (translate x : MvPolynomial (Fin d) K →+* MvPolynomial (Fin d) K) (translate x).surjective,
+    ← pointIdeal_zero]
   constructor
   · intro hf
     refine ⟨(translate x).symm f, ?_, (translate x).apply_symm_apply f⟩
@@ -187,13 +189,14 @@ theorem pointIdeal_eq_span :
   funext i
   simp
 
-/-- Blueprint F03: for any ideal `J`, `I ⊔ 𝔪ₓ ^ r = τₓ(τₓ⁻¹(I) ⊔ 𝔪₀ ^ r)`. -/
+/-- Blueprint F03: for any ideal `I`, `I ⊔ 𝔪ₓ ^ r = τₓ(τₓ⁻¹(I) ⊔ 𝔪₀ ^ r)`. -/
 theorem sup_pointIdeal_pow_eq_map (I : Ideal (MvPolynomial (Fin d) K)) (r : ℕ) :
     I ⊔ pointIdeal x ^ r =
       (I.comap (translate x : MvPolynomial (Fin d) K →+* MvPolynomial (Fin d) K) ⊔
         idealOfVars (Fin d) K ^ r).map
           (translate x : MvPolynomial (Fin d) K →+* MvPolynomial (Fin d) K) := by
-  rw [Ideal.map_sup, Ideal.map_comap_of_surjective _ (translate x).surjective,
+  rw [Ideal.map_sup, Ideal.map_comap_of_surjective
+    (translate x : MvPolynomial (Fin d) K →+* MvPolynomial (Fin d) K) (translate x).surjective,
     pointIdeal_pow_eq_map]
 
 end Translate
@@ -207,6 +210,7 @@ total degree at most `r - 1`. -/
 theorem map_restrictTotalDegree_eq_top_of_pow_idealOfVars_le {J : Ideal (MvPolynomial (Fin d) K)}
     {r : ℕ} (hJ : idealOfVars (Fin d) K ^ r ≤ J) :
     (restrictTotalDegree (Fin d) K (r - 1)).map (Ideal.Quotient.mkₐ K J).toLinearMap = ⊤ := by
+  classical
   rw [eq_top_iff]
   rintro v -
   obtain ⟨f, rfl⟩ := Ideal.Quotient.mk_surjective v
@@ -272,7 +276,7 @@ section Jets
 variable (I : Ideal (MvPolynomial (Fin d) K)) (x : Fin d → K) (r : ℕ)
 
 /-- Blueprint F03: the jet ideal `I + 𝔪ₓ ^ r` (ideal supremum). -/
-def jetIdeal : Ideal (MvPolynomial (Fin d) K) :=
+noncomputable def jetIdeal : Ideal (MvPolynomial (Fin d) K) :=
   I ⊔ pointIdeal x ^ r
 
 /-- Blueprint F03: the jet space `Q_{I,x}(r) = P_d ⧸ (I + 𝔪ₓ ^ r)`. -/
@@ -326,7 +330,7 @@ theorem jetDim_bot {r : ℕ} (hr : 1 ≤ r) :
   exact (Ideal.quotientEquivAlgOfEq K (jetIdeal_bot x r)).toLinearEquiv.finrank_eq
 
 /-- Blueprint F03: `j_{(0),x}(r) = (r + d - 1).choose d` for `r ≥ 1`. -/
-theorem jetDim_bot' {r : ℕ} (hr : 1 ≤ r) :
+theorem jetDim_pointIdeal_pow {r : ℕ} (hr : 1 ≤ r) :
     jetDim (⊥ : Ideal (MvPolynomial (Fin d) K)) x r = (r + d - 1).choose d := by
   rw [jetDim_bot x hr]
   congr 2

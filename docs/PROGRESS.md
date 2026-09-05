@@ -36,9 +36,9 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 
 | Node | Module | Status | Notes |
 | --- | --- | --- | --- |
-| F01 degree-bounded polynomial spaces | `LowerBound/PolynomialSpaces.lean` | wip | |
-| F02 restriction spaces, Hilbert function | `LowerBound/Hilbert/Defs.lean` | wip | needs F01 |
-| F03 point ideals, jets | `LowerBound/Jets/Defs.lean` | wip | needs F01 |
+| F01 degree-bounded polynomial spaces | `LowerBound/PolynomialSpaces.lean` | done | |
+| F02 restriction spaces, Hilbert function | `LowerBound/Hilbert/Defs.lean` | done | needs F01 |
+| F03 point ideals, jets | `LowerBound/Jets/Defs.lean` | done | needs F01 |
 | F04 lines and line ideals | `LowerBound/Lines/Basic.lean` | open | needs F01, F02 |
 | F05 private families | `LowerBound/PrivateFamily.lean` | open | needs F04 |
 | H01 standard monomials | `LowerBound/Hilbert/StandardMonomials.lean` | open | needs F01, F02 |
