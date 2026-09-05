@@ -50,7 +50,7 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | GL graded lemmas + `homHilbert` | `LowerBound/Algebra/GradedLemmas.lean` | wip | design doc |
 | PA polynomial asymptotics, `evPoly` refactor | `LowerBound/Algebra/PolyAsymptotics.lean` | done | design doc |
 | TR0–TR2, TR6 base change (Hilbert, jets) | `LowerBound/Algebra/BaseChange.lean` | wip | design doc |
-| TR3–TR4 base change (dimension, primes) | `LowerBound/Algebra/BaseChangePrime.lean` | wip | design doc |
+| TR3–TR4 base change (dimension, primes) | `LowerBound/Algebra/BaseChangePrime.lean` | done | design doc |
 | TR5, TR7 assemble `algebraInterface` | `LowerBound/Algebra/BaseChange.lean` | open | needs everything |
 | A02 linear Noether normalization | `LowerBound/Algebra/LinearNormalization.lean` | wip | substantial |
 | A03 Hilbert polynomials, additivity | `LowerBound/Algebra/HilbertPolynomial.lean` | done | substantial |
