@@ -46,13 +46,13 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | H03 normalized Hilbert inequality | `LowerBound/Hilbert/Normalized.lean` | done | needs H01, H02 |
 | I00 algebra interface (`quotDim`, `degree`, `AlgebraInterface`) | `LowerBound/Algebra/Interface.lean` | done | new node; assembly is conditional on it |
 | A01 dimension and closed-point height | `LowerBound/Algebra/Dimension.lean` | done | substantial |
-| D01 quotient dimension via primes | `LowerBound/Algebra/DimensionExtra.lean` | wip | design doc |
+| D01 quotient dimension via primes | `LowerBound/Algebra/DimensionExtra.lean` | done | design doc |
 | GL graded lemmas + `homHilbert` | `LowerBound/Algebra/GradedLemmas.lean` | wip | design doc |
 | PA polynomial asymptotics, `evPoly` refactor | `LowerBound/Algebra/PolyAsymptotics.lean` | done | design doc |
 | TR0–TR2, TR6 base change (Hilbert, jets) | `LowerBound/Algebra/BaseChange.lean` | done | design doc |
 | TR3–TR4 base change (dimension, primes) | `LowerBound/Algebra/BaseChangePrime.lean` | done | design doc |
 | TR5, TR7 assemble `algebraInterface` | `LowerBound/Algebra/BaseChange.lean` | open | needs everything |
-| A02 linear Noether normalization | `LowerBound/Algebra/LinearNormalization.lean` | wip | substantial |
+| A02 linear Noether normalization | `LowerBound/Algebra/LinearNormalization.lean` | done | substantial |
 | A03 Hilbert polynomials, additivity | `LowerBound/Algebra/HilbertPolynomial.lean` | done | substantial |
 | A04 dimension, degree, normalization rank | `LowerBound/Algebra/Degree.lean` | open | substantial |
 | A05 affine/homogeneous bridge | `LowerBound/Algebra/Homogenization.lean` | wip | substantial |

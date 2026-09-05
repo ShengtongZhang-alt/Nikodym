@@ -196,11 +196,13 @@ Route (sub-lemmas, each S):
   (`quotDim_lt_of_lt`, `quotDim` antitone). Conclude with D01.
 * A02.e: iterate `quotDim J` times ⇒ `y` with `quotDim (J ⊔ span (range y)) = 0`
   (all `J ⊔ span (range y)` remain homogeneous: `Ideal.IsHomogeneous.sup`, `homogeneous_span`).
-* A02.f `pow_idealOfVars_le_of_quotDim_eq_zero`: homogeneous `J' ≠ ⊤`, `quotDim J' = 0`
-  ⇒ `∃ N, 𝔪ₙ ^ N ≤ J'`. Its minimal primes are homogeneous (A02.c), proper, hence `≤ 𝔪ₙ`, and
+* A02.f `pow_idealOfVars_le_of_quotDim_eq_zero`: homogeneous `J'`, `quotDim J' = 0`
+  ⇒ `∃ N, 𝔪ₙ ^ N ≤ J'` (as implemented, no `J' ≠ ⊤` hypothesis; call as
+  `pow_idealOfVars_le_of_quotDim_eq_zero hJh h0`). Its minimal primes are homogeneous (A02.c), proper, hence `≤ 𝔪ₙ`, and
   maximal (dimension 0 ⇒ `Ring.KrullDimLE 0` ⇒ `Ideal.IsPrime.isMaximal'`), hence `= 𝔪ₙ`; so
   `J'.radical = 𝔪ₙ` (`Ideal.sInf_minimalPrimes`) and `Ideal.exists_pow_le_of_le_radical_of_fg`.
-* A02.g injectivity: with `S := MvPolynomial (Fin s) K`, `s = quotDim J`, finiteness (A02.h) gives
+* A02.g injectivity (`aeval_injective_of_pow_idealOfVars_le`, stated for any `s ≤ quotDim J`):
+  with `S := MvPolynomial (Fin s) K`, finiteness (A02.h) gives
   `Algebra.IsIntegral S (Q ⧸ J)`; the image is `S ⧸ ker` and `ringKrullDim_eq_of_isIntegral` (A01,
   for the injective integral map `S ⧸ ker → Q ⧸ J`) gives `dim (S ⧸ ker) = s`; if `ker ≠ ⊥`,
   `ringKrullDim_quotient_succ_le_of_nonZeroDivisor` (domain `S`) gives `≤ s - 1`, contradiction.
