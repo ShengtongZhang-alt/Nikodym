@@ -28,7 +28,7 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | K05 conjugate norm, small kernel | `MultiQuadratic/Norm.lean` | done | needs K02, K03 |
 | L01 Legendre choice | `MultiQuadratic/Legendre.lean` | done | |
 | L02 reduction map | `MultiQuadratic/Legendre.lean` | done | needs K02 |
-| K06 scaffold instance | `MultiQuadratic/Scaffold.lean` | wip | needs K03–K05, L02, S01 |
+| K06 scaffold instance | `MultiQuadratic/Scaffold.lean` | done | needs K03–K05, L02, S01 |
 | M01 exponent arithmetic | `Construction/Arith.lean` | done | |
 | M02 final theorem | `Construction/Main.lean` | open | needs E02, K06, L01, M01 |
 

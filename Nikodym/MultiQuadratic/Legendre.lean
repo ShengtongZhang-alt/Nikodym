@@ -43,12 +43,13 @@ theorem natCast_ne_zero_of_lt_card {F : Type*} [Field F] [Fintype F]
   · exact (ne_of_lt hlt) heq.symm
 
 /-- Blueprint L01: in a finite field of odd prime cardinality, at least one of `ℓ`, `ℓ'`,
-`ℓℓ'` is a square. Requires `DecidableEq` for the `quadraticChar` API. -/
-theorem exists_isSquare_of_primes {F : Type*} [Field F] [Fintype F] [DecidableEq F]
+`ℓℓ'` is a square. -/
+theorem exists_isSquare_of_primes {F : Type*} [Field F] [Fintype F]
     (hp : (Fintype.card F).Prime) (hodd : Odd (Fintype.card F)) {ℓ ℓ' : ℕ}
     (hℓ : ℓ.Prime) (hℓ' : ℓ'.Prime) (h1 : ℓ < Fintype.card F)
     (h2 : ℓ' < Fintype.card F) :
     IsSquare (ℓ : F) ∨ IsSquare (ℓ' : F) ∨ IsSquare ((ℓ * ℓ' : ℕ) : F) := by
+  classical
   have hℓ0 : (ℓ : F) ≠ 0 := natCast_ne_zero_of_lt_card hp hℓ h1
   have hℓ'0 : (ℓ' : F) ≠ 0 := natCast_ne_zero_of_lt_card hp hℓ' h2
   have _hne2 : ringChar F ≠ 2 := by
@@ -67,15 +68,6 @@ theorem exists_isSquare_of_primes {F : Type*} [Field F] [Fintype F] [DecidableEq
         norm_num
       rw [Nat.cast_mul]
       exact (quadraticChar_one_iff_isSquare hprod0).mp hχprod
-
-/-- Blueprint L01, without `[DecidableEq F]`, via `classical`. -/
-theorem exists_isSquare_of_primes' {F : Type*} [Field F] [Fintype F]
-    (hp : (Fintype.card F).Prime) (hodd : Odd (Fintype.card F)) {ℓ ℓ' : ℕ}
-    (hℓ : ℓ.Prime) (hℓ' : ℓ'.Prime) (h1 : ℓ < Fintype.card F)
-    (h2 : ℓ' < Fintype.card F) :
-    IsSquare (ℓ : F) ∨ IsSquare (ℓ' : F) ∨ IsSquare ((ℓ * ℓ' : ℕ) : F) := by
-  classical
-  exact exists_isSquare_of_primes hp hodd hℓ hℓ' h1 h2
 
 /-- Blueprint L02: a choice of square roots `sⱼ² = rⱼ` in `F` induces `𝒪_r → F`. -/
 def reduce (r : Fin m → ℕ) {F : Type*} [Field F] (s : Fin m → F)
