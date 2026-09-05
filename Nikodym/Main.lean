@@ -5,13 +5,18 @@ Authors: Shengtong Zhang
 -/
 
 import Nikodym.Definition
+import Nikodym.LowerBound.Main
+import Nikodym.Construction.Main
 
 /-!
 # The sharp Nikodym exponent: target statements
 
-This file records the final theorems that the project aims to certify.  **They are not yet
-proved**: each is currently closed by `sorry` and serves as the frozen public interface for
-the development described in `docs/nikodym_bound_lean_blueprint.md`.
+This file records the final theorems that the project aims to certify.  The upper bound
+`exists_isNikodym_card_le` is fully proved (`Nikodym.Construction.Main`).  The two lower-bound
+statements are still closed by `sorry`; their proofs are complete conditionally on the
+commutative-algebra interface `Nikodym.LowerBound.AlgebraInterface`
+(see `Nikodym.LowerBound.Main`), which is being discharged following
+`docs/algebra_backend_design.md`.
 
 Let `F` be a finite field with `q` elements, `d ≥ 2`, and `N ⊆ F^d` a Nikodym set.
 
@@ -36,6 +41,8 @@ variable {F : Type*} [Field F] [Fintype F] {d : ℕ}
 /-- **Lower bound, integer form** (blueprint node C10).  Every Nikodym set `N ⊆ F^d`, `d ≥ 2`,
 satisfies `|F^d \ N| ^ (2 ^ (d - 1)) · q ≤ (8 d ^ 2 + 1) ^ (2 ^ (d - 1)) · q ^ (d · 2 ^ (d - 1))`,
 where `q = |F|`. -/
+-- Conditional version: `Nikodym.LowerBound.card_compl_pow_mul_card_le_of_interface`
+-- (needs `AlgebraInterface`).
 theorem card_compl_pow_mul_card_le (hd : 2 ≤ d) (N : Finset (Fin d → F)) (hN : IsNikodym N) :
     (Fintype.card F ^ d - N.card) ^ 2 ^ (d - 1) * Fintype.card F ≤
       (8 * d ^ 2 + 1) ^ 2 ^ (d - 1) * Fintype.card F ^ (d * 2 ^ (d - 1)) := by
@@ -43,6 +50,8 @@ theorem card_compl_pow_mul_card_le (hd : 2 ≤ d) (N : Finset (Fin d → F)) (hN
 
 /-- **Lower bound, real form** (blueprint node C11).  Every Nikodym set `N ⊆ F^d`, `d ≥ 2`,
 satisfies `|N| ≥ q ^ d - (8 d ^ 2 + 1) · q ^ (d - 2 ^ (1 - d))`, where `q = |F|`. -/
+-- Conditional version: `Nikodym.LowerBound.card_ge_pow_sub_of_interface`
+-- (needs `AlgebraInterface`).
 theorem card_ge_pow_sub (hd : 2 ≤ d) (N : Finset (Fin d → F)) (hN : IsNikodym N) :
     (Fintype.card F : ℝ) ^ d -
         (8 * d ^ 2 + 1) * (Fintype.card F : ℝ) ^ ((d : ℝ) - 2 ^ (1 - (d : ℝ))) ≤
@@ -57,7 +66,7 @@ theorem exists_isNikodym_card_le (hd : 2 ≤ d) {ε : ℝ} (hε : 0 < ε) :
       (Fintype.card F).Prime → q₀ ≤ Fintype.card F →
         ∃ N : Finset (Fin d → F), IsNikodym N ∧
           (N.card : ℝ) ≤ (Fintype.card F : ℝ) ^ d -
-            (Fintype.card F : ℝ) ^ ((d : ℝ) - 2 ^ (1 - (d : ℝ)) - ε) := by
-  sorry
+            (Fintype.card F : ℝ) ^ ((d : ℝ) - 2 ^ (1 - (d : ℝ)) - ε) :=
+  exists_isNikodym_card_le_aux hd hε
 
 end Nikodym
