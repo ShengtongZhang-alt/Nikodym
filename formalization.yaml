@@ -24,7 +24,11 @@ project:
     All three headline theorems are proved with no sorry and depend only on
     propext, Classical.choice and Quot.sound.
   authors:
+    - "Zach Hunter"
+    - "Cosmin Pohoata"
     - "Shengtong Zhang"
+    - "Ting-Wei Chao"
+    - "Hung-Hsun Yu"
   license: "Apache-2.0"
   responsible_maintainers:
     - "Shengtong Zhang"
@@ -130,16 +134,24 @@ status:
 automation:
   methods:
     - method: agent
-      models: ["Claude (Anthropic)"]
+      models: ["Claude (Anthropic)", "Grok 4.6 (xAI)"]
       framework: "Cursor"
       tool_setup: >-
-        AI-assisted. Claude agents running in the Cursor IDE wrote the
+        AI-assisted. A Claude agent running in the Cursor IDE wrote the
         statement-level blueprints (docs/*_lean_blueprint.md,
-        docs/algebra_backend_design.md) under human direction, then parallel
-        agents proved the blueprint nodes as separate Lean modules, with each
-        node checked by `lake build` and the axiom report before being marked
-        done in docs/PROGRESS.md. Standard Lean/Mathlib tactics were used; no
-        proof-search tools external to Lean and Mathlib.
+        docs/algebra_backend_design.md) under human direction and orchestrated
+        parallel subagents that proved the blueprint nodes as separate Lean
+        modules. Of 44 subagent tasks, 37 were run by Claude (including the
+        whole commutative-algebra backend, the carrier theorem, grid/jet
+        interpolation, Kummer independence, and the final assembly) and 7 by
+        Grok 4.6 on routine leaf nodes (Construction/ProductCriterion, Arith,
+        Parameters; MultiQuadratic/Order, Legendre, Scaffold;
+        LowerBound/Arithmetic/BinomialGap, Multiplicity, WeightedSelection;
+        LowerBound/Hilbert/Shadow; LowerBound/Lines/Jets, Vanishing), roughly
+        12% of the Lean source. Each node was checked by `lake build` and the
+        axiom report before being marked done in docs/PROGRESS.md. Standard
+        Lean/Mathlib tactics were used; no proof-search tools external to Lean
+        and Mathlib.
       cost:
         wall_time: "Approximately one day of elapsed agent time (all commits are dated 2026-09-05)."
         spend_usd: "not tracked"
