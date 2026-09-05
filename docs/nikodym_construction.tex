@@ -1,0 +1,650 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=1.08in]{geometry}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!55!black,urlcolor=blue!55!black]{hyperref}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\F}{\mathbb F}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\OK}{\mathcal O_K}
+\newcommand{\Tr}{\operatorname{Tr}_{K/\Q}}
+\newcommand{\Nm}{\operatorname{N}_{K/\Q}}
+\newcommand{\IM}{\operatorname{IM}}
+
+\title{A Prime-Uniform Construction of Small\\Finite-Field Nikodym Sets}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We construct small Nikodym sets in $\F_q^h$.  Let $K$ be a fixed totally
+real field of degree $d$, and suppose that the rational prime $q$ splits
+completely in $K$.  We construct a product set whose complement is Nikodym
+and whose size is
+\[
+  \gg_{K,h}q^{\,h-2^{1-h}-(3h-5+2^{2-h})/d}.
+\]
+In particular, the loss in the exponent is $O(h/d)$.  We then use a finite
+family of multiquadratic fields such that every sufficiently large prime
+splits completely in at least one member.  This yields a removed set of size
+$q^{h-2^{1-h}-o(1)}$ uniformly over the primes.
+\end{abstract}
+
+\section{Statement and setup}
+
+We use the following convention.  A set $S\subseteq\F_q^h$ is a
+\emph{Nikodym set} if, for every $z\in\F_q^h$, there is an affine line
+$L_z$ through $z$ such that
+\[
+  L_z\setminus\{z\}\subseteq S.
+\]
+
+Our fixed-field result is as follows.
+
+\begin{theorem}[Fixed totally real field]\label{thm:fixed-field}
+Let $h\geq2$ be an integer, and let $K$ be a totally real number field of
+degree $d$.  Put
+\[
+  \kappa_h=3h-5+2^{2-h}.
+\]
+There is a constant $c_{K,h}>0$ such that, whenever the rational prime $q$
+splits completely in $K$, there is a Nikodym set $S\subseteq\F_q^h$ satisfying
+\begin{equation}\label{eq:sharp-fixed-bound}
+  |S|\leq q^h-c_{K,h}q^{\,h-2^{1-h}-\kappa_h/d}.
+\end{equation}
+In particular, since $\kappa_h<4h$,
+\begin{equation}\label{eq:fixed-bound}
+  |S|\leq q^h-c_{K,h}q^{\,h-2^{1-h}-4h/d}.
+\end{equation}
+\end{theorem}
+
+\begin{corollary}[Prime-uniform bound]\label{cor:uniform}
+Fix $h\geq2$.  For every $\varepsilon>0$ and all sufficiently large primes
+$q$, there is a Nikodym set $S\subseteq\F_q^h$ such that
+\begin{equation}\label{eq:epsilon-bound}
+  |S|\leq q^h-q^{\,h-2^{1-h}-\varepsilon}.
+\end{equation}
+Thus, uniformly over the primes, there are Nikodym sets whose complements
+have size at least $q^{h-2^{1-h}-o(1)}$.
+\end{corollary}
+
+The construction encodes the last coordinate using $h-1$ mixed-radix
+digits.  We retain a large fiber on which the quadratic traces of all partial
+sums are fixed, and use the digit vector as the direction of the tangent
+line.  A one-step rigidity lemma then recovers the highest digit at which two
+encodings could differ.
+
+Next, let us define $\IM(h,r,q)$ to be the large induced matching in $\F_q^h$ between points and codimension $r$ hyperplanes. We show the following bound.
+\begin{theorem}[Fixed totally real field]\label{thm:hyper-field}
+Let $h>r \geq 1$ be integers, and let $K$ be a totally real number field of
+degree $d$.  
+
+There is a constant $c_{K,h}>0$ such that, whenever the rational prime $q$
+splits completely in $K$, we have
+\begin{equation}\label{eq:hyper-bound}
+  \IM(h,r,q)\geq c_{K,h}q^{h-(h-r)/2^r-(r+(h-r)^2)(1/d)}.
+\end{equation}
+\end{theorem}
+
+\section{Sketch of ideas}
+
+
+In this section, we present some concepts underlying HPVZ in a more abstract framework. We shall then argue why they work. 
+
+Let us start with a simple example.
+\begin{lemma}
+    Let $q$ be a prime. There exists a subset $P\subset \F_q^2$ of size $\Omega(q^{3/2})$, an assignment of slopes $p\mapsto s_p$ for $p\in P$, and a coloring $C:P\to [q]$, so that if $p,p' \in P$ satisfy $p' = p+h\cdot s_p$, then $C(p') = C(p)+h^2$.
+
+    Consequently, given $S\subset [q]$ so that $S-S$ lacks non-zero squares, we get $\IM(2,q)\ge \Omega(|S| q^{1/2})$.
+\end{lemma}
+\begin{proof}
+    Let us start by building something over $\mathbb{Z}^2$. Namely, for each point $p=(a,b)$, we assign $C_0(p) := a+b^2$ and $s_p^{(0)} := (-2b,1)$. If $p'=p+h\cdot s_p^{(0)}$, then we have that $C_0(p')=C_0(p)+h^2$. Indeed, writing $p=(a,b),p'=(a',b')$, we get $h=b'-b$, and then $C_0(p')-C_0(p)= -h\cdot2b+(b+h)^2-b^2$.
+
+    Now, let $P_0 := [q/2]\times [q^{1/2}/2]$. We claim that if $p,p'\in P_0$, and $p'\equiv p+h\cdot s_p\pmod{q}$ (for $|h|<q$), then $p' = p+h\cdot s_p$. Indeed, comparing second coordinates, we get that $|h|<q^{1/2}/2$. Whence, $||h\cdot s_p||_\infty \le q/2$, and thus $||p'-p||_\infty<q/2$ implies that $p'=p+h\cdot s_p$.
+
+    So now we just take the obvious embedding $\iota:\F_q^2\to [q]^2$.
+
+    The last estimate easily follows due to averaging. Start with $S\subset [q]$. Now pick $t\in \{-q,\dots,q\}$ uniformly at random. For $p\in P$, and $s\in S$, $\Pr[ s+t = C(p) ] \ge 1/3q$. Thus $\E[ \#(p\in P:\iota(p)\in t+S)] = |S||P|/3q= \Omega(|S|q^{1/2})$.
+    
+    
+    %We now define $\iota:\F_p^2\to [p]^2$ in the obvious way. Now let $P_0 = [p/2]\times [p^{1/2}/2]$, and let $P$ be its preimage under $\iota$. For $p\in P$, if $\iota(p)= p_0$, we set $C(p) = C_0(p_0)$ and pick $s_p$ so that $\iota(s_p) = s^{(0)}_{p_0}$.
+
+\end{proof}
+
+
+
+Before giving the formal details, let us paint a quick picture. 
+\begin{lemma}
+    Let $q$ be a prime. There exists a subset $P\subset \F_q^3$ of size $\Omega(q^{3-1/4})$, an assignment of slopes $p\mapsto s_p$ for $p\in P$, a pair of coloring colorings $C_1,C_2:P\to [q]$, so that if $p,p' \in P$ satisfy $p' = p+h\cdot s_p$, then $C_i(p') = C_i(p)+h^2$ for some $i\in\{1,2\}$.
+
+    Consequently, given $S\subset [q]$ so that $S-S$ lacks non-zero squares, we get $\IM(3,q)\ge \Omega(|S|^2 q^{3/4})$.
+\end{lemma}
+\begin{proof}
+    Pick auxiliary distinct primes $\frac{q^{1/2}}{100}\le q_1,q_2\le \frac{q^{1/2}}{10}$. Lastly, pick $r\in [q]$ so that $rq_1\equiv 1\pmod{q}$.
+
+    We now take $P = [q/2]^2\times \{xq_1+y: x\in [q_2/10],y\in [q_1/10]\}$. Given $p=(a,b,xq_1+y)$, we define $C_1(p):= a+y^2$ and $C_2(p) := b+x^2$, along with $s_p := (-2y,-2xr,1)$
+\end{proof}
+
+
+
+
+\section{Preliminary lemmas}
+
+Let $\sigma_1,\ldots,\sigma_d:K\hookrightarrow\mathbb R$ be the real
+embeddings.  For $T>0$, put
+\[
+  \Lambda_T=
+  \{x\in\OK:|\sigma_j(x)|\leq T\text{ for }1\leq j\leq d\}.
+\]
+Under the Minkowski embedding, $\OK$ is a full-rank lattice in $\mathbb R^d$.
+Consequently,
+\begin{equation}\label{eq:lattice-count}
+  |\Lambda_T|\asymp_K T^d
+\end{equation}
+as $T\to\infty$.  We shall only use the lower bound.
+
+\begin{lemma}[Small elements do not vanish modulo $\mathfrak q$]
+\label{lem:norm}
+Suppose that $q$ splits completely in $K$, and choose a prime ideal
+$\mathfrak q\mid q$.  Then $\OK/\mathfrak q\cong\F_q$.  If
+$0\neq z\in\mathfrak q$, then
+\[
+  |\Nm(z)|\geq q.
+\]
+In particular, if $z\in\mathfrak q$ and
+$|\sigma_j(z)|<q^{1/d}$ for every $j$, then $z=0$.
+\end{lemma}
+
+\begin{proof}
+The ideal $\mathfrak q$ has norm $q$.  If $0\neq z\in\mathfrak q$, then
+$(z)\subseteq\mathfrak q$, so $(z)=\mathfrak q\mathfrak a$ for some integral
+ideal $\mathfrak a$.  Hence
+\[
+  |\Nm(z)|=q\operatorname{N}(\mathfrak a)\geq q.
+\]
+The final assertion follows by taking the product over the real embeddings.
+\end{proof}
+
+\begin{lemma}[A product-complement criterion]\label{lem:product}
+Let $P=P_1\times\cdots\times P_h\subseteq\F_q^h$, where $h\geq2$.  Suppose
+that for every $u\in P$ there is a line $L_u$ through $u$ such that
+$L_u\cap P=\{u\}$.  Then $\F_q^h\setminus P$ is a Nikodym set.
+\end{lemma}
+
+\begin{proof}
+For $u\in P$, the assumed line satisfies
+$L_u\setminus\{u\}\subseteq\F_q^h\setminus P$.  Now let $u\notin P$.
+Some coordinate, say $u_j$, does not belong to $P_j$.  Choose $k\neq j$.
+The coordinate line $u+\F_qe_k$ has $j$th coordinate constantly equal to
+$u_j$, and is therefore disjoint from $P$.
+\end{proof}
+
+In addition to the $d$-dimensional geometry given to us by our number fields, it is also natural to sajkdkla.
+
+\begin{lemma}[Mixed-digit representation]\label{lem:digits}
+Let $m\geq1$, let $R_1,\ldots,R_m$ be positive integers, and let
+$0<\rho<1/2$.  Define
+\[
+  D_1=1,
+  \qquad
+  D_i=\prod_{j<i}R_j\quad(2\leq i\leq m).
+\]
+Then the map
+\[
+  \prod_{i=1}^m\Lambda_{\rho R_i}\longrightarrow\OK,
+  \qquad
+  (w_1,\ldots,w_m)\longmapsto\sum_{i=1}^mD_iw_i,
+\]
+is injective.
+\end{lemma}
+
+\begin{proof}
+Suppose that two digit vectors have the same image, and put
+$\beta_i=w_i-w_i'$.  Reducing
+$\sum_iD_i\beta_i=0$ modulo $R_1\OK$ gives
+$\beta_1\in R_1\OK$.  If $\beta_1\neq0$, then
+\[
+  |\Nm(\beta_1)|
+  \leq(2\rho R_1)^d<R_1^d.
+\]
+On the other hand, writing $\beta_1=R_1\gamma$ with
+$0\neq\gamma\in\OK$ gives
+$|\Nm(\beta_1)|=R_1^d|\Nm(\gamma)|\geq R_1^d$, a contradiction.
+Thus $\beta_1=0$.  Dividing by $R_1$ and repeating proves that
+$\beta_i=0$ for every $i$.
+\end{proof}
+
+Because $K$ is totally real,
+\[
+  \lVert x\rVert
+  :=\left(\frac{\Tr(x^2)}{d}\right)^{1/2}
+  =\left(\frac1d\sum_{j=1}^d\sigma_j(x)^2\right)^{1/2}
+\]
+defines a norm on $K\otimes_{\Q}\mathbb R$.  Moreover, if
+$0\neq x\in\OK$, then the arithmetic--geometric mean inequality gives
+\begin{equation}\label{eq:minimum-norm}
+  \lVert x\rVert^2
+  \geq\left(\prod_{j=1}^d\sigma_j(x)^2\right)^{1/d}
+  =|\Nm(x)|^{2/d}\geq1.
+\end{equation}
+
+Generally, the key geometric input underlying our construction is the following. 
+
+\begin{proposition}[`Spheres and orthogonality']\label{prop:decoding}
+Let $Q,t\geq1$ be integers.  Suppose that
+$u,u'\in\Lambda_{Q/100t}^t$ and $w,w'\in\OK^t$, and put
+\[
+  x=u+Qw,
+  \qquad
+  x'=u'+Qw'.
+\]
+If
+\[
+  \sum_{i=1}^t\Tr(x_i^2)=\sum_{i=1}^t\Tr((x_i')^2),
+  \qquad
+  \sum_{i=1}^t \Tr\bigl(w_i(x_i'-x_i)\bigr)=0,
+\]
+then $w=w'$.
+\end{proposition}
+\begin{remark}
+    Roughly speaking, one should intuitively expect this to hold due to the following heuristics. Firstly, the effect of $u$ and $u'$ should each be negligible, due to the scale of $Q$ (if you imagine $\sum_i ||x_i||$ as morally being the Euclidean norm, this is a byproduct of `continuity'). Thus, ignoring the small noise, the second condition translates to `orthogonality' ($\langle w,w'-w\rangle=0$). Now, adding two non-zero, orthogonal vectors together increases each of their norms (in Euclidean space), so we expect the two equalities to imply $w=w'$. 
+\end{remark}
+\begin{proof}
+Set
+\[
+  v=x'-Qw=u'+Q(w'-w).
+\]
+Since $u=x-Qw$, the assumptions imply
+\begin{align*}
+  \sum_{i=1}^t \Tr(v_i^2-u_i^2)
+  &=\sum_{i=1}^t\Tr\bigl((x_i'-Qw_i)^2-(x_i-Qw_i)^2\bigr)\\
+  &=\sum_{i=1}^t\Tr\bigl((x_i')^2-x_i^2\bigr)
+    -2Q\Tr\bigl(w_i(x_i'-x_i)\bigr)=0.
+\end{align*}
+Consequently,
+\[
+  \lVert u'+Q(w'-w)\rVert
+  =\lVert v\rVert
+  =\lVert u\rVert.
+\]
+The triangle inequality now yields
+\[
+  Q\sum_{i=1}^t\lVert w_i'-w_i\rVert
+  \leq \sum_{i=1}^t\lVert u_i'+Q(w_i'-w_i)\rVert+\lVert u_i\rVert
+  \leq \frac{Q}{50}.
+\]
+By \eqref{eq:minimum-norm}, this is possible only if $w_i'=w_i$ for all $i\in [t]$.
+\end{proof}
+
+
+\section{REVAMP}
+
+Let us start by deriving the $r=1$ bound.\zh{perhaps not exactly the Theorem, since we do not obtain a product set. perhaps state as its own result, and pre-face the general sphere statement}
+\begin{proof}[Proof of Theorem~\ref{thm:hyper-field} for $r=1$]
+    Let $M = q^{1/d}$. Now take $ A = \Lambda_{M/100}, B = \Lambda_{M^{1/2}/100 h}$.
+
+    Color $p=(a,b_1,\dots,b_{h-1})\in A\times B^{h-1}$ by $\Phi(p):=\Tr(2a-\sum_{i=1}^{h-1} b_i^2)$. This takes at most $M/2$ values, thus we can pigeonhole to find $P\subset A\times B^{h-1}$ of size $\Omega_{K,h}(q^{(h+1)/2-1/d})$ which is monochromatic under $\Phi$. 
+
+    Now, for each $p\in P$, we assign the plane $\pi_p $ defined by $X_0 -\sum_{i=1}^{h-1} b_i X_i = a-\sum_{i=1}^{h-i}b_i^2=:\psi(p)$. Clearly $p\in \pi_p$. Let us first show that $((p,\pi_p))_{p\in P}$ is an induced matching in $\OK^h$, afterwards we shall verify this is preserved under projection.
+
+    Suppose $p'\in P\cap \pi_p$ for some $p'\neq p$, and write $p' = (a',b_1',\dots,b_{h-1}')$. Then, we have that \[\delta = (a'-a)-\sum_{i=1}^{h-1}b_i(b_i'-b_i) = \psi(p)-\psi(p)=0.\]Next by definition of $P$, \[0=\Phi(p)-\Phi(p')=\Tr(2(a'-a) -\sum_{i=1}^{h-1}(b_i'^2-b_i^2)) = \Tr(2\delta)-\Tr(\sum_{i=1}^{h-1}(b_i'-b_i)^2) .\]Now, $\Tr(2\delta) = 2\Tr(\delta) =0$, thus we get that $\sum_{i=1}^{h-1}\Tr((b_i'-b_i)^2)=0$, but this means $b_i'=b_i$ for all $i$ (because non-zero squares have positive trace), whence $p'=p$ (since we get $a'-a= \delta$).  
+    
+    
+    Now suppose $\mathfrak{p}\mid q$, and let $\varphi:\OK/\mathfrak{p}\to \F_q$ be a homomorphism (and extend it coordinate-wise). We of course take $((\varphi(p),\varphi(\pi_p))_{p\in P}$. Note that $P\subset \Lambda_{M/4}^h$, thus $P-P\cap \ker(\varphi) = \{\vec{0}\}$, so this map is injective. Now suppose that $\varphi(p')\in \varphi(\pi_p)$ for some $p\in P$. We now get 
+    \[\delta = a'-a -\sum_{i=1}^{h-1}b_i(b'_i-b_i) \in \mathfrak{p}.\]But, as $P\subset A\times B^{h-1}$, we get that $\delta\in \Lambda_{M/2}^{h}$, and thus again $\delta=0$. So $p'\neq p$ would contradict that we have an induced matching over $\OK^h$.
+\end{proof}
+\begin{remark}
+    If we instead pigeonhole on $(\Tr(a),\Tr(b_1^2),\dots,\Tr(b_{h-1}^2))$, we get a product set of size $\Omega_{K,h}(q^{(h+1)/2-h/d})$.
+\end{remark}
+
+As $r$ increases, we manage to do better. The key that each equation we add allows us to achieve a better homomorphism. Or more accurately, we produce a set of maps, so that at least one of them behaves like a homomorphism.
+
+
+\section{The fixed-field construction}
+
+\begin{proof}[Proof of Theorem~\ref{thm:fixed-field}]
+It is enough to treat all sufficiently large $q$; the constant can be reduced
+at the end to cover the finitely many remaining split primes.  Put
+\[
+  M=q^{1/d},
+  \qquad
+  \rho=\frac1{100h},
+  \qquad
+  \gamma=\frac1{10}.
+\]
+For $1\leq i\leq h-1$, define
+\[
+  Q_i=\left\lfloor M^{2^{-i}}\right\rfloor,
+  \qquad
+  W_i=\Lambda_{\rho Q_i}.
+\]
+For $1\leq i\leq h$, also define
+\[
+  D_i=\prod_{j<i}Q_j,
+\]
+where the empty product is $1$.
+We may assume that every $Q_i\geq2$.  Notice that
+\begin{equation}\label{eq:scales}
+  D_{i+1}=D_iQ_i\leq M^{1-2^{-i}},
+  \qquad
+  D_iQ_i^2\leq M.
+\end{equation}
+
+Define
+\[
+  Y=\left\{\sum_{i=1}^{h-1}D_iw_i:w_i\in W_i\right\}.
+\]
+Lemma~\ref{lem:digits} shows that every element of $Y$ has a unique digit
+representation.  Since $Q_i\asymp_h M^{2^{-i}}$, the lattice estimate
+\eqref{eq:lattice-count} gives
+\begin{equation}\label{eq:Y-size}
+  |Y|
+  =\prod_{i=1}^{h-1}|W_i|
+  \gg_{K,h}\prod_{i=1}^{h-1}Q_i^d
+  \gg_{K,h}q^{1-2^{1-h}}.
+\end{equation}
+
+For $y=\sum_iD_iw_i\in Y$, let
+\[
+  y_0=0,
+  \qquad
+  y_i=\sum_{j=1}^iD_jw_j
+  \quad(1\leq i\leq h-1).
+\]
+For every real embedding $\sigma$,
+\begin{equation}\label{eq:prefix-bound}
+  |\sigma(y_i)|
+  \leq\rho\sum_{j=1}^iD_jQ_j
+  =\rho\sum_{j=1}^iD_{j+1}
+  \leq\rho iD_{i+1}.
+\end{equation}
+Color $y$ by its energy vector
+\[
+  c(y)=\bigl(\Tr(y_1^2),\ldots,\Tr(y_{h-1}^2)\bigr).
+\]
+Each entry is a nonnegative integer, and \eqref{eq:prefix-bound} shows that
+the $i$th entry takes $O_{K,h}(D_{i+1}^2)$ possible values.  Hence the number
+of colors is
+\begin{align*}
+  O_{K,h}\left(\prod_{i=1}^{h-1}D_{i+1}^2\right)
+  &\leq O_{K,h}\left(
+    M^{2\sum_{i=1}^{h-1}(1-2^{-i})}\right)\\
+  &=O_{K,h}\left(M^{2(h-2+2^{1-h})}\right).
+\end{align*}
+By pigeonholing, there is a fiber $B\subseteq Y$ such that
+\begin{equation}\label{eq:B-size}
+  |B|
+  \gg_{K,h}
+  q^{\,1-2^{1-h}-2(h-2+2^{1-h})/d}.
+\end{equation}
+
+We also choose a large trace fiber.  Since $\Tr(a)$ is an integer of absolute
+value at most $d\gamma M$ for $a\in\Lambda_{\gamma M}$, another pigeonhole
+argument gives an integer $s$ and a set
+\begin{equation}\label{eq:A-size}
+  A=\{a\in\Lambda_{\gamma M}:\Tr(a)=s\},
+  \qquad
+  |A|\gg_{K,h}M^{d-1}=q^{1-1/d}.
+\end{equation}
+
+Choose a prime ideal $\mathfrak q\mid q$, and let
+\[
+  \varphi:\OK\longrightarrow\OK/\mathfrak q\cong\F_q
+\]
+be the reduction map.  Lemma~\ref{lem:norm} shows that $\varphi$ is injective
+on $A$: the difference of two elements of $A$ has every embedding bounded by
+$2\gamma M<M$.  It is also injective on $Y$.  Indeed,
+\eqref{eq:prefix-bound} and \eqref{eq:scales} give
+\[
+  |\sigma(y)|\leq\rho(h-1)D_h<M/100
+  \qquad(y\in Y),
+\]
+so the difference of two elements of $Y$ has every embedding bounded by
+$M/50<M$.
+
+Set
+\begin{equation}\label{eq:P}
+  P=\varphi(A)^{h-1}\times\varphi(B)\subseteq\F_q^h.
+\end{equation}
+We construct a line tangent to $P$ at each of its points.  Let
+\[
+  p=\bigl(\varphi(a_1),\ldots,\varphi(a_{h-1}),\varphi(b)\bigr)\in P,
+  \qquad
+  b=\sum_{i=1}^{h-1}D_iw_i,
+\]
+where the digit representation of $b$ is unique, and define
+\begin{equation}\label{eq:tangent-line}
+  L_p=
+  \left\{
+  p+\lambda\bigl(\varphi(w_1),\ldots,\varphi(w_{h-1}),1\bigr):
+  \lambda\in\F_q
+  \right\}.
+\end{equation}
+
+Suppose that another point
+\[
+  p'=\bigl(\varphi(a_1'),\ldots,\varphi(a_{h-1}'),\varphi(b')\bigr)\in P
+\]
+lies on $L_p$, and write $b'=\sum_iD_iw_i'$.  If $b'=b$, then the last
+coordinate in \eqref{eq:tangent-line} gives $\lambda=0$, and hence $p'=p$.
+We may therefore suppose that $b'\neq b$, and choose the
+largest $i$ for which $w_i'\neq w_i$.  Put
+\[
+  t=b'-b.
+\]
+By maximality of $i$, we have $t=y_i'-y_i$.  The last coordinate of the line
+gives $\lambda=\varphi(t)$, while its $i$th coordinate gives
+\begin{equation}\label{eq:lift-congruence}
+  \delta:=a_i'-a_i-w_it\in\mathfrak q.
+\end{equation}
+
+We claim that this congruence lifts to an equality in $\OK$.  By
+\eqref{eq:prefix-bound},
+\[
+  |\sigma(t)|\leq2\rho iD_{i+1}
+  \leq2\rho hD_iQ_i.
+\]
+Together with $|\sigma(w_i)|\leq\rho Q_i$ and \eqref{eq:scales}, this gives
+\[
+  |\sigma(w_it)|
+  \leq2\rho^2hD_iQ_i^2
+  \leq2\rho^2hM.
+\]
+Consequently,
+\[
+  |\sigma(\delta)|
+  \leq(2\gamma+2\rho^2h)M<M
+\]
+for every embedding $\sigma$.  Lemma~\ref{lem:norm} applied to
+\eqref{eq:lift-congruence} therefore yields
+\begin{equation}\label{eq:lifted-equality}
+  a_i'-a_i=w_it.
+\end{equation}
+Since $A$ is a trace fiber,
+\begin{equation}\label{eq:orthogonality}
+  \Tr(w_it)=0.
+\end{equation}
+
+We now apply Proposition~\ref{prop:decoding}.  Set
+\[
+  u=y_{i-1},
+  \qquad
+  u'=y_{i-1}',
+  \qquad
+  x=y_i=u+D_iw_i,
+  \qquad
+  x'=y_i'=u'+D_iw_i'.
+\]
+The prefix estimate gives
+\[
+  u,u'\in\Lambda_{D_i/100},
+\]
+because $\rho(i-1)<1/100$.  Since $b,b'$ lie in the same energy fiber,
+\[
+  \Tr(u^2)=\Tr((u')^2),
+  \qquad
+  \Tr(x^2)=\Tr((x')^2);
+\]
+the first equality is automatic when $i=1$.  Finally,
+\eqref{eq:orthogonality} says that $\Tr(w_i(x'-x))=0$.  The proposition,
+with $Q=D_i$, forces $w_i=w_i'$, contradicting the choice of $i$.
+
+Thus $L_p\cap P=\{p\}$ for every $p\in P$.  By
+Lemma~\ref{lem:product}, the set $S=\F_q^h\setminus P$ is Nikodym.  Finally,
+\eqref{eq:B-size} and \eqref{eq:A-size} give
+\[
+  |P|=|A|^{h-1}|B|
+  \gg_{K,h}q^{\,h-2^{1-h}-(3h-5+2^{2-h})/d}.
+\]
+This proves \eqref{eq:sharp-fixed-bound}, and hence
+\eqref{eq:fixed-bound}, for all sufficiently large split primes $q$.
+For any remaining split prime, the complement of a one-point product set is
+Nikodym by Lemma~\ref{lem:product}; decreasing $c_{K,h}$ covers those finitely
+many primes as well.
+\end{proof}
+
+\begin{remark}
+When $h=2$, the exponent in \eqref{eq:sharp-fixed-bound} is
+$3/2-2/d$.
+\end{remark}
+
+\section{Extending to hyperplanes}
+
+\begin{proof}{Proof of Theorem~\ref{thm:hyper-field} for $r=1$}
+    Let $M = q^{1/d}$. Now take $ A = \Lambda_{M/100}, B = \Lambda_{M^{1/2}/100 h}$.
+
+    Color $p=(a,b_1,\dots,b_{h-1})\in A\times B^{h-1}$ by $\Phi(p):=\Tr(2a-\sum_{i=1}^{h-1} b_i^2)$. This takes at most $M/2$ values, thus we can pigeonhole to find $P\subset A\times B^{h-1}$ of size $\Omega_{K,h}(q^{(h+1)/2-1/d})$ which is monochromatic under $\Phi$. 
+
+    Now, for each $p\in P$, we assign the plane $\pi_p $ defined by $X_0 -\sum_{i=1}^{h-1} b_i X_i = a-\sum_{i=1}^{h-i}b_i^2=:\psi(p)$. Clearly $p\in \pi_p$. Let us first show that $((p,\pi_p))_{p\in P}$ is an induced matching in $\OK^h$, afterwards we shall verify this is preserved under projection.
+
+    Suppose $p'\in P\cap \pi_p$ for some $p'\neq p$, and write $p' = (a',b_1',\dots,b_{h-1}')$. Then, we have that \[\delta = (a'-a)-\sum_{i=1}^{h-1}b_i(b_i'-b_i) = \psi(p)-\psi(p)=0.\]Next by definition of $P$, \[0=\Phi(p)-\Phi(p')=\Tr(2(a'-a) -\sum_{i=1}^{h-1}(b_i'^2-b_i^2)) = \Tr(2\delta)-\Tr(\sum_{i=1}^{h-1}(b_i'-b_i)^2) .\]Now, $\Tr(2\delta) = 2\Tr(\delta) =0$, thus we get that $\sum_{i=1}^{h-1}\Tr((b_i'-b_i)^2)=0$, but this means $b_i'=b_i$ for all $i$ (because non-zero squares have positive trace), whence $p'=p$ (since we get $a'-a= \delta$).  
+    
+    
+    Now suppose $\mathfrak{p}\mid q$, and let $\varphi:\OK/\mathfrak{p}\to \F_q$ be a homomorphism (and extend it coordinate-wise). We of course take $((\varphi(p),\varphi(\pi_p))_{p\in P}$. Note that $P\subset \Lambda_{M/4}^h$, thus $P-P\cap \ker(\varphi) = \{\vec{0}\}$, so this map is injective. Now suppose that $\varphi(p')\in \varphi(\pi_p)$ for some $p\in P$. We now get 
+    \[\delta = a'-a -\sum_{i=1}^{h-1}b_i(b'_i-b_i) \in \mathfrak{p}.\]But, as $P\subset A\times B^{h-1}$, we get that $\delta\in \Lambda_{M/2}^{h}$, and thus again $\delta=0$. So $p'\neq p$ would contradict that we have an induced matching over $\OK^h$.
+\end{proof}
+\begin{remark}
+    If we instead pigeonhole on $(\Tr(a),\Tr(b_1),\dots,\Tr(b_{h-1}))$, we get a product set of size $\Omega_{K,h}(q^{(h+1)/2-h/d})$.
+\end{remark}
+
+We shall now proceed to the general case. 
+
+\begin{proof}
+    Set $t:= h-r$. Set $M=q^{1/d},\rho := 1/100h$. For $1\le i \le r$, set
+    \[Q_i := \lfloor M^{2^{-i}}\rfloor, W_i := \Lambda_{\rho Q_i},\]also set $D_1 := 1$ and $D_{i+1} := Q_i\cdot D_i$ for $i\in [t]$. 
+
+    We define $B:= \sum_{i=1}^r D_iw_i:w\in W_i\}$. Lemma~\ref{lem:digits} implies that $|Y| = \prod_{i=1}^r |W_i| \gg_{K,h} D_{r+1}^d = q^{1-2^{-r}}$. Meanwhile, we take $A:= \Lambda_{\rho M}$. We shall define a coloring $\chi$ on $A^r\times B^t$ with $M^{O_{h,r}(1)}$ colors; to do so we must introduce some further notation.
+
+    Specifically, given $b=\sum_i D_iw_i$, let \[b^{(0)}=0,\quad b^{(i)} := \sum_{j=1}^i D_i w_j\quad i\in [r].\]We now assign\footnote{Recall that $||x||:= \sqrt{\Tr(x^2)}$.}
+    \[\chi(b) := (||b^{(0)}||,||b^{(1)}||,\dots,||b^{(r)}||).\]Now, we clearly have that $c$ takes most $(h(\rho M)^2)^r\le M^{2r}$ values (since $||b^{(0)}||=0$). Thus we may take $B'\subset B$ of size $|B'|\gg_{K,h}q^{1-2^{-r}-2r/d}$.
+
+    We also pass to $A'\subset A$ where $\Tr(a)$ is constant, thus $|A'|\gg_{K,h} q^{1-1/d}$ now. We set $P:= A'^r\times B'^t$. Now, given $p=(a_1,\dots,a_r,b_1,\dots,b_t)\in P$, writing $b_i = \sum_{j=1}^r D_j w_{i,j}$, we define $\pi_p$ to be the solution to the equations
+    \[X_j-\sum_{i=1}^t w_{i,j}Y_i = a_j-\sum_{i=1}^t w_{i,j}b_i,\]for $j\in [r]$. Clearly $p\in \pi_p$. Now, let us verify this is an induced matching. 
+
+    Suppose $p'\in \pi_p$, but $p'\neq p$. Then there must be some maximal $j\in [r]$ where there exists $i\in [t]$ so that $w_{i,j}'\neq w_{i,j}$. Set
+    \[\delta_j := a_j'-a_j -\sum_{k=1}^t w_{k,j}(b_k'-b_k)=0.\]
+    We have that 
+    \[0 = \Tr(2(a'_j-a_j))-\Tr(\]
+    Note that $b_k'-b_k= b_{k}^{(j)}'-b_{k}^{(j)}= b_{k}^{(j-1)}'-b_{k}^{(j-1)}+D_j(w_{k,j}'-w_{k,j})$. Consequently, as $||b_{k}^{(j-1)}||=||b_{k}^{(j-1)}'||,||b_{k}^{(j-1)}+D_jw_{k,j}||=||b_{k}^{(j-1)}'+D_jw_{k,j}'||$ for all $k$, we get that $w_{k,j}=w_{k,j}'$, contradiction.
+\end{proof}
+
+\section{A finite split family and the prime-uniform bound}
+
+\begin{proof}[Proof of Corollary~\ref{cor:uniform}]
+Fix $m\geq1$.  Choose $2m$ distinct odd rational primes, grouped into pairs
+$(\ell_j,\ell_j')$ for $1\leq j\leq m$, and consider the finite family
+\begin{equation}\label{eq:family}
+  \mathcal K_m=
+  \left\{
+  \Q(\sqrt{r_1},\ldots,\sqrt{r_m}):
+  r_j\in\{\ell_j,\ell_j',\ell_j\ell_j'\}
+  \right\}.
+\end{equation}
+Every field in this family is totally real and has degree $2^m$.  Indeed,
+the squareclasses of the $r_j$ are independent: they are nontrivial and have
+supports in pairwise disjoint pairs of primes.
+
+Let $q$ be an odd prime distinct from those used in \eqref{eq:family}.  For
+each $j$, the two Legendre symbols
+\[
+  \left(\frac{\ell_j}{q}\right),
+  \qquad
+  \left(\frac{\ell_j'}{q}\right)
+\]
+belong to $\{\pm1\}$.  Among these two signs and their product, at least one
+equals $+1$.  We may therefore choose
+$r_j\in\{\ell_j,\ell_j',\ell_j\ell_j'\}$ such that
+\[
+  \left(\frac{r_j}{q}\right)=1.
+\]
+Then $q$ splits completely in every $\Q(\sqrt{r_j})$, and hence splits
+completely in their compositum $K\in\mathcal K_m$.
+
+The family $\mathcal K_m$ is finite.  Taking the minimum of the constants
+$c_{K,h}$ supplied by Theorem~\ref{thm:fixed-field} over
+$K\in\mathcal K_m$, and increasing the threshold for $q$ if necessary, gives
+a constant $c_{m,h}>0$ such that every sufficiently large prime $q$ admits a
+Nikodym set satisfying
+\begin{equation}\label{eq:m-bound}
+  |S|\leq q^h-c_{m,h}
+  q^{\,h-2^{1-h}-4h/2^m}.
+\end{equation}
+
+Now fix $\varepsilon>0$.  Choose $m$ so large that
+$4h/2^m<\varepsilon/2$.  Since $c_{m,h}$ is fixed and positive, for all
+sufficiently large $q$ we also have $c_{m,h}\geq q^{-\varepsilon/2}$.
+The removed term in \eqref{eq:m-bound} is then at least
+$q^{h-2^{1-h}-\varepsilon}$, which proves \eqref{eq:epsilon-bound}.
+\end{proof}
+
+\begin{remark}
+The construction has two additional structural features: the removed set
+$P$ is a product set, and the assigned direction of $L_p$ depends only on the
+last coordinate of $p$.  It is natural to ask whether the exponent
+$h-2^{1-h}$ is optimal under these two restrictions.
+\end{remark}
+
+\section{Extending to prime powers}
+
+We start w
+
+Let $\IM_*(h,q)$ denote the size of the largest induced matching $(p,s_p)_{p\in P}$ inside $\F_q^h$ where each slope $s_p$ has non-zero $h$-coordinate. Note in particular that then $\IM_*(h,q)\ge (1/h)\IM(h,q)$ (by pigeonhole).
+
+Let us now recover the following relationship.
+\begin{lemma}
+    Let $q_0$ be a prime power, and $q=q_0^s$. Then for $h=k(h_0-1)+1$, we have \[\frac{\IM_*(k(h_0-1)+1,q)}{q^h}\ge q^{-1/2^k}\left(\frac{\IM_*(h_0,q_0)}{q_0^{h_0}}\right)^{(1-2^{-k})s}.\]
+\end{lemma}
+\begin{proof}
+    Let $f\in \F_{q_0}[T]$ be irreducible of degree $s$. We have that $\F_q\cong \F_{q_0}[T]/(f)$. Thus each $a\in \F_q$ has a unique representation as $\sum_{i=0}^{s-1} c_i T^i +(f)$. Let $\pi_i:\F_q\to \F_{q_0}$ map $a$ to $c_i$, and note this map is $\F_{q_0}$-linear.
+    
+    Now, let $i_0:= 0$ and for $t=1,\dots,k$, let $i_t:= i_{t-1}+\lceil (s-i_{t-1})/2\rceil -1$. Next, we define the discrete intervals $I_t := \{i_{t-1},\dots,i_t-1\}$. Note that $I:=I_1\sqcup \dots \sqcup I_k = \{0,1,\dots,i_k\}$; and for each $i\in I$, there is a unique $t$ so that $i\in I_t$, we set $i' := 2i-i_{t-1}$, and note that $i'<s$ for all $i\in I$.
+    
+    Now, fix some induced matching $(p,s_p)_{p\in P_0}$ in $\F_{q_0}^{h_0}$. For $p\in P_0$, we may express $s_p=(\sigma_p,1)$. Let us identify $\vec{a} \in \F_q^h$ with $(a^{(1)},\dots,a^{(k)},z)\in (\F_q^{h_0-1})^k\times \F_q$. Now, we design our point set $P\subset\F_q^h$. For $i\not \in I$, we require $\pi_i(z)=0$. For $t\in [k],i\in I_t$, we pick some $u_i\in \F_{q_0}^{h-1},v_i\in \F_{q_0}$ so that $(u_i,v_i)\in P_0$, and require 
+    \[\pi_i(z)=v_i,\quad \pi_{i'}(a^{(t)})= u_i+\sum_{j=i'+1}^{i_t-1}\pi_{2i-j}(z)\cdot\sigma_{(u_j,v_j)}.\]Note that $|P|/q^h=q_0^{|I|-s} \left(\frac{|P_0|}{q_0}\right)^{|I|}$, thus showing $P$ is an induced matching (with all slopes having non-zero $h$-coordinate) shall prove the claim.
+
+    
+   It remains to define the slopes. Given $\vec{a}$, we assign $(a^{(1)},\dots,a^{(k)},z)\in P$ the slope $\vec{s}=(s^{(1)},\dots,s^{(k)},1+(f))$, where for $t\in [k],i\in I_t$, we set $\pi_{i'}(s^{(t)})=\sigma_{(\pi_{i'}(a^{(t)}),\pi_i(z))}$, everywhere else, we assign the coefficient $0$.
+    
+    Okay, so now suppose $p'-p\in \langle s_p\rangle$. Suppose that $p=(a^{(1)},\dots,a^{(k)},z)$ is associated with $((u_i,v_i))_{i\in I}$ while $p'=(a'^{(1)},\dots,a'^{(k)},z)$ is associated with $((u_i',v_i'))_{i\in I}$. We must have that $z'-z =\lambda\neq 0$ (as the final coordinate of $s_p$ has slope $1$), thus there is a maximal $i$ where $(u_i,v_i)\neq (u_i',v_i')$ (since $\pi_i(z'-z)=v_i'-v_i$).
+    
+    We must have $i\in I_t$ for some $t$; we have \[\pi_{i'}(a'^{(t)}-a^{(t)}) = u_i'-u_i +\sum_{j=i+1}^{i_t-1} \pi_{2i-j}(z'-z)\cdot \sigma_{(u_j,v_j)}\] (using that $(u_j,v_j) = (u'_j,v'_j)$ for all $j$ in the sum, by maximality). At the same time
+    \[\pi_{i'}((z'-z)\cdot s_p^{(t)}) = \sum_{j\in I_t}\pi_{2i-j}(z'-z)\cdot \sigma_{(u_j,v_j)} = \sum_{j= i}^{i_t-1} \pi_{2i-j}(z'-z)\cdot \sigma_{(u_j,v_j)} = \sigma_{(u_i,v_i)}(v_i'-v_i)+\sum_{j=i+1}^{i_t-1} \pi_{2i-j}(z'-z)\cdot \sigma_{(u_j,v_j)}\](using that the terms for $j<i$ were all zero by maximality of $i$). Thus comparing the two equations we exactly get $u_i'=u_i+(v_i'-v_i)\cdot \sigma_{(u_i,v_i)}$, contradicting that $(u_i,v_i)\neq (u_i',v_i')$ (as $P_0$ was an induced matching). 
+\end{proof}
+
+Great, thus for fixed $h$, for all sufficiently large $p$ we have $\IM(h_0,p)\ge p^{h-2^{-h_0/3}}$ for all $h_0\le h$, whence taking $\IM(h,p^s)\ge p^{(h-\exp(-\Omega(h^{1/2})))s}$ (taking $k,h_0=\Theta(h^{1/2})$). Meanwhile for fixed odd $p$, we have $\IM(h,p)\ge p^h- (p-1)((p+1)/2)^h = p^{h- O_p((1/2+1/2p)^{h})}$, thus
+
+\end{document}

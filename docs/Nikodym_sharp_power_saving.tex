@@ -1,0 +1,408 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=27mm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype}
+\usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue]{hyperref}
+\newcommand{\F}{\mathbb F}
+\newcommand{\PP}{\mathbb P}
+\newcommand{\A}{\mathbb A}
+\newcommand{\cO}{\mathcal O}
+\newcommand{\fm}{\mathfrak m}
+\newcommand{\gr}{\operatorname{gr}}
+\newcommand{\Nik}{\operatorname{Nik}}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\title{Nikodym sets: a power saving\\from finite-grid interpolation}
+\author{Research note}
+\date{5 September 2026}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We prove
+\[
+ \Nik(d,q)\ge q^d-(8d^2+1)q^{\,d-2^{1-d}}
+ \qquad(d\ge2)
+\]
+for every prime power $q$. The main observation compares interpolation
+on the whole finite grid with interpolation on an irreducible carrier.
+Removing the conditions at private points supplies a polynomial cut
+whose degree is independent of the degrees of the carrier's defining
+equations. A dimension induction then halves the saving at each step.
+The proof uses monomial counting, finite-grid Hermite interpolation,
+linear Noether normalization, and the elementary degree bound for a
+proper hypersurface section. It uses no resolution of singularities,
+intersection pairing, or restriction on the characteristic.
+\end{abstract}
+
+\section{The statement for families with private points}
+
+Fix an algebraic closure $K$ of $\F_q$. An affine $\F_q$-line
+means its extension to a line over $K$ as well as its $q$ rational
+points, as appropriate. A family $\mathcal L$ of distinct affine
+$\F_q$-lines has \emph{private points} if for each $\ell\in\mathcal L$
+there is a specified $b_\ell\in\ell(\F_q)$ lying on no other line of
+$\mathcal L$. In particular, the $b_\ell$ are distinct.
+
+\begin{theorem}\label{thm:carrier}
+Let $d\ge2$, $1\le k\le d$, and let $A\subseteq\PP^d_K$ be an
+integral projective variety of dimension $k$ and degree $\Delta$.
+Suppose $A$ contains the projective closures of $L$ affine
+$\F_q$-lines having private points. Then
+\begin{equation}\label{eq:carrier}
+ L\le C_d\Delta q^{\,k-2^{1-k}},
+ \qquad C_d=8d^2+1.
+\end{equation}
+The variety $A$ need not be defined over $\F_q$.
+\end{theorem}
+
+\begin{corollary}\label{cor:nikodym}
+For every $d\ge2$, every prime power $q$, and every Nikodym set
+$N\subseteq\F_q^d$,
+\begin{equation}\label{eq:main}
+ |\F_q^d\setminus N|\le (8d^2+1)q^{\,d-2^{1-d}}.
+\end{equation}
+Consequently,
+\[
+ \Nik(d,q)=q^d-O_d\bigl(q^{\,d-2^{1-d}}\bigr).
+\]
+\end{corollary}
+
+\begin{proof}[Deduction of the corollary]
+Put $B=\F_q^d\setminus N$. For each $b\in B$, choose a witness
+line $\ell_b$ with $B\cap\ell_b=\{b\}$. These lines are distinct,
+and $b$ is a private point of $\ell_b$. Apply
+Theorem~\ref{thm:carrier} with $A=\PP^d$, $k=d$, and $\Delta=1$.
+\end{proof}
+
+\section{Two polynomial dimension estimates}
+
+For a projective variety $A\subseteq\PP^d$, write $H_A(t)$ for its
+homogeneous Hilbert function: the dimension of degree-$t$ forms
+modulo those vanishing on $A$. If $A$ meets the standard affine
+chart, this is also the dimension of restrictions to $A\cap\A^d$
+of affine polynomials of total degree at most $t$.
+
+\begin{lemma}[Normalized Hilbert functions]\label{lem:normalized}
+For any homogeneous ideal in $K[X_0,\ldots,X_d]$, the Hilbert
+function $H$ of its quotient satisfies
+\begin{equation}\label{eq:normalized}
+ \frac{H(u)}{\binom{u+d}{d}}
+ \le \frac{H(t)}{\binom{t+d}{d}}
+ \qquad(0\le t\le u).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Replace the ideal by an initial monomial ideal, which preserves its
+Hilbert function. Call a monomial \emph{standard} if it is outside
+this ideal. Every divisor of a standard monomial is standard.
+
+Give the edge from $X^\alpha$ of degree $t$ to
+$X^{\alpha+e_i}$ of degree $t+1$ weight $\alpha_i+1$.
+Every standard child has only standard parents, and its total
+incoming weight is $t+1$. The total outgoing weight from any
+standard parent is $t+d+1$. Counting weighted edges therefore gives
+\[
+ (t+1)H(t+1)\le(t+d+1)H(t).
+\]
+This is the adjacent-degree case of \eqref{eq:normalized}; iterate.
+\end{proof}
+
+\begin{lemma}[Degree upper bound]\label{lem:upper}
+If $A\subseteq\PP^d_K$ is integral of dimension $k$ and degree
+$\Delta$, then
+\begin{equation}\label{eq:upper}
+ H_A(t)\le\Delta\binom{t+k}{k}\qquad(t\ge0).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Here is a proof of this standard degree estimate. Choose a finite
+linear projection $\pi:A\to\PP^k$ of degree $\Delta$ whose function
+field extension is separable. Such a projection exists over the
+infinite perfect field $K$: linear Noether normalization gives
+finiteness, and generic linear coordinates are separating
+coordinates on the smooth locus.
+
+Choose an affine base point with $\Delta$ distinct unramified
+preimages. The completed local rings at these preimages have the
+same $k$ base coordinates. Taking the Taylor coefficients of total
+degree at most $t$ at all these branches defines a linear map
+from degree-$t$ polynomial restrictions into a vector space of
+dimension $\Delta\binom{t+k}{k}$.
+
+This map is injective. Indeed, if a restriction $P$ has all these
+coefficients zero, its field norm to the base vanishes to order at
+least $\Delta(t+1)$. On the other hand, that norm is a polynomial
+of degree at most $\Delta t$. To justify the degree statement,
+the homogeneous coordinate ring of $A$ is finite over the
+polynomial ring in the $k+1$ projection coordinates. The norm of
+a degree-$t$ homogeneous element lies in that polynomial ring
+by integrality and its integral closedness, and has homogeneous
+degree $\Delta t$. Dehomogenize on the chosen affine chart.
+
+A nonzero polynomial cannot vanish at a point to order greater
+than its total degree. Thus the norm is zero, which forces
+$P=0$ because a nonzero field element has nonzero norm.
+The Taylor map is injective, proving the bound. All Taylor
+coefficients are formal coefficients; no division by factorials
+is involved.
+\end{proof}
+
+\section{Interpolation on the entire finite grid}
+
+For $x\in A\cap\A^d(K)$ and $r\ge1$, put
+\[
+ j_{A,x}(r)=\dim_K\bigl(\cO_{A,x}/\fm_{A,x}^{\,r}\bigr).
+\]
+Set $j_{A,x}(r)=0$ when $x\notin A$.
+
+\begin{lemma}[Local minimum]\label{lem:local}
+For every point $x$ of an integral $k$-dimensional variety,
+\begin{equation}\label{eq:local-min}
+ j_{A,x}(r)\ge\binom{r+k-1}{k}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The associated graded ring $\gr_{\fm}\cO_{A,x}$ is a standard
+graded $K$-algebra of dimension $k$. Linear Noether normalization
+gives $k$ algebraically independent degree-one elements in this
+ring. Their monomials of degree less than $r$ are linearly
+independent. There are $\binom{r+k-1}{k}$ such monomials, and
+the sum of the first $r$ graded dimensions is $j_{A,x}(r)$.
+\end{proof}
+
+\begin{lemma}[Grid interpolation]\label{lem:grid}
+For every integer $r\ge1$, put
+\begin{equation}\label{eq:U}
+ U=q(r-1)+d(q-1).
+\end{equation}
+Restriction of degree-at-most-$U$ polynomials on $A\cap\A^d$
+surjects onto
+\[
+ \bigoplus_{x\in\F_q^d\cap A}
+ \cO_{A,x}/\fm_{A,x}^{\,r}.
+\]
+In particular,
+\begin{equation}\label{eq:grid-dim}
+ \sum_{x\in\F_q^d}j_{A,x}(r)\le H_A(U).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+In $R=K[X_1,\ldots,X_d]$, let
+\[
+ Z_i=X_i^q-X_i,\qquad J=(Z_1,\ldots,Z_d).
+\]
+The polynomials $X_i^q-X_i$ have distinct roots, exactly $\F_q$.
+Thus $J=\bigcap_{x\in\F_q^d}\fm_x$. The distinct maximal ideals
+are pairwise comaximal, so
+\[
+ J^r=\bigcap_{x\in\F_q^d}\fm_x^r,\qquad
+ R/J^r\cong\bigoplus_{x\in\F_q^d}R/\fm_x^r.
+\]
+
+Repeated use of $X_i^q=Z_i+X_i$ shows that $R$ is spanned over
+$K[Z_1,\ldots,Z_d]$ by the monomials $X^\alpha$ with
+$0\le\alpha_i<q$. Hence $R/J^r$ is spanned by
+\[
+ X^\alpha Z^\gamma,
+ \qquad 0\le\alpha_i<q,\quad |\gamma|<r.
+\]
+Every such polynomial has degree at most
+$d(q-1)+q(r-1)=U$. Consequently ambient polynomials of degree at
+most $U$ interpolate arbitrary ambient jets of order less than $r$
+at every grid point simultaneously.
+
+Now quotient each jet space by the affine ideal of $A$. At a
+point $x\in A$ the resulting quotient is precisely
+$\cO_{A,x}/\fm_{A,x}^r$; at a point outside $A$ it is zero.
+The map factors through polynomial restrictions on $A$.
+This proves both surjectivity and \eqref{eq:grid-dim}.
+\end{proof}
+
+One useful consequence, requiring no separate point-counting theorem, is
+\begin{equation}\label{eq:point-count}
+ |A\cap\F_q^d|\le\Delta q^k.
+\end{equation}
+Indeed, Lemmas~\ref{lem:local}, \ref{lem:grid}, and \ref{lem:upper}
+give
+\[
+ |A\cap\F_q^d|\binom{r+k-1}{k}
+ \le\Delta\binom{q(r-1)+d(q-1)+k}{k}.
+\]
+Divide by the binomial on the left and let the integer $r$ tend
+to infinity, keeping $q$ fixed.
+
+\section{A polynomial cut independent of the defining degrees}
+
+\begin{proposition}\label{prop:cut}
+Suppose $A$ and its $L>0$ lines satisfy the hypotheses of
+Theorem~\ref{thm:carrier}. Define
+\[
+ \rho=\frac{L}{\Delta q^k},\qquad
+ a=8d^2,\qquad r=\left\lceil\frac a\rho\right\rceil.
+\]
+If $r\le q$, there is a polynomial $G$ of degree at most
+\begin{equation}\label{eq:T}
+ T=r(q-1)-1
+\end{equation}
+which does not vanish identically on $A$ and vanishes identically
+on every selected line.
+\end{proposition}
+
+\begin{proof}
+Let $B_0$ be the set of the $L$ private points. Impose on
+polynomial restrictions on $A$ the linear conditions
+\[
+ G\in\fm_{A,x}^{\,r}
+ \qquad\bigl(x\in(A\cap\F_q^d)\setminus B_0\bigr).
+\]
+The number of conditions is at most
+\begin{align}
+ \sum_{x\in\F_q^d\setminus B_0}j_{A,x}(r)
+ &=\sum_{x\in\F_q^d}j_{A,x}(r)
+     -\sum_{b\in B_0}j_{A,b}(r)\notag\\
+ &\le H_A(U)-L\binom{r+k-1}{k},\label{eq:saved}
+\end{align}
+where $U$ is given by \eqref{eq:U}.
+
+We show that the last expression is strictly less than $H_A(T)$.
+By \eqref{eq:point-count}, $0<\rho\le1$, so $r\ge8d^2$.
+Writing $s=U-T$, we have
+\[
+ s=r+(d-1)q-d+1\le dq,
+ \qquad T+1=r(q-1)\ge rq/2.
+\]
+The normalized Hilbert inequality gives
+\[
+ H_A(U)-H_A(T)
+ \le H_A(T)\left(
+       \frac{\binom{U+d}{d}}{\binom{T+d}{d}}-1\right).
+\]
+Moreover,
+\begin{align*}
+ \frac{\binom{U+d}{d}}{\binom{T+d}{d}}
+ &=\prod_{i=1}^d\left(1+\frac{s}{T+i}\right)
+ \le\exp\!\left(\frac{ds}{T+1}\right)
+ \le\exp\!\left(\frac{2d^2}{r}\right).
+\end{align*}
+Since $2d^2/r\le1/4$, the inequality $e^z-1\le2z$ for
+$0\le z\le1/4$ shows that the parenthesis is at most $4d^2/r$.
+Finally, for $1\le i\le k$,
+\[
+ T+i=r(q-1)+i-1\le q(r+i-1),
+\]
+and therefore
+\[
+ \binom{T+k}{k}\le q^k\binom{r+k-1}{k}.
+\]
+Combining these estimates with Lemma~\ref{lem:upper} yields
+\begin{align}
+ H_A(U)-H_A(T)
+ &\le\frac{4d^2}{r}\Delta q^k\binom{r+k-1}{k}\notag\\
+ &\le\frac{\rho}{2}\Delta q^k\binom{r+k-1}{k}
+ =\frac L2\binom{r+k-1}{k}.
+ \label{eq:gap}
+\end{align}
+Equations~\eqref{eq:saved} and \eqref{eq:gap} prove the strict
+dimension inequality. There is consequently a nonzero restriction
+on $A$ of a polynomial $G$ of degree at most $T$ satisfying all
+the imposed conditions.
+
+Each selected line contains exactly one point of $B_0$, its own
+private point. At each of its other $q-1$ rational points,
+restriction from $A$ to the line carries
+$\fm_{A,x}^r$ into the $r$th power of the line's maximal ideal.
+Thus $G$ restricted to the line has $q-1$ roots of multiplicity
+at least $r$. Its degree is at most $T<r(q-1)$, so it vanishes
+identically on the line.
+\end{proof}
+
+\section{Dimension induction and the exponent}
+
+We recall the elementary degree fact used here. If an integral
+$k$-dimensional projective variety of degree $\Delta$ is not
+contained in a degree-$e$ hypersurface, its intersection has
+pure dimension $k-1$, and the sum of the degrees of its reduced
+irreducible components is at most $e\Delta$. The degree statement
+follows by taking the Hilbert function difference
+$H_A(t)-H_A(t-e)$; its leading term is
+$e\Delta t^{k-1}/(k-1)!$. The principal ideal theorem and the
+dimension formula give the dimension assertion. Intersection
+multiplicities are positive, so discarding them can only decrease
+the degree sum.
+
+\begin{proof}[Proof of Theorem~\ref{thm:carrier}]
+Fix $d$, put $a=8d^2$ and $C=a+1$, and induct on $k$.
+If $k=1$, an integral curve containing a line is that line.
+Thus $L\le\Delta$, which is stronger than the asserted bound.
+We can also assume $L>0$ throughout.
+
+Suppose $k\ge2$ and the result holds in dimension $k-1$.
+Write $\rho=L/(\Delta q^k)$; by \eqref{eq:point-count},
+$0<\rho\le1$. If $\rho<C/q$, then
+\[
+ L<C\Delta q^{k-1}\le C\Delta q^{\,k-2^{1-k}},
+\]
+as required. Otherwise put $r=\lceil a/\rho\rceil$.
+Then
+\[
+ r\le\frac a\rho+1\le\frac C\rho\le q.
+\]
+Proposition~\ref{prop:cut} gives a proper polynomial cut of
+degree at most $T=r(q-1)-1<rq$ containing all $L$ lines.
+
+Let $A_1,\ldots,A_m$ be the reduced irreducible components
+of this cut. Each has dimension $k-1$, and
+\[
+ \sum_{i=1}^m\deg A_i\le\Delta T.
+\]
+Assign each line to one component that contains it. Every
+assigned subfamily retains its private points. Put
+$\alpha=2^{2-k}$, the saving in dimension $k-1$.
+Applying the inductive bound on each component and summing gives
+\[
+ L\le C\sum_i(\deg A_i)q^{\,k-1-\alpha}
+ \le C\Delta Tq^{\,k-1-\alpha}
+ \le C\Delta r q^{\,k-\alpha}.
+\]
+After division by $\Delta q^k$ and use of $r\le C/\rho$,
+\[
+ \rho\le Crq^{-\alpha}
+ \le\frac{C^2}{\rho}q^{-\alpha}.
+\]
+Hence
+\[
+ \rho\le Cq^{-\alpha/2}
+       =Cq^{-2^{1-k}},
+\]
+which completes the induction.
+\end{proof}
+
+\begin{remark}[Constants and lower-order terms]
+The constant was chosen for a short uniform proof and is not optimized.
+For the Nikodym problem the conclusion can also be written
+\[
+ q^d-|N|\le q^{\,d-2^{1-d}+o(1)}.
+\]
+More explicitly, the $o(1)$ in this display may be taken to be
+$\log(8d^2+1)/\log q$. The first exponents are
+\[
+ \varepsilon_2=\frac12,\quad
+ \varepsilon_3=\frac14,\quad
+ \varepsilon_4=\frac18,\quad
+ \varepsilon_5=\frac1{16}.
+\]
+No step uses ordinary differentiation, so there is no
+large-characteristic hypothesis.
+\end{remark}
+
+\end{document}
