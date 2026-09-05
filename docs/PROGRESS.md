@@ -46,15 +46,21 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | H03 normalized Hilbert inequality | `LowerBound/Hilbert/Normalized.lean` | done | needs H01, H02 |
 | I00 algebra interface (`quotDim`, `degree`, `AlgebraInterface`) | `LowerBound/Algebra/Interface.lean` | done | new node; assembly is conditional on it |
 | A01 dimension and closed-point height | `LowerBound/Algebra/Dimension.lean` | done | substantial |
-| A02 linear Noether normalization | `LowerBound/Algebra/LinearNormalization.lean` | open | substantial |
-| A03 Hilbert polynomials, additivity | `LowerBound/Algebra/HilbertPolynomial.lean` | open | substantial |
+| D01 quotient dimension via primes | `LowerBound/Algebra/DimensionExtra.lean` | wip | design doc |
+| GL graded lemmas + `homHilbert` | `LowerBound/Algebra/GradedLemmas.lean` | wip | design doc |
+| PA polynomial asymptotics, `evPoly` refactor | `LowerBound/Algebra/PolyAsymptotics.lean` | wip | design doc |
+| TR0–TR2, TR6 base change (Hilbert, jets) | `LowerBound/Algebra/BaseChange.lean` | wip | design doc |
+| TR3–TR4 base change (dimension, primes) | `LowerBound/Algebra/BaseChangePrime.lean` | wip | design doc |
+| TR5, TR7 assemble `algebraInterface` | `LowerBound/Algebra/BaseChange.lean` | open | needs everything |
+| A02 linear Noether normalization | `LowerBound/Algebra/LinearNormalization.lean` | wip | substantial |
+| A03 Hilbert polynomials, additivity | `LowerBound/Algebra/HilbertPolynomial.lean` | wip | substantial |
 | A04 dimension, degree, normalization rank | `LowerBound/Algebra/Degree.lean` | open | substantial |
-| A05 affine/homogeneous bridge | `LowerBound/Algebra/Homogenization.lean` | open | substantial |
-| A06 free fiber after localization | `LowerBound/Algebra/FreeFiber.lean` | open | |
+| A05 affine/homogeneous bridge | `LowerBound/Algebra/Homogenization.lean` | wip | substantial |
+| A06′ homogeneous fraction basis, conductor | `LowerBound/Algebra/FreeFiber.lean` | open | |
 | A07 graded norm degree control | `LowerBound/Algebra/GradedNorm.lean` | open | substantial |
 | A08 uniform Hilbert upper bound | `LowerBound/Hilbert/DegreeUpper.lean` | open | interface theorem |
-| A09 graded chart and norm compatibility | `LowerBound/Algebra/GradedChart.lean` | open | substantial |
-| J01 associated graded, parameters | `LowerBound/Algebra/LocalParameters.lean` | open | substantial |
+| A09 graded chart | — | dropped | replaced by A06′/A07′ (design doc) |
+| J01 associated graded, parameters | `LowerBound/Algebra/LocalParameters.lean` | wip | substantial |
 | J02 local jet minimum | `LowerBound/Jets/LowerBound.lean` | open | interface theorem |
 | B01 hypersurface section degree | `LowerBound/Algebra/HypersurfaceDegree.lean` | open | substantial |
 | B02 degree sum over components | `LowerBound/Algebra/ComponentDegree.lean` | open | substantial |
