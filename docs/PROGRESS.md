@@ -57,12 +57,12 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | A04 dimension, degree, normalization rank | `LowerBound/Algebra/Degree.lean` | open | substantial |
 | A05 affine/homogeneous bridge | `LowerBound/Algebra/Homogenization.lean` | wip | substantial |
 | NS shared setting of A06′/A07′/A08/A04′, `IsHomogeneousElem` | `LowerBound/Algebra/NormalizationSetting.lean` | done | design doc |
-| A06′ homogeneous fraction basis, conductor | `LowerBound/Algebra/FreeFiber.lean` | open | |
-| A07 graded norm degree control | `LowerBound/Algebra/GradedNorm.lean` | open | substantial |
+| A06′ homogeneous fraction basis, conductor | `LowerBound/Algebra/FreeFiber.lean` | wip | |
+| A07 graded norm degree control | `LowerBound/Algebra/GradedNorm.lean` | wip | substantial |
 | A08 uniform Hilbert upper bound | `LowerBound/Hilbert/DegreeUpper.lean` | open | interface theorem |
 | A09 graded chart | — | dropped | replaced by A06′/A07′ (design doc) |
 | J01 tangent cone, local parameters | `LowerBound/Algebra/LocalParameters.lean` | done | substantial |
-| J02 local jet minimum | `LowerBound/Jets/LowerBound.lean` | open | interface theorem |
+| J02 local jet minimum | `LowerBound/Jets/LowerBound.lean` | wip | interface theorem |
 | B01 hypersurface section degree | `LowerBound/Algebra/HypersurfaceDegree.lean` | open | substantial |
 | B02 degree sum over components | `LowerBound/Algebra/ComponentDegree.lean` | open | substantial |
 | B03 affine proper-cut interface | `LowerBound/Algebra/ProperCut.lean` | open | interface theorem |
