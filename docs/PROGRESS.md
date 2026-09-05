@@ -17,7 +17,7 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | Q01 integer parameters | `Construction/Parameters.lean` | done | |
 | Q02 thresholds and root bounds | `Construction/Parameters.lean` | done | |
 | C01 trace fiber | `Construction/Fibers.lean` | done | needs S03 |
-| C02 energy fiber | `Construction/Fibers.lean` | wip | needs S03, D01, Q01 |
+| C02 energy fiber | `Construction/Fibers.lean` | done | needs S03, D01, Q01 |
 | T01 tangent lines | `Construction/Tangent.lean` | done | needs S, D, Q, C |
 | E01 size of P | `Construction/Count.lean` | done | needs C, Q02, S03 |
 | E02 fixed-scaffold theorem | `Construction/Count.lean` | done | needs P01, T01, E01 |
@@ -65,14 +65,14 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | B01 hypersurface section degree | `LowerBound/Algebra/HypersurfaceDegree.lean` | open | substantial |
 | B02 degree sum over components | `LowerBound/Algebra/ComponentDegree.lean` | open | substantial |
 | B03 affine proper-cut interface | `LowerBound/Algebra/ProperCut.lean` | open | interface theorem |
-| G01 bounded reduction mod grid power | `LowerBound/Grid/Reduction.lean` | wip | needs F01 |
-| G02 CRT for grid point powers | `LowerBound/Grid/CRT.lean` | wip | needs F03 |
+| G01 bounded reduction mod grid power | `LowerBound/Grid/Reduction.lean` | done | needs F01 |
+| G02 CRT for grid point powers | `LowerBound/Grid/CRT.lean` | done | needs F03 |
 | G03 joint grid jet interpolation | `LowerBound/Grid/Jets.lean` | done | needs F02, F03, G01, G02 |
 | G04 omitted conditions | `LowerBound/Grid/OmittedConditions.lean` | done | needs G03 |
-| L01 jet vanishing on a line | `LowerBound/Lines/Jets.lean` | wip | needs F03, F04 |
-| L02 q−1 roots force line identity | `LowerBound/Lines/Vanishing.lean` | wip | needs F04, L01 |
+| L01 jet vanishing on a line | `LowerBound/Lines/Jets.lean` | done | needs F03, F04 |
+| L02 q−1 roots force line identity | `LowerBound/Lines/Vanishing.lean` | done | needs F04, L01 |
 | C01 affine point count | `LowerBound/Counting/Points.lean` | done | needs F03, F05, G03, J02, A08 |
-| C02 binomial gap estimate | `LowerBound/Arithmetic/BinomialGap.lean` | wip | |
+| C02 binomial gap estimate | `LowerBound/Arithmetic/BinomialGap.lean` | done | |
 | C03 Hilbert gap | `LowerBound/Hilbert/Gap.lean` | done | needs H03, A08, C02 |
 | C04 interpolation cut | `LowerBound/InterpolationCut.lean` | done | needs F05, G04, J02, C03, L02 |
 | C05 multiplicity choice | `LowerBound/Arithmetic/Multiplicity.lean` | done | |
