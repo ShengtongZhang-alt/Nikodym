@@ -21,7 +21,7 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | T01 tangent lines | `Construction/Tangent.lean` | open | needs S, D, Q, C |
 | E01 size of P | `Construction/Count.lean` | open | needs C, Q02, S03 |
 | E02 fixed-scaffold theorem | `Construction/Count.lean` | open | needs P01, T01, E01 |
-| K01 Kummer independence | `MultiQuadratic/Kummer.lean` | wip | |
+| K01 Kummer independence | `MultiQuadratic/Kummer.lean` | done | |
 | K02 order, embeddings, conjugations | `MultiQuadratic/Order.lean` | wip | |
 | K03 basis and coordinate bound | `MultiQuadratic/Basis.lean` | open | needs K01, K02 |
 | K04 trace integrality | `MultiQuadratic/Basis.lean` | open | needs K03 |
