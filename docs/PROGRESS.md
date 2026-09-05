@@ -30,7 +30,7 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | L02 reduction map | `MultiQuadratic/Legendre.lean` | done | needs K02 |
 | K06 scaffold instance | `MultiQuadratic/Scaffold.lean` | done | needs K03–K05, L02, S01 |
 | M01 exponent arithmetic | `Construction/Arith.lean` | done | |
-| M02 final theorem | `Construction/Main.lean` | open | needs E02, K06, L01, M01 |
+| M02 final theorem | `Construction/Main.lean` | wip | needs E02, K06, L01, M01 |
 
 ## Lower bound — `docs/nikodym_bound_lean_blueprint.md`
 
