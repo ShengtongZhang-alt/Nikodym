@@ -21,15 +21,21 @@ vectors are `Fin k → R`, points of `F ^ h` are `Fin (k + 1) → F` built with 
   product set `Scaffold.ptSet φ n q k A B = Fintype.piFinset (ptFamily …)`, so that
   `ptSet = φ(A)^k × φ(b(B))`.
 * T01a: `Scaffold.eq_zero_of_map_eq_zero_of_lt_M` (small kernel on boxes of radius `< M`),
-  `Scaffold.injOn_of_box`, `Scaffold.injOn_A`, `Scaffold.injOn_base_B`, `Scaffold.pt_injOn`.
+  `Scaffold.eq_of_map_eq_of_box`, `Scaffold.injOn_of_box`, `Scaffold.injOn_A`,
+  `Scaffold.eq_of_map_base_eq`, `Scaffold.injOn_base_B`, `Scaffold.pt_injOn`.
 * T01b: `Scaffold.eq_zero_of_map_eq_zero_of_small`.
-* T01c: `Scaffold.no_collision`.
+* T01c: `Scaffold.prefixSumBelow` (`y_{i-1}`), `Scaffold.abs_prefixSumBelow_le`,
+  `Scaffold.base_sub_base_eq`, `Scaffold.abs_mul_sub_prefixSum_le`,
+  `Scaffold.digit_eq_of_trace_eq_zero` (the D02 step) and `Scaffold.no_collision`.
 * Main statements: `Scaffold.tangent_hypothesis` (the hypothesis of P01 for `ptSet`),
   `Scaffold.card_ptSet` (`#ptSet = #A ^ k * #B`) and
   `Scaffold.isNikodym_univ_sdiff_ptSet` (`univ \ ptSet` is a Nikodym set).
 
 Throughout, `n` and `q` are the integer parameters of Q01, related to the types by
-`Fintype.card ι = n` and `Fintype.card F = q`; `ρ = 1 / (100 (k + 1) √n)` and `γ = 1 / 10`.
+`Fintype.card ι = n` and `Fintype.card F = q`; the constants are given as hypotheses
+`ρ = 1 / (100 (k + 1) √n)` and `γ = 1 / 10`. Only `1 ≤ n` and `1 ≤ q` are needed here (the
+Q02 threshold `2 ^ (n 2 ^ k) ≤ q` implies `1 ≤ q`). Declarations involving `Finset.image`
+carry a `[DecidableEq F]` assumption (consumers may use `classical`).
 -/
 
 namespace Nikodym
@@ -588,9 +594,12 @@ theorem isNikodym_univ_sdiff_ptSet (S : Scaffold b σ φ K₀ K₁) (hk : 1 ≤ 
     (hA : A ⊆ S.boxFinset (γ * Params.M n q)) (hAs : ∀ a ∈ A, trace σ a = s)
     {B : Finset (Fin k → R)} (hB : B ⊆ digitSpace S n q k ρ)
     (hBc : ∀ w ∈ B, ∀ w' ∈ B, color σ n q k w = color σ n q k w') :
-    IsNikodym (Finset.univ \ ptSet φ n q k A B) :=
-  isNikodym_univ_sdiff_piFinset (by omega) (ptFamily φ n q k A B)
+    IsNikodym (Finset.univ \ ptSet φ n q k A B) := by
+  -- P01 is stated with the classical decidability instance; `convert` reconciles the instances
+  have := isNikodym_univ_sdiff_piFinset (by omega) (ptFamily φ n q k A B)
     (S.tangent_hypothesis hn hn1 hqF hq1 hρ hγ hA hAs hB hBc)
+  unfold ptSet
+  convert this using 3
 
 end Main
 

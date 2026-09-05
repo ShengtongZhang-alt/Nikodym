@@ -18,9 +18,9 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | Q02 thresholds and root bounds | `Construction/Parameters.lean` | done | |
 | C01 trace fiber | `Construction/Fibers.lean` | done | needs S03 |
 | C02 energy fiber | `Construction/Fibers.lean` | wip | needs S03, D01, Q01 |
-| T01 tangent lines | `Construction/Tangent.lean` | wip | needs S, D, Q, C |
+| T01 tangent lines | `Construction/Tangent.lean` | done | needs S, D, Q, C |
 | E01 size of P | `Construction/Count.lean` | done | needs C, Q02, S03 |
-| E02 fixed-scaffold theorem | `Construction/Count.lean` | open | needs P01, T01, E01 |
+| E02 fixed-scaffold theorem | `Construction/Count.lean` | wip | needs P01, T01, E01 |
 | K01 Kummer independence | `MultiQuadratic/Kummer.lean` | done | |
 | K02 order, embeddings, conjugations | `MultiQuadratic/Order.lean` | done | |
 | K03 basis and coordinate bound | `MultiQuadratic/Basis.lean` | done | needs K01, K02 |
