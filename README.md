@@ -17,11 +17,11 @@ The writeups in docs/ are preliminary and partially AI-generated.
 
 We are currently preparing a detailed, human readable exposition of the proof.
 
-## The theorem
+## The theorems
 
 Let $q$ be a prime power and $d \ge 2$. A set $N \subseteq \mathbb F_q^d$ is a
 *Nikodym set* if for every $x \in \mathbb F_q^d$ there is an affine line $\ell$
-through $x$ with $\ell \setminus x \subseteq N$.
+through $x$ with $\ell \setminus x \subseteq N$. Let $\text{Nik}(d,q)$ be the size of the smallest Nikodym set in $F_q^d$. 
 
 **Lower bound.** For every Nikodym set $N \subseteq \mathbb F_q^d$,
 
@@ -36,7 +36,7 @@ $$
 |N| \le q^d - q^{d - 2^{1-d} - \varepsilon}.
 $$
 
-Together these give $\text{Nik}(d,q) = q^d - q^{d-2^{1-d}+o(1)}$ over all prime fields.
+Together these give $\text{Nik}(d,q) = q^d - q^{d-2^{1-d}+o(1)}$ over all prime fields, resolving the finite field Nikodym problem over prime fields.
 
 ## What we are missing
 
