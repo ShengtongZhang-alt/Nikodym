@@ -11,12 +11,6 @@ Formalization completed by Fable 5.1 and Grok 4.6 in the Cursor Editor.
 This repository is a Lean 4 and Mathlib formalization project for the sharp
 power saving in the finite-field Nikodym problem over prime fields.
 
-## Note
-
-The writeups in docs/ are preliminary and partially AI-generated.
-
-We are currently preparing a detailed, human readable exposition of the proof.
-
 ## The theorems
 
 Let $q$ be a prime power and $d \ge 2$. A set $N \subseteq \mathbb F_q^d$ is a
@@ -41,6 +35,12 @@ Together these give $\text{Nik}(d,q) = q^d - q^{d-2^{1-d}+o(1)}$ over all prime 
 ## What we are missing
 
 The tight exponent when $q$ is a prime power. Our method could cover the case when the power of $q$ is not too large, but the regime in which the characteristics of $q$ is fixed remains open.
+
+## Writeups
+
+The writeups in docs/ are preliminary and partially AI-generated.
+
+We are currently preparing a detailed, human readable exposition of the proof.
 
 ## Lean
 
