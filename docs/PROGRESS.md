@@ -54,7 +54,7 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | TR5, TR7 assemble `algebraInterface` | `LowerBound/Algebra/Transfer.lean` | done (conditional assembly) | needs everything |
 | A02 linear Noether normalization | `LowerBound/Algebra/LinearNormalization.lean` | done | substantial |
 | A03 Hilbert polynomials, additivity | `LowerBound/Algebra/HilbertPolynomial.lean` | done | substantial |
-| A04 dimension, degree, normalization rank | `LowerBound/Algebra/Degree.lean` | wip | substantial |
+| A04 dimension, degree, normalization rank | `LowerBound/Algebra/Degree.lean` | done (conditional on A08 `exists_hilbert_bounds`) | substantial |
 | A05 affine/homogeneous bridge | `LowerBound/Algebra/Homogenization.lean` | done | substantial |
 | NS shared setting of A06′/A07′/A08/A04′, `IsHomogeneousElem` | `LowerBound/Algebra/NormalizationSetting.lean` | done | design doc |
 | A06′ homogeneous fraction basis, conductor | `LowerBound/Algebra/FreeFiber.lean` | done | |
