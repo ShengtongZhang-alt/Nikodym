@@ -53,16 +53,8 @@ sources:
     location: "https://github.com/ShengtongZhang-alt/Nikodym/blob/main/docs/Nikodym_sharp_power_saving.tex"
     relationship: formalizes
     note: >-
-      Unpublished research note dated 5 September 2026, included in the
-      repository as docs/Nikodym_sharp_power_saving.tex (with a compiled PDF).
       The writeup is preliminary and partially AI-generated; a detailed
-      human-readable exposition is in preparation. The formalization proves Theorem 1 (carrier theorem) and Corollary 2
-      (the lower bound |F_q^d \ N| <= (8 d^2 + 1) q^(d - 2^(1-d)) for every
-      prime power q). The commutative-algebra inputs the note takes as
-      standard (Hilbert-function bounds, linear Noether normalization, degree
-      of a proper hypersurface section) are proved from Mathlib in the
-      Nikodym/LowerBound/Algebra directory following
-      docs/algebra_backend_design.md.
+      human-readable exposition is in preparation.
     license: unknown
     author_endorsement: participated
   - title: "A prime-uniform construction of small finite-field Nikodym sets"
@@ -77,17 +69,8 @@ sources:
     location: "https://github.com/ShengtongZhang-alt/Nikodym/blob/main/docs/nikodym_construction.tex"
     relationship: formalizes
     note: >-
-      Unpublished research note included in the repository as
-      docs/nikodym_construction.tex (with a compiled PDF). The writeup is
-      preliminary and partially AI-generated; a detailed human-readable
-      exposition is in preparation. The formalization
-      proves Corollary 1.2 (the prime-uniform bound |S| <= q^h - q^(h - 2^(1-h)
-      - epsilon) for all sufficiently large primes q). The fixed-field Theorem
-      1.1 is formalized through an abstract "scaffold" interface (a rank-d free
-      Z-algebra with jointly injective real embeddings) instantiated by
-      multiquadratic orders Z[sqrt r_1, ..., sqrt r_m]; the general totally real
-      number field statement of Theorem 1.1 is not formalized separately, and
-      the hypersurface variant (Theorem 1.3 and later sections) is out of scope.
+      The writeup is preliminary and partially AI-generated; a detailed human-readable
+      exposition is in preparation.
     license: unknown
     author_endorsement: participated
   - title: "Nikodym set"
