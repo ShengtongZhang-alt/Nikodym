@@ -36,7 +36,7 @@ $$
 |N| \le q^d - q^{d - 2^{1-d} - \varepsilon}.
 $$
 
-Together these give $\operatorname{Nik}(d,q) = q^d - q^{d-2^{1-d}+o(1)}$ over all prime fields.
+Together these give $\text{Nik}(d,q) = q^d - q^{d-2^{1-d}+o(1)}$ over all prime fields.
 
 ## What we are missing
 
