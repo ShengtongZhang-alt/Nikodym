@@ -42,7 +42,7 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | F04 lines and line ideals | `LowerBound/Lines/Basic.lean` | open | needs F01, F02 |
 | F05 private families | `LowerBound/PrivateFamily.lean` | open | needs F04 |
 | H01 standard monomials | `LowerBound/Hilbert/StandardMonomials.lean` | open | needs F01, F02 |
-| H02 weighted shadow inequality | `LowerBound/Hilbert/Shadow.lean` | wip | |
+| H02 weighted shadow inequality | `LowerBound/Hilbert/Shadow.lean` | done | |
 | H03 normalized Hilbert inequality | `LowerBound/Hilbert/Normalized.lean` | open | needs H01, H02 |
 | A01 dimension and closed-point height | `LowerBound/Algebra/Dimension.lean` | open | substantial |
 | A02 linear Noether normalization | `LowerBound/Algebra/LinearNormalization.lean` | open | substantial |
@@ -68,9 +68,9 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | C02 binomial gap estimate | `LowerBound/Arithmetic/BinomialGap.lean` | open | |
 | C03 Hilbert gap | `LowerBound/Hilbert/Gap.lean` | open | needs H03, A08, C02 |
 | C04 interpolation cut | `LowerBound/InterpolationCut.lean` | open | needs F05, G04, J02, C03, L02 |
-| C05 multiplicity choice | `LowerBound/Arithmetic/Multiplicity.lean` | wip | |
+| C05 multiplicity choice | `LowerBound/Arithmetic/Multiplicity.lean` | done | |
 | C06 assigning lines to components | `LowerBound/Counting/Components.lean` | open | needs F05, B03, C04 |
-| C07 weighted selection | `LowerBound/Arithmetic/WeightedSelection.lean` | wip | |
+| C07 weighted selection | `LowerBound/Arithmetic/WeightedSelection.lean` | done | |
 | C08 curve base case | `LowerBound/Counting/Curves.lean` | open | needs F04, F05, A01, A04, A05 |
 | C09 carrier theorem | `LowerBound/CarrierBound.lean` | open | needs C01, C04–C08 |
 | C10 Nikodym, natural-number form | `LowerBound/Main.lean` | open | needs F05, C09 |
