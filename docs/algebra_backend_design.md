@@ -750,6 +750,8 @@ Principal risks and mitigations:
    Provide once in `Algebra/GradedLemmas.lean` (wave 0, S): `homogeneousComponent (m+n) (F * G) =
    F * homogeneousComponent n G` for `F` homogeneous of degree `m`, components of finite sums,
    `(A ⊔ B)_t = A_t ⊔ B_t`, `(A ⊓ B)_t = A_t ⊓ B_t` for homogeneous ideals.
+   (Done. Note the name `homogeneousComponent_mul_of_isHomogeneous` lives in `GradedLemmas.lean`;
+   the A02-local variant is `homogeneousComponent_mul_of_isHomogeneous_right`.)
 4. **`quotDim` conventions**: `quotDim ⊤ = 0` junk. All A02 statements carry `J ≠ ⊤`; B02's
    correction ideals may be `⊤` (then `homHilbert = 0`, fine) — handle by `by_cases`.
 5. **Finset-of-minimal-primes API**: `finite_minimalPrimes_sup` gives a `Set.Finite`; TR5 must
