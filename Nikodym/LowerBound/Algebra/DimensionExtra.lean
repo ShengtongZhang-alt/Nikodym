@@ -67,6 +67,15 @@ theorem quotDim_le_of_forall_isPrime {J : Ideal (MvPolynomial (Fin d) K)} {n : �
   rw [← coe_quotDim J hJ] at h'
   exact_mod_cast h'
 
+/-- Blueprint A01 (6) in terms of `quotDim`: a minimal prime `J` over `I + (g)`, for `I` prime and
+`g ∉ I`, has `quotDim J + 1 = quotDim I`. -/
+theorem quotDim_add_one_of_mem_minimalPrimes_sup {I : Ideal (MvPolynomial (Fin d) K)} [I.IsPrime]
+    {g : MvPolynomial (Fin d) K} (hg : g ∉ I) {J : Ideal (MvPolynomial (Fin d) K)}
+    (hJ : J ∈ (I ⊔ Ideal.span {g}).minimalPrimes) : quotDim J + 1 = quotDim I := by
+  have h := ringKrullDim_quotient_add_one_of_mem_minimalPrimes_sup K I hg hJ
+  rw [← coe_quotDim J hJ.1.1.ne_top, ← coe_quotDim I Ideal.IsPrime.ne_top'] at h
+  exact_mod_cast h
+
 end QuotDim
 
 end Nikodym.LowerBound

@@ -65,7 +65,7 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | J02 local jet minimum | `LowerBound/Jets/LowerBound.lean` | done | interface theorem |
 | B01 hypersurface section degree | `LowerBound/Algebra/HypersurfaceDegree.lean` | done | substantial |
 | B02 degree sum over components | `LowerBound/Algebra/ComponentDegree.lean` | done | substantial |
-| B03 affine proper-cut interface | `LowerBound/Algebra/ProperCut.lean` | wip | interface theorem |
+| B03 affine proper-cut interface | `LowerBound/Algebra/ProperCut.lean` | done (conditional on A04′ `DegreeFacts`) | interface theorem |
 | G01 bounded reduction mod grid power | `LowerBound/Grid/Reduction.lean` | done | needs F01 |
 | G02 CRT for grid point powers | `LowerBound/Grid/CRT.lean` | done | needs F03 |
 | G03 joint grid jet interpolation | `LowerBound/Grid/Jets.lean` | done | needs F02, F03, G01, G02 |

@@ -110,16 +110,6 @@ end MinimalPrimes
 
 section Assembly
 
-/-- Blueprint TR7 (B03, dimension clause): a minimal prime `J` over `I + (g)`, for `I` prime and
-`g ∉ I`, has `quotDim J + 1 = quotDim I`. -/
-theorem quotDim_add_one_of_mem_minimalPrimes_sup {I : Ideal (MvPolynomial (Fin d) K)} [I.IsPrime]
-    {g : MvPolynomial (Fin d) K} (hg : g ∉ I) {J : Ideal (MvPolynomial (Fin d) K)}
-    (hJ : J ∈ (I ⊔ Ideal.span {g}).minimalPrimes) : quotDim J + 1 = quotDim I := by
-  haveI : J.IsPrime := hJ.1.1
-  have h := ringKrullDim_quotient_add_one_of_mem_minimalPrimes_sup K I hg hJ
-  rw [← coe_quotDim J Ideal.IsPrime.ne_top', ← coe_quotDim I Ideal.IsPrime.ne_top'] at h
-  exact_mod_cast h
-
 /-- Blueprint TR7: **the algebraic interface over an arbitrary field `K`**, assembled from the
 input theorems A08 (`hA08`) and B03 (`hB03`) over the infinite field `RatFunc K` and from J02
 (`choose_le_jetDim_of_infinite`). Every statement is transported along
