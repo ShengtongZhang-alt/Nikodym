@@ -56,6 +56,7 @@ Module layout: construction side under `Nikodym/Construction/` and `Nikodym/Mult
 | A03 Hilbert polynomials, additivity | `LowerBound/Algebra/HilbertPolynomial.lean` | done | substantial |
 | A04 dimension, degree, normalization rank | `LowerBound/Algebra/Degree.lean` | open | substantial |
 | A05 affine/homogeneous bridge | `LowerBound/Algebra/Homogenization.lean` | wip | substantial |
+| NS shared setting of A06′/A07′/A08/A04′, `IsHomogeneousElem` | `LowerBound/Algebra/NormalizationSetting.lean` | done | design doc |
 | A06′ homogeneous fraction basis, conductor | `LowerBound/Algebra/FreeFiber.lean` | open | |
 | A07 graded norm degree control | `LowerBound/Algebra/GradedNorm.lean` | open | substantial |
 | A08 uniform Hilbert upper bound | `LowerBound/Hilbert/DegreeUpper.lean` | open | interface theorem |
