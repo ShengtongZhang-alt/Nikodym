@@ -15,7 +15,7 @@ power saving in the finite-field Nikodym problem over prime fields.
 
 Let $q$ be a prime power and $d \ge 2$. A set $N \subseteq \mathbb F_q^d$ is a
 *Nikodym set* if for every $x \in \mathbb F_q^d$ there is an affine line $\ell$
-through $x$ with $\ell \setminus x \subseteq N$. Let $\text{Nik}(d,q)$ be the size of the smallest Nikodym set in $F_q^d$. 
+through $x$ with $\ell \setminus \{x\} \subseteq N$. Let $\text{Nik}(d,q)$ be the size of the smallest Nikodym set in $F_q^d$. 
 
 **Lower bound.** For every Nikodym set $N \subseteq \mathbb F_q^d$,
 
@@ -42,7 +42,7 @@ Before this work, for general prime powers $q$ and $d \ge 3$ the best lower
 bound was the one inherited from the finite-field Kakeya problem,
 $\text{Nik}(d,q) \ge q^d/2^{d-1} + O(q^{d-1})$, from Dvir's polynomial method
 [[Dvir09]](https://doi.org/10.1090/S0894-0347-08-00607-3) as sharpened by
-Dvir–Kopparty–Saraf–Sudan and Bukh–Chao
+Dvir–Kopparty–Saraf–Sudan [[DKSS13]](https://doi.org/10.1137/100783704) and Bukh–Chao
 [[BC21]](https://doi.org/10.19086/da.30707) (see [[Tao25]](https://arxiv.org/abs/2511.07721)
 for the deduction). Lund, Saraf and Wolf
 [[LSW18]](https://doi.org/10.1137/17M1146099) proved
@@ -72,7 +72,7 @@ for $d = 2$ it recovers the known exponent $3/2$ (with a worse constant).
 For prime $q$, the upper bounds were much weaker. The random construction
 gives $\text{Nik}(d,q) \le q^d - (d-1+o(1)) q^{d-1}\log q$; Tao
 [[Tao25]](https://arxiv.org/abs/2511.07721), using ideas from AlphaEvolve and
-Deep Think, improved the constant to $(d-2)/\log 2 + 1 + o(1)$, and observed
+Deep Think, improved the constant to $(d-2)/\log 2 + 1 + o(1)$ for $d \ge 3$ and odd $q$, and observed
 the product construction which gives $q^d - \lfloor d/2 \rfloor q^{d-1/2} + O(q^{d-1}\log q)$
 when $q$ is a perfect square. Hunter, Pohoata, Verstraete and Zhang
 [[HPVZ26]](https://arxiv.org/abs/2601.19879) then obtained the first polynomial
@@ -109,6 +109,7 @@ there is $d - 2^{1-d}$.
 - [BC21] B. Bukh, T.-W. Chao, *Sharp density bounds on the finite field Kakeya problem*, Discrete Analysis 2021:26. [doi:10.19086/da.30707](https://doi.org/10.19086/da.30707)
 - [CY26] T.-W. Chao, H.-H. H. Yu, *Finite field Nikodym problem for spread line sets*, arXiv:2601.20851 (2026). [arXiv](https://arxiv.org/abs/2601.20851)
 - [Dvir09] Z. Dvir, *On the size of Kakeya sets in finite fields*, J. Amer. Math. Soc. 22 (2009), 1093–1097. [doi:10.1090/S0894-0347-08-00607-3](https://doi.org/10.1090/S0894-0347-08-00607-3)
+- [DKSS13] Z. Dvir, S. Kopparty, S. Saraf, M. Sudan, *Extensions to the method of multiplicities, with applications to Kakeya sets and mergers*, SIAM J. Comput. 42 (2013), 2305–2328. [doi:10.1137/100783704](https://doi.org/10.1137/100783704), [arXiv:0901.2529](https://arxiv.org/abs/0901.2529)
 - [FLS10] C. Feng, L. Li, J. Shen, *Some inequalities in functional analysis, combinatorics, and probability theory*, Electron. J. Combin. 17 (2010), R58. [doi:10.37236/330](https://doi.org/10.37236/330)
 - [GKS13] A. Guo, S. Kopparty, M. Sudan, *New affine-invariant codes from lifting*, ITCS 2013, 529–539. [doi:10.1145/2422436.2422494](https://doi.org/10.1145/2422436.2422494)
 - [HPVZ26] Z. Hunter, C. Pohoata, J. Verstraete, S. Zhang, *Large point-line matchings and small Nikodym sets*, arXiv:2601.19879 (2026). [arXiv](https://arxiv.org/abs/2601.19879)
@@ -117,7 +118,7 @@ there is $d - 2^{1-d}$.
 
 ## What we are missing
 
-The tight exponent when $q$ is a prime power. Our method might be able cover the case when the power of $q$ is not too large, but the regime in which the characteristics of $q$ is fixed remains open.
+The tight exponent when $q$ is a prime power. Our method might be able to cover the case when the power of $q$ is not too large, but the regime in which the characteristics of $q$ is fixed remains open.
 
 ## Writeups
 

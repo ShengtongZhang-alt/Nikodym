@@ -1,13 +1,13 @@
 ## Lean statements
 
 **Status: complete.** Both the lower bound and the construction are proved in
-full: the three final theorems in `[Nikodym/Main.lean](Nikodym/Main.lean)`
+full: the three final theorems in [`Nikodym/Main.lean`](Nikodym/Main.lean)
 build without `sorry`, and `#print axioms` reports only `propext`,
 `Classical.choice` and `Quot.sound` for each of them. The formalization plans
-are in `[docs/nikodym_bound_lean_blueprint.md](docs/nikodym_bound_lean_blueprint.md)`,
-`[docs/nikodym_construction_lean_blueprint.md](docs/nikodym_construction_lean_blueprint.md)`
-and `[docs/algebra_backend_design.md](docs/algebra_backend_design.md)`; node-by-node
-status is tracked in `[docs/PROGRESS.md](docs/PROGRESS.md)`.
+are in [`docs/nikodym_bound_lean_blueprint.md`](docs/nikodym_bound_lean_blueprint.md),
+[`docs/nikodym_construction_lean_blueprint.md`](docs/nikodym_construction_lean_blueprint.md)
+and [`docs/algebra_backend_design.md`](docs/algebra_backend_design.md); node-by-node
+status is tracked in [`docs/PROGRESS.md`](docs/PROGRESS.md).
 
 The definition, in the style of the finite-field Kakeya definition of the
 Formal Conjectures project, is
@@ -77,12 +77,12 @@ real exponents only in the final corollary.
 
 | File                                                                           | Contents                                                          |
 | ------------------------------------------------------------------------------ | ----------------------------------------------------------------- |
-| `[Nikodym/Definition.lean](Nikodym/Definition.lean)`                           | The `IsNikodym` predicate and elementary examples.                |
-| `[Nikodym/Main.lean](Nikodym/Main.lean)`                                       | The three final theorems (fully proved).                          |
-| `[FORMALIZATION.md](FORMALIZATION.md)`                                         | Correspondence between the mathematics and the Lean statements.   |
-| `[docs/nikodym_bound_lean_blueprint.md](docs/nikodym_bound_lean_blueprint.md)` | Statement-level blueprint and dependency DAG for the lower bound. |
-| `[docs/Nikodym_sharp_power_saving.tex](docs/Nikodym_sharp_power_saving.tex)`   | Source note for the lower bound.                                  |
-| `[docs/nikodym_construction.tex](docs/nikodym_construction.tex)`               | Source note for the construction.                                 |
+| [`Nikodym/Definition.lean`](Nikodym/Definition.lean)                           | The `IsNikodym` predicate and elementary examples.                |
+| [`Nikodym/Main.lean`](Nikodym/Main.lean)                                       | The three final theorems (fully proved).                          |
+| [`FORMALIZATION.md`](FORMALIZATION.md)                                         | Correspondence between the mathematics and the Lean statements.   |
+| [`docs/nikodym_bound_lean_blueprint.md`](docs/nikodym_bound_lean_blueprint.md) | Statement-level blueprint and dependency DAG for the lower bound. |
+| [`docs/Nikodym_sharp_power_saving.tex`](docs/Nikodym_sharp_power_saving.tex)   | Source note for the lower bound.                                  |
+| [`docs/nikodym_construction.tex`](docs/nikodym_construction.tex)               | Source note for the construction.                                 |
 
 
 
@@ -106,14 +106,14 @@ headline statements can be checked independently of the proof development:
 
 | File                                                                     | Role                                                                                                                                                                                                            |
 | ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `[Challenge.lean](Challenge.lean)`                                       | Mathlib-only statement module: restates `IsNikodym` and the three theorems with `sorry`. This is the surface a reader should audit.                                                                             |
-| `[Solution.lean](Solution.lean)`                                         | Imports `Nikodym.Main`, which proves the same declarations.                                                                                                                                                     |
-| `[comparator.json](comparator.json)`                                     | Names the three compared theorems and the permitted axioms (`propext`, `Quot.sound`, `Classical.choice`).                                                                                                       |
-| `[formalization.yaml](formalization.yaml)`                               | Structured metadata: result description, sources, authorship, automation, review status, scope, and fidelity.                                                                                                   |
-| `[scripts/verify-comparator.sh](scripts/verify-comparator.sh)`           | Runs the pinned [Comparator](https://github.com/leanprover/comparator), lean4export (`v4.33.0-rc1`), NanoDa and Landrun to check `Solution` against `Challenge` (Linux; used by the `Palomar checks` workflow). |
-| `[scripts/check-submission-files.rb](scripts/check-submission-files.rb)` | Checks the files above against Palomar's mechanical requirements, including that `status.axioms` / `status.main_results` in `formalization.yaml` agree with `comparator.json`.                                 |
-| `[scripts/check-metadata-schema.sh](scripts/check-metadata-schema.sh)`   | Validates `formalization.yaml` against the pinned upstream v0.4 JSON schema with `check-jsonschema`.                                                                                                            |
-| `[scripts/check-axioms.rb](scripts/check-axioms.rb)`                     | Runs `#print axioms` on the compared theorems and requires the result to match `permitted_axioms` and the axiom lists in `formalization.yaml` (called at the end of `verify-comparator.sh`).                    |
+| [`Challenge.lean`](Challenge.lean)                                       | Mathlib-only statement module: restates `IsNikodym` and the three theorems with `sorry`. This is the surface a reader should audit.                                                                             |
+| [`Solution.lean`](Solution.lean)                                         | Imports `Nikodym.Main`, which proves the same declarations.                                                                                                                                                     |
+| [`comparator.json`](comparator.json)                                     | Names the three compared theorems and the permitted axioms (`propext`, `Quot.sound`, `Classical.choice`).                                                                                                       |
+| [`formalization.yaml`](formalization.yaml)                               | Structured metadata: result description, sources, authorship, automation, review status, scope, and fidelity.                                                                                                   |
+| [`scripts/verify-comparator.sh`](scripts/verify-comparator.sh)           | Runs the pinned [Comparator](https://github.com/leanprover/comparator), lean4export (`v4.33.0-rc1`), NanoDa and Landrun to check `Solution` against `Challenge` (Linux; used by the `Palomar checks` workflow). |
+| [`scripts/check-submission-files.rb`](scripts/check-submission-files.rb) | Checks the files above against Palomar's mechanical requirements, including that `status.axioms` / `status.main_results` in `formalization.yaml` agree with `comparator.json`.                                 |
+| [`scripts/check-metadata-schema.sh`](scripts/check-metadata-schema.sh)   | Validates `formalization.yaml` against the pinned upstream v0.4 JSON schema with `check-jsonschema`.                                                                                                            |
+| [`scripts/check-axioms.rb`](scripts/check-axioms.rb)                     | Runs `#print axioms` on the compared theorems and requires the result to match `permitted_axioms` and the axiom lists in `formalization.yaml` (called at the end of `verify-comparator.sh`).                    |
 
 
 Before submitting a commit, run the three metadata checks locally (the first two

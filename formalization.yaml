@@ -130,9 +130,10 @@ sources:
     location: "https://arxiv.org/abs/2511.07721"
     relationship: background
     note: >-
-      Prior upper bound for non-square q: Nik(d,q) <= q^d - ((d-2)/log 2 + 1 +
-      o(1)) q^(d-1) log q, a constant-factor improvement of the random
-      construction; also the product construction and the deduction of the
+      Prior upper bound for d >= 3 and odd prime powers q (new when q is not a
+      perfect square): Nik(d,q) <= q^d - ((d-2)/log 2 + 1 + o(1)) q^(d-1) log q,
+      a constant-factor improvement of the random construction
+      q^d - (d-1+o(1)) q^(d-1) log q; also the product construction and the deduction of the
       general lower bound Nik(d,q) >= q^d / 2^(d-1) + O(q^(d-1)) from the
       Kakeya bound.
   - title: "Large point-line matchings and small Nikodym sets"
