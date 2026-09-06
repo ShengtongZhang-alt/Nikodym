@@ -34,10 +34,7 @@ Together these give $\text{Nik}(d,q) = q^d - q^{d-2^{1-d}+o(1)}$ over all prime 
 
 ## Comparison with prior work
 
-The comparison below is with the literature known to us as of September 2026;
-the two writeups in `docs/` are new and have not yet been refereed, so
-novelty and priority rest on this comparison and have not been independently
-established.
+The writeups in `docs/` are preprints; the comparison below with the literature known to us as of September 2026 is our basis for the claims of novelty above.
 
 ### Lower bounds
 
@@ -100,10 +97,12 @@ there is $d - 2^{1-d}$.
 
 ### Summary for prime $q$, $d \ge 3$
 
-| | lower bound | upper bound |
-| --- | --- | --- |
-| before | $q^d/2^{d-1} + O(q^{d-1})$; $(0.38-o(1))q^3$ for $d=3$ [LSW18] | $q^d - \Omega_d(q^{d-\varepsilon_d})$, $\varepsilon_d \ll 1/\log\log d$; $q^3 - \Omega(q^{2.1167})$ [HPVZ26] |
-| this work | $q^d - (8d^2+1) q^{d-2^{1-d}}$ (all prime powers $q$) | $q^d - q^{d-2^{1-d}-\varepsilon}$ (large primes $q$) |
+
+|           | lower bound                                                    | upper bound                                                                                                  |
+| --------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| before    | $q^d/2^{d-1} + O(q^{d-1})$; $(0.38-o(1))q^3$ for $d=3$ [LSW18] | $q^d - \Omega_d(q^{d-\varepsilon_d})$, $\varepsilon_d \ll 1/\log\log d$; $q^3 - \Omega(q^{2.1167})$ [HPVZ26] |
+| this work | $q^d - (8d^2+1) q^{d-2^{1-d}}$ (all prime powers $q$)          | $q^d - q^{d-2^{1-d}-\varepsilon}$ (large primes $q$)                                                         |
+
 
 ### References
 
