@@ -95,6 +95,8 @@ construction also shows that the exponent $d - 1/d$ of
 [CY26, Conjecture 1.1] is not the truth over prime fields: the sharp exponent
 there is $d - 2^{1-d}$.
 
+Our construction is based on ideas in the work [C26], which essentially carried out the construction in $d = 2$.
+
 ### Summary for prime $q$, $d \ge 3$
 
 
@@ -107,6 +109,7 @@ there is $d - 2^{1-d}$.
 ### References
 
 - [BC21] B. Bukh, T.-W. Chao, *Sharp density bounds on the finite field Kakeya problem*, Discrete Analysis 2021:26. [doi:10.19086/da.30707](https://doi.org/10.19086/da.30707)
+- [C26] C. Pohoata, *The sharp exponent for the minimal distance problem*, arXiv:2607.20422 (2026). [arXiv](https://arxiv.org/abs/2607.20422)
 - [CY26] T.-W. Chao, H.-H. H. Yu, *Finite field Nikodym problem for spread line sets*, arXiv:2601.20851 (2026). [arXiv](https://arxiv.org/abs/2601.20851)
 - [Dvir09] Z. Dvir, *On the size of Kakeya sets in finite fields*, J. Amer. Math. Soc. 22 (2009), 1093–1097. [doi:10.1090/S0894-0347-08-00607-3](https://doi.org/10.1090/S0894-0347-08-00607-3)
 - [DKSS13] Z. Dvir, S. Kopparty, S. Saraf, M. Sudan, *Extensions to the method of multiplicities, with applications to Kakeya sets and mergers*, SIAM J. Comput. 42 (2013), 2305–2328. [doi:10.1137/100783704](https://doi.org/10.1137/100783704), [arXiv:0901.2529](https://arxiv.org/abs/0901.2529)
