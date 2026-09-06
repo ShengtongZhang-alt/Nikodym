@@ -21,8 +21,10 @@ the full development in `Nikodym/`.
 Let `F` be a finite field with `q` elements and `d ≥ 2`.  A set `N ⊆ F^d` is a *Nikodym set*
 if through every point `x ∈ F^d` there is a line `x + F • v` (with `v ≠ 0`) all of whose points
 other than `x` lie in `N`.  Write `Nik(d, q)` for the minimum size of a Nikodym set in `F_q^d`.
-The trivial bound is `Nik(d, q) ≥ q^d - O(q^{d-1})`; the question is the sharp *power saving*
-`q^d - Nik(d, q)`.
+Before this work the best general lower bound was the Kakeya-derived
+`Nik(d, q) ≥ q^d / 2^{d-1} + O(q^{d-1})`, and it was open whether `Nik(d, q) = (1 - o(1)) q^d`;
+the question addressed here is the sharp *power saving* `q^d - Nik(d, q)` (see the README for
+the comparison with prior work).
 
 ## The results
 

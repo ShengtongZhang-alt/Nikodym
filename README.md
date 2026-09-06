@@ -55,9 +55,10 @@ $\text{Nik}(d,q) \ge (1 - o(1)) q^d$ (their Conjecture 2), which was previously
 known only in bounded characteristic, where Guo–Kopparty–Sudan
 [[GKS13]](https://doi.org/10.1145/2422436.2422494) give
 $q^d - O(q^{(1-\varepsilon)d})$ with $\varepsilon = \varepsilon(d, \text{char})$.
-In dimension $2$ the sharp exponent was known:
-$q^2 - q^{3/2} - 1 \le \text{Nik}(2,q)$ by Feng–Li–Shen
-[[FLS10]](https://doi.org/10.37236/330) and [LSW18, Theorem 26]. Most
+In dimension $2$ the sharp exponent was known: Feng–Li–Shen
+[[FLS10]](https://doi.org/10.37236/330) proved
+$\text{Nik}(2,q) \ge q^2 - q^{3/2} - q$, sharpened to
+$q^2 - q^{3/2} - 1 \le \text{Nik}(2,q)$ in [LSW18, Theorem 26]. Most
 recently, Chao and Yu [[CY26]](https://arxiv.org/abs/2601.20851) conjectured
 $\text{Nik}(d,q) \ge q^d - C_d q^{d-1/d}$ for $d \ge 3$ (Conjecture 1.1) and
 proved it for weak Nikodym sets whose associated line set is "algebraically
@@ -81,9 +82,11 @@ when $q$ is a perfect square. Hunter, Pohoata, Verstraete and Zhang
 savings for primes: $\text{Nik}(3,q) \le q^3 - \Omega(q^{2.1167})$ and, for
 large $d$, $\text{Nik}(d,q) \le q^d - \Omega_d(q^{d-\varepsilon_d})$ with
 $\varepsilon_d \ll 1/\log\log d$ (Theorem 1.10), together with
-$\text{Nik}(2,q) \le q^2 - q^{1+c}$ (Theorem 1.11). For $q = q_0^k$ a proper
-power, their Theorem 1.8 gives weak Nikodym sets with complement
-$\gg_d q^{d-1/k}$, which is why [CY26] proposed the exponent $d - 1/d$.
+$\text{Nik}(2,q) \le q^2 - q^{1+c}$ (Theorem 1.11). For $q = q_0^k$ with
+$q_0$ prime and $d \ge k \ge 2$, their Theorem 1.8 gives induced point-line
+matchings of size $\gg_d q^{d-1/k}$ in $\mathbb F_q^d$, equivalently (by their
+Proposition 1.5) weak Nikodym sets with complement $\gg_d q^{d-1/k}$; this is
+why [CY26] proposed the exponent $d - 1/d$.
 
 The construction formalized here gives, for all sufficiently large primes $q$,
 $\text{Nik}(d,q) \le q^d - q^{d-2^{1-d}-\varepsilon}$. For $d = 3$ this is a
