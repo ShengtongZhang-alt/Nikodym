@@ -95,7 +95,7 @@ construction also shows that the exponent $d - 1/d$ of
 [CY26, Conjecture 1.1] is not the truth over prime fields: the sharp exponent
 there is $d - 2^{1-d}$.
 
-Our construction is based on ideas in the work [C26], which essentially carried out the construction in $d = 2$.
+Our construction is based on ideas in the work [[C26]](https://arxiv.org/abs/2607.20422), which essentially carried out the construction in $d = 2$.
 
 ### Summary for prime $q$, $d \ge 3$
 
