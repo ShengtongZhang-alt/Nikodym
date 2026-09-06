@@ -195,6 +195,9 @@ sources:
       Finsets of Fin n -> F, lines are parametrised as x + t * v with v != 0).
       No code is imported from it.
 
+# We are not aware of a previous Lean formalization of a finite-field Nikodym
+# bound (the Formal Conjectures repository cited above states the finite-field
+# Kakeya problem, not Nikodym); left empty deliberately.
 related_formalizations: []
 
 status:
@@ -216,11 +219,26 @@ status:
     existential and not made explicit.
   sorry_count: 0
   sorry_in_definitions: 0
-  axioms: []
+  # Every axiom appearing in `#print axioms` for the main results (the three
+  # standard Lean/Mathlib axioms and nothing else; checked by
+  # scripts/check-axioms.rb and by Comparator's `permitted_axioms`).
+  axioms: ["propext", "Classical.choice", "Quot.sound"]
   main_results:
-    - "Nikodym.card_compl_pow_mul_card_le"
-    - "Nikodym.card_ge_pow_sub"
-    - "Nikodym.exists_isNikodym_card_le"
+    - declaration: "Nikodym.card_compl_pow_mul_card_le"
+      file: "Nikodym/Main.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "Nikodym.card_ge_pow_sub"
+      file: "Nikodym/Main.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "Nikodym.exists_isNikodym_card_le"
+      file: "Nikodym/Main.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
 
 automation:
   methods:

@@ -15,7 +15,7 @@ lean4export_commit=af5aa64bb914c3c2c781f378088dbd38acf4f804
 landrun_commit=811cfff51ceaf3d9843708aa6d22e9b84ccac8b4
 nanoda_commit=68d5ca9db226849b41a6fff59d796ff19d0a8840
 
-for required_command in cargo git go lake python3; do
+for required_command in cargo git go lake python3 ruby; do
   if ! command -v "$required_command" >/dev/null 2>&1; then
     echo "error: $required_command is required to run Comparator" >&2
     exit 1
@@ -90,3 +90,8 @@ COMPARATOR_LEAN4EXPORT="$lean4export_dir/.lake/build/bin/lean4export" \
 COMPARATOR_NANODA="$nanoda_dir/target/release/nanoda_bin" \
 COMPARATOR_LANDRUN="$repository_root/scripts/landrun-wrapper.sh" \
   lake env "$comparator_dir/.lake/build/bin/comparator" comparator.json
+
+# Comparator checks the proofs against `permitted_axioms`; this additionally ties the
+# axiom lists recorded in formalization.yaml (`status.axioms`, `status.main_results[].axioms`)
+# to what `#print axioms` actually reports for the compared theorems.
+ruby "$repository_root/scripts/check-axioms.rb" "$repository_root"

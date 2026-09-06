@@ -111,8 +111,19 @@ headline statements can be checked independently of the proof development:
 | `[comparator.json](comparator.json)`                                     | Names the three compared theorems and the permitted axioms (`propext`, `Quot.sound`, `Classical.choice`).                                                                                                       |
 | `[formalization.yaml](formalization.yaml)`                               | Structured metadata: result description, sources, authorship, automation, review status, scope, and fidelity.                                                                                                   |
 | `[scripts/verify-comparator.sh](scripts/verify-comparator.sh)`           | Runs the pinned [Comparator](https://github.com/leanprover/comparator), lean4export (`v4.33.0-rc1`), NanoDa and Landrun to check `Solution` against `Challenge` (Linux; used by the `Palomar checks` workflow). |
-| `[scripts/check-submission-files.rb](scripts/check-submission-files.rb)` | Checks the files above against Palomar's mechanical requirements.                                                                                                                                               |
+| `[scripts/check-submission-files.rb](scripts/check-submission-files.rb)` | Checks the files above against Palomar's mechanical requirements, including that `status.axioms` / `status.main_results` in `formalization.yaml` agree with `comparator.json`.                                 |
+| `[scripts/check-metadata-schema.sh](scripts/check-metadata-schema.sh)`   | Validates `formalization.yaml` against the pinned upstream v0.4 JSON schema with `check-jsonschema`.                                                                                                            |
+| `[scripts/check-axioms.rb](scripts/check-axioms.rb)`                     | Runs `#print axioms` on the compared theorems and requires the result to match `permitted_axioms` and the axiom lists in `formalization.yaml` (called at the end of `verify-comparator.sh`).                    |
 
+
+Before submitting a commit, run the three metadata checks locally (the first two
+need only Ruby and `pip install check-jsonschema`; the third builds the project):
+
+```
+ruby scripts/check-submission-files.rb
+scripts/check-metadata-schema.sh
+ruby scripts/check-axioms.rb
+```
 
 Submissions are made through [https://submit.palomar-registry.org/](https://submit.palomar-registry.org/)
 with the full 40-character SHA of a pushed commit.

@@ -163,9 +163,80 @@ begin
   errors << "automation.methods must be a nonempty list of mappings with a nonempty method" unless methods.is_a?(Array) && !methods.empty? && methods.all? { |m| m.is_a?(Hash) && !m["method"].to_s.strip.empty? }
   errors << "review.status must be a nonempty string" if meta.fetch("review", {})["status"].to_s.strip.empty?
 
+  errors << "version must be the string \"v0.4\"" unless meta["version"] == "v0.4"
+  methods_known = %w[manual copilot agent autonomous other]
+  (methods || []).each do |m|
+    next unless m.is_a?(Hash)
+    warnings << "automation.methods method #{m["method"].inspect} is not one of the portable values #{methods_known.inspect}" unless methods_known.include?(m["method"])
+  end
+
+  # ---- status: the sorry counts, axioms and main results must agree with comparator.json
+  # (Palomar rejected a submission whose `status.axioms` was left as the template's `[]`;
+  # the upstream schema asks for *all* axioms used, including the standard ones).
+  standard_axioms = %w[propext Quot.sound Classical.choice]
   status = meta.fetch("status", {})
+  errors << "status must be a mapping" unless status.is_a?(Hash)
+  status = {} unless status.is_a?(Hash)
+  errors << "status.scope must be a nonempty string" if status["scope"].to_s.strip.empty?
   %w[sorry_count sorry_in_definitions].each do |k|
     errors << "status.#{k} must be an unquoted nonnegative integer" unless status[k].is_a?(Integer) && status[k] >= 0
+  end
+  errors << "status.sorry_count must be 0 for a completed Comparator submission" if status["sorry_count"].is_a?(Integer) && status["sorry_count"] != 0
+
+  st_axioms = status["axioms"]
+  if !st_axioms.is_a?(Array) || st_axioms.empty? || !st_axioms.all? { |a| a.is_a?(String) && !a.empty? }
+    errors << "status.axioms must be a nonempty list of axiom names (the schema asks for ALL axioms used, including the standard ones propext, Classical.choice, Quot.sound; `[]` claims the proofs are axiom-free)"
+    st_axioms = []
+  end
+  errors << "status.axioms contains duplicates" if st_axioms.uniq.size != st_axioms.size
+  non_standard = st_axioms - standard_axioms
+  errors << "status.axioms lists non-standard axioms #{non_standard.inspect}, which Comparator would reject" unless non_standard.empty?
+  permitted = defined?(comparator) && comparator.is_a?(Hash) ? comparator.fetch("permitted_axioms", []) : nil
+  if permitted && !st_axioms.empty? && st_axioms.sort != permitted.sort
+    errors << "status.axioms #{st_axioms.sort.inspect} must list exactly comparator.json permitted_axioms #{permitted.sort.inspect}"
+  end
+
+  results = status["main_results"]
+  if !results.is_a?(Array) || results.empty?
+    errors << "status.main_results must be a nonempty list of mappings (declaration, file, sorry_count, axioms, comparator_config)"
+    results = []
+  end
+  declared = []
+  results.each_with_index do |r, i|
+    unless r.is_a?(Hash)
+      errors << "status.main_results[#{i}] must be a mapping with a `declaration` key, not a bare string (schema v0.4)"
+      next
+    end
+    decl = r["declaration"].to_s
+    errors << "status.main_results[#{i}].declaration must be nonempty" if decl.empty?
+    declared << decl
+    file = r["file"].to_s
+    if file.empty?
+      errors << "status.main_results[#{i}].file must name the file proving #{decl}"
+    elsif !File.file?(File.join(root, file))
+      errors << "status.main_results[#{i}].file #{file} does not exist"
+    else
+      short = decl.split(".").last
+      src = File.read(File.join(root, file), encoding: "UTF-8")
+      errors << "status.main_results[#{i}].file #{file} does not declare #{decl}" unless short && src.match?(/^\s*(theorem|lemma|def|noncomputable def)\s+#{Regexp.escape(short)}\b/)
+    end
+    errors << "status.main_results[#{i}].sorry_count must be the integer 0" unless r["sorry_count"] == 0 && r["sorry_count"].is_a?(Integer)
+    ra = r["axioms"]
+    if !ra.is_a?(Array) || ra.empty?
+      errors << "status.main_results[#{i}].axioms must be a nonempty list (all axioms used by #{decl})"
+    else
+      extra = ra - st_axioms
+      errors << "status.main_results[#{i}].axioms #{extra.inspect} are not listed in status.axioms" unless extra.empty? || st_axioms.empty?
+    end
+    errors << "status.main_results[#{i}].comparator_config must be \"comparator.json\"" unless r["comparator_config"] == "comparator.json"
+  end
+  errors << "status.main_results has duplicate declarations" if declared.uniq.size != declared.size
+  if defined?(comparator) && comparator.is_a?(Hash) && !results.empty?
+    names = comparator.fetch("theorem_names", [])
+    missing = names - declared
+    unlisted = declared - names
+    errors << "comparator.json theorem_names #{missing.inspect} are missing from status.main_results" unless missing.empty?
+    errors << "status.main_results #{unlisted.inspect} are not in comparator.json theorem_names" unless unlisted.empty?
   end
 rescue => e
   errors << "formalization.yaml: #{e.message}"
