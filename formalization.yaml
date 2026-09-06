@@ -21,8 +21,16 @@ project:
     complement of a product set built from a totally real multiquadratic order
     in which q splits completely, with a digit encoding and tangent lines.
     Together these give Nik(d, q) = q^d - q^(d - 2^(1-d) + o(1)) along primes.
-    All three headline theorems are proved with no sorry and depend only on
-    propext, Classical.choice and Quot.sound.
+    Previously, for general q and d >= 3, the best lower bound was
+    q^d / 2^(d-1) + O(q^(d-1)) and even Nik(d,q) = (1 - o(1)) q^d was open
+    (Lund-Saraf-Wolf, Conjecture 2), while the best upper bounds for prime q
+    were q^d - Omega_d(q^(d - eps_d)) with eps_d << 1/log log d and
+    q^3 - Omega(q^2.1167) (Hunter-Pohoata-Verstraete-Zhang 2026); the lower
+    bound here settles the former conjecture for every finite field, and the
+    construction shows that the exponent d - 1/d conjectured by Chao and Yu
+    (2026) is not sharp over prime fields. The README gives theorem-level
+    comparisons and references. All three headline theorems are proved with no
+    sorry and depend only on propext, Classical.choice and Quot.sound.
   authors:
     - "Ting-Wei Chao"
     - "Zach Hunter"
@@ -90,6 +98,86 @@ sources:
       the hypersurface variant (Theorem 1.3 and later sections) is out of scope.
     license: unknown
     author_endorsement: participated
+  - title: "Finite field Kakeya and Nikodym sets in three dimensions"
+    authors: ["Ben Lund", "Shubhangi Saraf", "Charles Wolf"]
+    id: "doi:10.1137/17M1146099"
+    type: paper
+    location: "https://doi.org/10.1137/17M1146099"
+    relationship: background
+    note: >-
+      SIAM J. Discrete Math. 32 (2018), 2836-2849; arXiv:1609.01048. Prior
+      lower bound Nik(3,q) >= (0.38 - o(1)) q^3 (Theorem 3), the conjecture
+      Nik(d,q) >= (1 - o(1)) q^d (Conjecture 2), which the formalized lower
+      bound settles for every finite field, and the two-dimensional bound
+      Nik(2,q) >= q^2 - q^(3/2) - 1 (Theorem 26). See README.md, "Comparison
+      with prior work".
+  - title: "Finite field Nikodym problem for spread line sets"
+    authors: ["Ting-Wei Chao", "Hung-Hsun Hans Yu"]
+    id: "arXiv:2601.20851"
+    type: paper
+    location: "https://arxiv.org/abs/2601.20851"
+    relationship: background
+    note: >-
+      Conjecture 1.1 proposes Nik(d,q) >= q^d - C_d q^(d - 1/d) for d >= 3 and
+      Theorem 1.2 proves it for algebraically spread line sets. The formalized
+      construction shows that over prime fields the sharp exponent is
+      d - 2^(1-d), which exceeds d - 1/d for d >= 3, so the conjectured exponent
+      is not the truth for prime q.
+  - title: "New Nikodym set constructions over finite fields"
+    authors: ["Terence Tao"]
+    id: "arXiv:2511.07721"
+    type: paper
+    location: "https://arxiv.org/abs/2511.07721"
+    relationship: background
+    note: >-
+      Prior upper bound for non-square q: Nik(d,q) <= q^d - ((d-2)/log 2 + 1 +
+      o(1)) q^(d-1) log q, a constant-factor improvement of the random
+      construction; also the product construction and the deduction of the
+      general lower bound Nik(d,q) >= q^d / 2^(d-1) + O(q^(d-1)) from the
+      Kakeya bound.
+  - title: "Large point-line matchings and small Nikodym sets"
+    authors: ["Zach Hunter", "Cosmin Pohoata", "Jacques Verstraete", "Shengtong Zhang"]
+    id: "arXiv:2601.19879"
+    type: paper
+    location: "https://arxiv.org/abs/2601.19879"
+    relationship: background
+    note: >-
+      Best prior upper bounds for prime q: Nik(3,q) <= q^3 - Omega(q^2.1167)
+      and Nik(d,q) <= q^d - Omega_d(q^(d - eps_d)) with eps_d << 1/log log d
+      (Theorem 1.10), and Nik(2,q) <= q^2 - q^(1+c) (Theorem 1.11). The
+      formalized construction improves these to q^d - q^(d - 2^(1-d) - eps) for
+      every d >= 2.
+  - title: "New affine-invariant codes from lifting"
+    authors: ["Alan Guo", "Swastik Kopparty", "Madhu Sudan"]
+    id: "doi:10.1145/2422436.2422494"
+    type: paper
+    location: "https://doi.org/10.1145/2422436.2422494"
+    relationship: background
+    note: >-
+      ITCS 2013. Lower bound Nik(d,q) >= q^d - O(q^((1-eps)d)) in bounded
+      characteristic; the formalized lower bound has no restriction on the
+      characteristic.
+  - title: "Some inequalities in functional analysis, combinatorics, and probability theory"
+    authors: ["Chunrong Feng", "Liangpan Li", "Jian Shen"]
+    id: "doi:10.37236/330"
+    type: paper
+    location: "https://doi.org/10.37236/330"
+    relationship: background
+    note: "Electron. J. Combin. 17 (2010), R58. Two-dimensional lower bound Nik(2,q) >= q^2 - q^(3/2) - q."
+  - title: "On the size of Kakeya sets in finite fields"
+    authors: ["Zeev Dvir"]
+    id: "doi:10.1090/S0894-0347-08-00607-3"
+    type: paper
+    location: "https://doi.org/10.1090/S0894-0347-08-00607-3"
+    relationship: background
+    note: "J. Amer. Math. Soc. 22 (2009), 1093-1097. The polynomial method giving the previous general lower bound Nik(d,q) >= c_d q^d."
+  - title: "Sharp density bounds on the finite field Kakeya problem"
+    authors: ["Boris Bukh", "Ting-Wei Chao"]
+    id: "doi:10.19086/da.30707"
+    type: paper
+    location: "https://doi.org/10.19086/da.30707"
+    relationship: background
+    note: "Discrete Analysis 2021:26. Sharp Kakeya density 1/2^(d-1), which gives the previous general Nikodym lower bound q^d / 2^(d-1) + O(q^(d-1))."
   - title: "Nikodym set"
     id: "https://en.wikipedia.org/wiki/Nikodym_set"
     type: "web discussion"
