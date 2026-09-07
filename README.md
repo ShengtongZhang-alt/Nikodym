@@ -1,4 +1,4 @@
-# The Sharp Finite-Field Nikodym Exponent in Lean
+v# The Sharp Finite-Field Nikodym Exponent in Lean
 
 **Authors:** 
 
@@ -10,6 +10,8 @@ Formalization completed by Fable 5.1 and Grok 4.6 in the Cursor Editor.
 
 This repository is a Lean 4 and Mathlib formalization project for the sharp
 power saving in the finite-field Nikodym problem over prime fields.
+
+This repository has been registered on [Palomar](https://palomar-registry.org/entry?id=PALOMAR-2026-09-06-000002&version=1).
 
 ## The theorems
 
