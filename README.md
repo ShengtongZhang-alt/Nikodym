@@ -1,4 +1,4 @@
-v# The Sharp Finite-Field Nikodym Exponent in Lean
+# The Sharp Finite-Field Nikodym Exponent in Lean
 
 **Authors:** 
 
